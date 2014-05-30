@@ -13,6 +13,10 @@
 #import "DebugView.h"
 
 
+#import <ImageIO/ImageIO.h>
+#import <CoreGraphics/CoreGraphics.h>
+
+
 @interface RootViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -27,6 +31,10 @@
 @property (nonatomic, strong) DebugView *debugView1;
 @property (nonatomic, strong) DebugView *debugView2;
 @property (nonatomic, strong) DebugView *debugView3;
+
+
+//data for number 1
+@property NSMutableData * data;
 
 @end
 
@@ -75,6 +83,13 @@
     FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
     self.imageView2.animatedImage = animatedImage2;
     
+    self.imageView2.delegate = self.debugView2;
+    animatedImage2.delegate = self.debugView2;
+    self.debugView2.imageView = self.imageView2;
+    self.debugView2.image = animatedImage2;
+    self.imageView2.userInteractionEnabled = YES;
+    
+    
     // 3
     if (!self.imageView3) {
         self.imageView3 = [[FLAnimatedImageView alloc] init];
@@ -84,10 +99,12 @@
     [self.view addSubview:self.imageView3];
     self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
     
-    NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
-    NSData *data3 = [NSData dataWithContentsOfURL:url3];
-    FLAnimatedImage *animatedImage3 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data3];
-    self.imageView3.animatedImage = animatedImage3;
+     //number 3 download - see delegate method below
+     self.data = [NSMutableData new];
+     NSURLRequest * req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"]];
+     NSURLConnection * gifDL = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+     [gifDL start];
+     
     
     // ... that's it!
     
@@ -99,18 +116,6 @@
     self.debugView1.imageView = self.imageView1;
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;
-    
-    self.imageView2.delegate = self.debugView2;
-    animatedImage2.delegate = self.debugView2;
-    self.debugView2.imageView = self.imageView2;
-    self.debugView2.image = animatedImage2;
-    self.imageView2.userInteractionEnabled = YES;
-
-    self.imageView3.delegate = self.debugView3;
-    animatedImage3.delegate = self.debugView3;
-    self.debugView3.imageView = self.imageView3;
-    self.debugView3.image = animatedImage3;
-    self.imageView3.userInteractionEnabled = YES;
 }
 
 
@@ -199,6 +204,55 @@
     _debugView3.frame = self.imageView3.bounds;
     
     return _debugView3;
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+    
+    static size_t lastFrameCount;
+    
+    NSLog(@"recieved data of length: %d", data.length);
+    [self.data appendData:data];
+    
+    // Note: We could leverage `CGImageSourceCreateWithURL` too to add a second initializer `-initWithAnimatedGIFContentsOfURL:`.
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)self.data, NULL);
+    
+    // Iterate through frame images
+    size_t imageCount = CGImageSourceGetCount(imageSource);
+    
+    //update every 10 frames
+    if(imageCount > 20 && !self.imageView3.animatedImage){
+        
+        FLAnimatedImage * flGif = [[FLAnimatedImage alloc] initWithProgressiveGIFData:self.data];
+        
+        self.imageView3.animatedImage = flGif;
+        
+        self.imageView3.delegate = self.debugView3;
+        flGif.delegate = self.debugView3;
+        self.debugView3.imageView = self.imageView3;
+        self.debugView3.image = flGif;
+        self.imageView3.userInteractionEnabled = YES;
+        
+    } else if(self.imageView3.animatedImage && imageCount % 10 == 0 && lastFrameCount % 10 == 9){
+        
+        //append to image
+        
+        [self.imageView3.animatedImage appendDataForProgressiveLoad:self.data];
+    }
+    
+    //append to gif
+    
+    NSLog(@"gif frame count: %ld", imageCount);
+    lastFrameCount = imageCount;
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection{
+    
+    
+    
+//    [self.imageView2.animatedImage appendDataForProgressiveLoad:self.data];
 }
 
 

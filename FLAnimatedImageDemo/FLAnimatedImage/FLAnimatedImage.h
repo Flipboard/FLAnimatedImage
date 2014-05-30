@@ -49,6 +49,11 @@
 @property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> delegate;
 #endif
 
+
+//progressive gif
+- (instancetype)initWithProgressiveGIFData:(NSData *)data;
+-(void)appendDataForProgressiveLoad:(NSData*)data;
+
 @end
 
 
