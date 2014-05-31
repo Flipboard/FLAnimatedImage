@@ -465,14 +465,14 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     if(final){
         
-        if([self.delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
-            [self.delegate debug_didCompleteProgressiveLoad:self];
+        if([self.debug_delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
+            [self.debug_delegate debug_didCompleteProgressiveLoad:self];
         }
         
     } else {
         
-        if([self.delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
-            [self.delegate debug_didProgressivelyLoadFrames:self];
+        if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+            [self.debug_delegate debug_didProgressivelyLoadFrames:self];
         }
     }
 }
@@ -813,8 +813,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         //append data to image source
         [self appendDataForProgressiveLoad:YES];
         
-        if ([self.delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
-            [self.delegate debug_didProgressivelyLoadFrames:self];
+        if ([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+            [self.debug_delegate debug_didProgressivelyLoadFrames:self];
         }
     });
 }

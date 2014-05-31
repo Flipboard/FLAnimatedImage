@@ -96,8 +96,8 @@
             FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
             self.imageView2.animatedImage = animatedImage2;
             
-            self.imageView2.delegate = self.debugView2;
-            animatedImage2.delegate = self.debugView2;
+            self.imageView2.debug_delegate = self.debugView2;
+            animatedImage2.debug_delegate = self.debugView2;
             self.debugView2.imageView = self.imageView2;
             self.debugView2.image = animatedImage2;
             self.imageView2.userInteractionEnabled = YES;
@@ -106,8 +106,8 @@
     });
     
     // Setting the delegates is for the debug UI in this demo only and is usually not needed.
-    self.imageView1.delegate = self.debugView1;
-    animatedImage1.delegate = self.debugView1;
+    self.imageView1.debug_delegate = self.debugView1;
+    animatedImage1.debug_delegate = self.debugView1;
     self.debugView1.imageView = self.imageView1;
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;
