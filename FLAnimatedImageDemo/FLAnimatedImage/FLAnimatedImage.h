@@ -46,7 +46,7 @@
 
 #if DEBUG
 // Only intended to report internal state for debugging
-@property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> delegate;
+@property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
 #endif
 
 @end

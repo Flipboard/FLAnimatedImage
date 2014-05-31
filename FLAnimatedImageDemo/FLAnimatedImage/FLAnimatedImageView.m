@@ -245,8 +245,8 @@
     } else {
         //NSLog(@"Verbose: Waiting for frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
 #if DEBUG
-        if ([self.delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
-            [self.delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];
+        if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
+            [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];
         }
 #endif
     }
