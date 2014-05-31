@@ -441,40 +441,43 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     /*
      image source must be updated with full data source . However, if we update iamgeSource as another thread is trying to add frames to cache, the app will crash because imageSource was changed unexpectantly. thus we should add the process of pdating the source to the same serial queue as is used by the caching blocks, so the caching block is never going run at the same time
      */
-    dispatch_sync(_serialQueue, ^{
+    dispatch_async(_serialQueue, ^{
         
         CGImageSourceUpdateData(_imageSource, (__bridge CFDataRef)self.progressiveData, final);
+        
+        //set readonly data finally
+        if(final){
+            _data = [NSData dataWithData:self.progressiveData];
+            _progressiveData = nil;
+        }
+        
+        // Early return if not GIF!
+        CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
+        BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
+        if (!isGIFData) {
+            NSLog(@"Error: Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, self.progressiveData );
+            return;
+        }
+        
+        [self processFrames];
+        [self calculateCache];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if(final){
+                
+                if([self.debug_delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
+                    [self.debug_delegate debug_didCompleteProgressiveLoad:self];
+                }
+                
+            } else {
+                
+                if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+                    [self.debug_delegate debug_didProgressivelyLoadFrames:self];
+                }
+            }
+        });
     });
-    
-    //set readonly data finally
-    if(final){
-        _data = [NSData dataWithData:self.progressiveData];
-        _progressiveData = nil;
-    }
-    
-    // Early return if not GIF!
-    CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
-    BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
-    if (!isGIFData) {
-        NSLog(@"Error: Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, self.progressiveData );
-        return;
-    }
-    
-    [self processFrames];
-    [self calculateCache];
-    
-    if(final){
-        
-        if([self.debug_delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
-            [self.debug_delegate debug_didCompleteProgressiveLoad:self];
-        }
-        
-    } else {
-        
-        if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
-            [self.debug_delegate debug_didProgressivelyLoadFrames:self];
-        }
-    }
 }
 
 #pragma mark Frame Loading
@@ -827,7 +830,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     static size_t lastFrameCount;
 
-    [_progressiveData appendData:data];
+    [self.progressiveData appendData:data];
     
     //We need to create a source of our incremental data to see if there is additional frames to load  yet
     CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)_progressiveData, NULL);
@@ -835,26 +838,22 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // get frame count
     size_t imageCount = CGImageSourceGetCount(imageSource);
     
-    dispatch_sync(dispatch_get_main_queue(), ^{
-    
-        //if we have not made the poster image we need to do this ASAP
-        if(!self.posterImage && imageCount > 1){
-            
-            NSLog(@"created poster image for frame count: %ld", imageCount);
-            
-            //create poster and possibly additional frames
-            [self appendDataForProgressiveLoad:NO];
-            
-            //otherwise wait for the frame period to load more images
-        } else if(self.posterImage &&  imageCount > self.frameCount + self.progressiveLoadFramePeriod){
-            
-            NSLog(@"appended data for frame count: %ld", imageCount);
+    //if we have not made the poster image we need to do this ASAP
+    if(!self.posterImage && imageCount > 1){
         
-            //append data to image source
-            [self appendDataForProgressiveLoad:NO];
-        }
-   
-    });
+        NSLog(@"created poster image for frame count: %ld", imageCount);
+        
+        //create poster and possibly additional frames
+        [self appendDataForProgressiveLoad:NO];
+        
+        //otherwise wait for the frame period to load more images
+    } else if(self.posterImage &&  imageCount > self.frameCount + self.progressiveLoadFramePeriod){
+        
+        NSLog(@"appended data for frame count: %ld", imageCount);
+    
+        //append data to image source
+        [self appendDataForProgressiveLoad:NO];
+    }
     lastFrameCount = imageCount;
 }
 
