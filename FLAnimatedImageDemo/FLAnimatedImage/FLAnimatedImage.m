@@ -834,6 +834,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     didReceiveData:(NSData *)data{
     
     static size_t lastFrameCount;
+    static size_t lastLoad;
 
     [self.progressiveData appendData:data];
     
@@ -850,14 +851,16 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         
         //create poster and possibly additional frames
         [self appendDataForProgressiveLoad:NO];
+        lastLoad = imageCount;
         
         //otherwise wait for the frame period to load more images
-    } else if(self.posterImage &&  imageCount > self.frameCount + self.progressiveLoadFramePeriod){
+    } else if(self.posterImage &&  imageCount > self.frameCount + self.progressiveLoadFramePeriod && lastLoad == self.frameCount){
         
         NSLog(@"appended data for frame count: %ld", imageCount);
     
         //append data to image source
         [self appendDataForProgressiveLoad:NO];
+        lastLoad = imageCount;
     }
     lastFrameCount = imageCount;
 }
