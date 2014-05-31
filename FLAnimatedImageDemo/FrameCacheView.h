@@ -18,4 +18,9 @@
 @property (nonatomic, strong) NSIndexSet *framesInCache;
 @property (nonatomic, assign) NSUInteger requestedFrameIndex;
 
+
+-(void)updateForImageCount;
+
+
+
 @end

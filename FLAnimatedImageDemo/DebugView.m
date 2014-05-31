@@ -157,6 +157,18 @@
     }
 }
 
+-(void)debug_didProgressivelyLoadFrames:(FLAnimatedImage *)animatedImage{
+    
+    //redraw
+    
+    self.image = animatedImage;
+    self.frameCacheView.image = self.image;
+    
+    [self setNeedsLayout];
+    
+    [self.frameCacheView updateForImageCount];
+    
+}
 
 #pragma mark - FLAnimatedImageViewDebugDelegate
 

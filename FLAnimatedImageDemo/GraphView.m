@@ -67,7 +67,7 @@
 
 - (void)addDataPoint:(CGFloat)dataPoint
 {
-    if ([self.dataPoints count] >= self.numberOfDisplayedDataPoints) {
+    if ([self.dataPoints count] >= self.numberOfDisplayedDataPoints && self.dataPoints.count) {
         [self.dataPoints removeObjectAtIndex:0];
     }
     [self.dataPoints addObject:@(dataPoint)];

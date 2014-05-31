@@ -47,6 +47,9 @@
         _animatedImage = animatedImage;
         
         self.currentFrame = animatedImage.posterImage;
+        if(!self.currentFrame){
+            [self.layer setHidden:YES];
+        }
         self.currentFrameIndex = 0;
         if (animatedImage.loopCount > 0) {
             self.loopCountdown = animatedImage.loopCount;
@@ -213,11 +216,17 @@
         return;
     }
     
+    
+    
     // If we have a nil image, don't update the view nor playhead.
     UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
     if (image) {
         //NSLog(@"Verbose: Showing frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
         self.currentFrame = image;
+        
+        if(self.layer.isHidden && self.animatedImage.posterImage){
+            [self.layer setHidden:NO];
+        }
         if (self.needsDisplayWhenImageBecomesAvailable) {
             [self.layer setNeedsDisplay];
             self.needsDisplayWhenImageBecomesAvailable = NO;
@@ -243,6 +252,7 @@
             self.needsDisplayWhenImageBecomesAvailable = YES;
         }
     } else {
+        
         //NSLog(@"Verbose: Waiting for frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
 #if DEBUG
         if ([self.delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {

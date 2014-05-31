@@ -1,20 +1,23 @@
 //
-//  RootViewController.m
+//  ProgressiveViewController.m
 //  FLAnimatedImageDemo
 //
-//  Created by Raphael Schaad on 4/1/14.
+//  Created by Geoff MacDonald on 2014-05-31.
 //  Copyright (c) 2014 Flipboard. All rights reserved.
 //
 
-
-#import "RootViewController.h"
-#import "FLAnimatedImage.h"
-#import "FLAnimatedImageView.h"
-#import "DebugView.h"
 #import "ProgressiveViewController.h"
 
 
-@interface RootViewController ()
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImageView.h"
+#import "DebugView.h"
+
+#import <ImageIO/ImageIO.h>
+#import <CoreGraphics/CoreGraphics.h>
+
+
+@interface ProgressiveViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
@@ -23,30 +26,32 @@
 
 @property (nonatomic, strong) FLAnimatedImageView *imageView1;
 @property (nonatomic, strong) FLAnimatedImageView *imageView2;
-@property (nonatomic, strong) FLAnimatedImageView *imageView3;
 
 // Views for the debug overlay UI
 @property (nonatomic, strong) DebugView *debugView1;
 @property (nonatomic, strong) DebugView *debugView2;
-@property (nonatomic, strong) DebugView *debugView3;
 
 
 @end
 
 
-@implementation RootViewController
+@implementation ProgressiveViewController
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1.0];
     
     self.titleLabel.frame = CGRectMake(18.0, 27.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
     self.subtitleLabel.frame = CGRectMake(20.0, 74.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
     self.memoryWarningButton.frame = CGRectMake(544.0, 69.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
     self.progessiveDemoButton.frame = CGRectMake(544.0, 30, self.progessiveDemoButton.bounds.size.width, self.progessiveDemoButton.bounds.size.height);
     
+    [self setupImages];
+}
+
+-(void)setupImages{
     
     // Setup the three `FLAnimatedImageView`s and load GIFs into them:
     
@@ -59,10 +64,10 @@
     [self.view addSubview:self.imageView1];
     self.imageView1.frame = CGRectMake(0.0, 120.0, self.view.bounds.size.width, 447.0);
     
-    NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
-    NSData *data1 = [NSData dataWithContentsOfURL:url1];
-    FLAnimatedImage *animatedImage1 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data1];
+    //set the GIF to load progressively with a URL
+    FLAnimatedImage * animatedImage1 = [[FLAnimatedImage alloc] initWithURLForProgressiveGIF:[NSURL URLWithString:@"http://i.imgur.com/W1r5Fln.gif"]];
     self.imageView1.animatedImage = animatedImage1;
+    
     
     // 2
     if (!self.imageView2) {
@@ -71,30 +76,34 @@
         self.imageView2.clipsToBounds = YES;
     }
     [self.view addSubview:self.imageView2];
-    self.imageView2.frame = CGRectMake(0.0, 577.0, 379.0, 447.0);
-    
-    NSURL *url2 = [NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"];
-    NSData *data2 = [NSData dataWithContentsOfURL:url2];
-    FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
-    self.imageView2.animatedImage = animatedImage2;
-    
-    // 3
-    if (!self.imageView3) {
-        self.imageView3 = [[FLAnimatedImageView alloc] init];
-        self.imageView3.contentMode = UIViewContentModeScaleAspectFill;
-        self.imageView3.clipsToBounds = YES;
-    }
-    [self.view addSubview:self.imageView3];
-    self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
-    
-    NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
-    NSData *data3 = [NSData dataWithContentsOfURL:url3];
-    FLAnimatedImage *animatedImage3 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data3];
-    self.imageView3.animatedImage = animatedImage3;
-    
-    // ... that's it!
+    self.imageView2.frame = CGRectMake(0.0, 577.0, self.view.bounds.size.width, 447.0);
     
     
+    UIActivityIndicatorView * indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator setCenter:CGPointMake(self.view.bounds.size.width/2, 250)];
+    [self.imageView2 addSubview:indicator];
+    [indicator startAnimating];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        NSURL *url2 = [NSURL URLWithString:@"http://i.imgur.com/W1r5Fln.gif"];
+        NSData *data2 = [NSData dataWithContentsOfURL:url2];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [indicator stopAnimating];
+            
+            FLAnimatedImage *animatedImage2 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data2];
+            self.imageView2.animatedImage = animatedImage2;
+            
+            self.imageView2.delegate = self.debugView2;
+            animatedImage2.delegate = self.debugView2;
+            self.debugView2.imageView = self.imageView2;
+            self.debugView2.image = animatedImage2;
+            self.imageView2.userInteractionEnabled = YES;
+        });
+        
+    });
     
     // Setting the delegates is for the debug UI in this demo only and is usually not needed.
     self.imageView1.delegate = self.debugView1;
@@ -103,17 +112,6 @@
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;
     
-    self.imageView2.delegate = self.debugView2;
-    animatedImage2.delegate = self.debugView2;
-    self.debugView2.imageView = self.imageView2;
-    self.debugView2.image = animatedImage2;
-    self.imageView2.userInteractionEnabled = YES;
-
-    self.imageView3.delegate = self.debugView3;
-    animatedImage3.delegate = self.debugView3;
-    self.debugView3.imageView = self.imageView3;
-    self.debugView3.image = animatedImage3;
-    self.imageView3.userInteractionEnabled = YES;
 }
 
 
@@ -141,7 +139,7 @@
         _subtitleLabel = [[UILabel alloc] init];
         _subtitleLabel.font = [UIFont systemFontOfSize:17.0];
         _subtitleLabel.textColor = [UIColor colorWithWhite:0.05 alpha:1.0];
-        _subtitleLabel.text = @"Cache sizes are optimized individually for each image.";
+        _subtitleLabel.text = @"Top image is progressively loaded as it downloads.";
         [_subtitleLabel sizeToFit];
     }
     _subtitleLabel.backgroundColor = self.view.backgroundColor;
@@ -157,8 +155,8 @@
         _memoryWarningButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _memoryWarningButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
         _memoryWarningButton.tintColor = [UIColor colorWithRed:0.8 green:0.15 blue:0.15 alpha:1.0];
-        [_memoryWarningButton setTitle:@"Simulate Memory Warning" forState:UIControlStateNormal];
-        [_memoryWarningButton addTarget:[UIApplication sharedApplication] action:@selector(_performMemoryWarning) forControlEvents:UIControlEventTouchUpInside];
+        [_memoryWarningButton setTitle:@"Re-download Gifs" forState:UIControlStateNormal];
+        [_memoryWarningButton addTarget:self action:@selector(redownloadGIF) forControlEvents:UIControlEventTouchUpInside];
         [_memoryWarningButton sizeToFit];
     }
     [self.view addSubview:_memoryWarningButton];
@@ -172,8 +170,8 @@
         _progessiveDemoButton = [UIButton buttonWithType:UIButtonTypeSystem];
         _progessiveDemoButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
         _progessiveDemoButton.tintColor = [UIColor colorWithRed:0.8 green:0.15 blue:0.15 alpha:1.0];
-        [_progessiveDemoButton setTitle:@"Progressive Download Demo" forState:UIControlStateNormal];
-        [_progessiveDemoButton addTarget:self action:@selector(presentProgressiveDemo) forControlEvents:UIControlEventTouchUpInside];
+        [_progessiveDemoButton setTitle:@"Static Demo" forState:UIControlStateNormal];
+        [_progessiveDemoButton addTarget:self action:@selector(backToStaticDemo) forControlEvents:UIControlEventTouchUpInside];
         [_progessiveDemoButton sizeToFit];
     }
     [self.view addSubview:_progessiveDemoButton];
@@ -181,17 +179,9 @@
     return _progessiveDemoButton;
 }
 
--(void)presentProgressiveDemo{
+-(void)backToStaticDemo{
     
-    
-    ProgressiveViewController * progVC = [[ProgressiveViewController alloc] init];
-    progVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-
-    
-    [self presentViewController:progVC animated:YES completion:^{
-        
-        
-    }];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -206,6 +196,22 @@
     return _debugView1;
 }
 
+-(void)redownloadGIF{
+    
+    [self.debugView1 removeFromSuperview];
+    [self.imageView1 removeFromSuperview];
+    
+    self.debugView1 = nil;
+    self.imageView1 = nil;
+    
+    [self.debugView2 removeFromSuperview];
+    [self.imageView2 removeFromSuperview];
+    
+    self.debugView2 = nil;
+    self.imageView2 = nil;
+    
+    [self setupImages];
+}
 
 - (DebugView *)debugView2
 {
@@ -218,19 +224,5 @@
     
     return _debugView2;
 }
-
-
-- (DebugView *)debugView3
-{
-    if (!_debugView3) {
-        _debugView3 = [[DebugView alloc] init];
-        _debugView3.style = DebugViewStyleCondensed;
-    }
-    [self.imageView3 addSubview:_debugView3];
-    _debugView3.frame = self.imageView3.bounds;
-    
-    return _debugView3;
-}
-
 
 @end
