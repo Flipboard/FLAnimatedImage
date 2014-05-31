@@ -220,8 +220,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
         _delayTimes = [[NSMutableArray alloc] init];
         
-        //default of load every 10 frames
-        _progressiveLoadFramePeriod = 10;
+        //default of load every 4   frames
+        _progressiveLoadFramePeriod = 4;
         
         _posterImage = nil;
         
@@ -443,7 +443,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
      */
     dispatch_async(_serialQueue, ^{
         
-        CGImageSourceUpdateData(_imageSource, (__bridge CFDataRef)self.progressiveData, final);
+        CGImageSourceUpdateData(_imageSource, (__bridge CFDataRef)[NSData dataWithData:self.progressiveData], final);
         
         //set readonly data finally
         if(final){
@@ -466,6 +466,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             
             if(final){
                 
+                if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+                    [self.debug_delegate debug_didProgressivelyLoadFrames:self];
+                }
                 if([self.debug_delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
                     [self.debug_delegate debug_didCompleteProgressiveLoad:self];
                 }
