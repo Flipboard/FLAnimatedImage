@@ -14,7 +14,7 @@ It's a well-tested [component that powers all GIFs in Flipboard](http://engineer
 
 - Apps that don't support animated GIFs yet
 - Apps that already support animated GIFs but want a higher performance solution
-- People who want to tinker with the code ([the corresponding blog post](https://github.com/Flipboard/FLAnimatedImage/raw/master/images/flanimatedimage-flipboard.gif) is a great place to start; also see the "To Do" section below)
+- People who want to tinker with the code ([the corresponding blog post](http://engineering.flipboard.com/2014/05/animated-gif/) is a great place to start; also see the "To Do" section below)
 
 ## Installation & Usage
 
