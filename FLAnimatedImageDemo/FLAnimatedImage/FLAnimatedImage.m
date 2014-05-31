@@ -295,8 +295,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // Remember requested frame index, this influences what we should cache next.
     self.requestedFrameIndex = index;
 #if DEBUG
-    if ([self.delegate respondsToSelector:@selector(debug_animatedImage:didRequestCachedFrame:)]) {
-        [self.delegate debug_animatedImage:self didRequestCachedFrame:index];
+    if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didRequestCachedFrame:)]) {
+        [self.debug_delegate debug_animatedImage:self didRequestCachedFrame:index];
     }
 #endif
     
@@ -362,8 +362,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 #if DEBUG
                 CFTimeInterval predrawDuration = CACurrentMediaTime() - predrawBeginTime;
                 CFTimeInterval slowdownDuration = 0.0;
-                if ([self.delegate respondsToSelector:@selector(debug_animatedImagePredrawingSlowdownFactor:)]) {
-                    CGFloat predrawingSlowdownFactor = [self.delegate debug_animatedImagePredrawingSlowdownFactor:self];
+                if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImagePredrawingSlowdownFactor:)]) {
+                    CGFloat predrawingSlowdownFactor = [self.debug_delegate debug_animatedImagePredrawingSlowdownFactor:self];
                     slowdownDuration = predrawDuration * predrawingSlowdownFactor - predrawDuration;
                     [NSThread sleepForTimeInterval:slowdownDuration];
                 }
@@ -377,8 +377,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
                         [self.cachedFrameIndexes addIndex:i];
                         [self.requestedFrameIndexes removeIndex:i];
 #if DEBUG
-                        if ([self.delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
-                            [self.delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
+                        if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
+                            [self.debug_delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
                         }
 #endif
                     });
@@ -659,9 +659,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
                 self.cachedFrames[i] = [NSNull null];
                 // Note: Don't `CGImageSourceRemoveCacheAtIndex` on the image source for frames that we don't want cached any longer to maintain O(1) time access.
 #if DEBUG
-                if ([self.delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
+                if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
+                        [self.debug_delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
                     });
                 }
 #endif
