@@ -606,6 +606,11 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         // The predicted size exceeds the limits to build up a cache and we go into low memory mode from the beginning.
         _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
     }
+    //in progressive loading we don't cache at all
+    if(!_data){
+        _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
+    }
+    
     // In any case, cap the optimal cache size at the frame count.
     _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, self.frameCount);
     
