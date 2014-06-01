@@ -2,7 +2,7 @@
 //  FLAnimatedImage.h
 //  Flipboard
 //
-//  Created by Raphael Schaad on 7/8/13.
+//  Created by Raphael ; on 7/8/13.
 //  Copyright (c) 2013-2014 Flipboard. All rights reserved.
 //
 
@@ -18,7 +18,7 @@
 //  It tries to intelligently choose the frame cache size depending on the image and memory situation with the goal to lower CPU usage for smaller ones, lower memory usage for larger ones and always deliver frames for high performant play-back.
 //  Note: `posterImage`, `size`, `loopCount`, `delayTimes` and `frameCount` don't change after successful initialization.
 //
-@interface FLAnimatedImage : NSObject
+@interface FLAnimatedImage : NSObject <NSURLSessionTaskDelegate,NSURLSessionDataDelegate>
 
 @property (nonatomic, strong, readonly) UIImage *posterImage; // Guaranteed to be loaded; usually equivalent to `-imageLazilyCachedAtIndex:0`
 @property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
@@ -44,10 +44,22 @@
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
+
 #if DEBUG
 // Only intended to report internal state for debugging
 @property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
 #endif
+
+
+//progressive gif
+
+@property NSUInteger progressiveLoadFramePeriod; //frames to be retrieved until we can add them to the animated image
+
+//Initializer for loading GIF as the data is retrieved from the network
+//does not set a poster image image immediately, but initializes properties
+-(instancetype)initWithURLForProgressiveGIF:(NSURL*)gifURL;
+
+
 
 @end
 
@@ -67,6 +79,8 @@
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache;
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index;
 - (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(FLAnimatedImage *)animatedImage;
+-(void)debug_didProgressivelyLoadFrames:(FLAnimatedImage*)animatedImage;
+-(void)debug_didCompleteProgressiveLoad:(FLAnimatedImage*)animatedImage;
 
 @end
 #endif

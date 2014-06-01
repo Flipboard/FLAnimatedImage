@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24A1C2E7193A59190051DF79 /* ProgressiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24A1C2E6193A59190051DF79 /* ProgressiveViewController.m */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24A1C2E5193A59190051DF79 /* ProgressiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressiveViewController.h; path = FLAnimatedImageDemo/ProgressiveViewController.h; sourceTree = "<group>"; };
+		24A1C2E6193A59190051DF79 /* ProgressiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressiveViewController.m; path = FLAnimatedImageDemo/ProgressiveViewController.m; sourceTree = "<group>"; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -116,6 +119,8 @@
 				87CB59ED1935A7BB00620C16 /* AppDelegate.m */,
 				87CB59EE1935A7BB00620C16 /* RootViewController.h */,
 				87CB59EF1935A7BB00620C16 /* RootViewController.m */,
+				24A1C2E5193A59190051DF79 /* ProgressiveViewController.h */,
+				24A1C2E6193A59190051DF79 /* ProgressiveViewController.m */,
 				8791BCB2191B2A8000A846A5 /* FLAnimatedImage */,
 				8791BCBF191B2AAE00A846A5 /* test-gifs */,
 				8790E1161935ABDA00459BC1 /* Images.xcassets */,
@@ -241,6 +246,7 @@
 				87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */,
 				87CB5A131935A8C600620C16 /* main.m in Sources */,
 				87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */,
+				24A1C2E7193A59190051DF79 /* ProgressiveViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

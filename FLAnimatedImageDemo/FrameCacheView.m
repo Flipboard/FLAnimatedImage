@@ -35,6 +35,25 @@
     }
 }
 
+-(void)updateForImageCount{
+    
+    for (UIView *subview in self.subviews) {
+        [subview removeFromSuperview];
+    }
+    
+    for (NSUInteger i = 0; i < _image.frameCount; i++) {
+        UIView *frameView = [[UIView alloc] init];
+        frameView.layer.borderWidth = 1.0;
+        frameView.layer.borderColor = [UIColor colorWithWhite:0.8 alpha:1.0].CGColor;
+        [self addSubview:frameView];
+    }
+    
+    [self updateSubviewFrames];
+    
+    [self setNeedsLayout];
+    
+}
+
 
 - (void)setFrame:(CGRect)frame
 {

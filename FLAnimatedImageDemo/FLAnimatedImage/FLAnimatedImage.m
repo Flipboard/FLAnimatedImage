@@ -55,6 +55,10 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 // The actual type of the object is `FLWeakProxy`. Lazily instantiated since it is not typically needed.
 @property (nonatomic, strong, readonly) FLAnimatedImage *weakProxy;
 
+//data for progressive load
+@property NSMutableData * progressiveData;
+@property NSURLSessionDataTask * progressiveTask;
+
 @end
 
 
@@ -161,6 +165,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         _cachedFrames = [[NSMutableArray alloc] init];
         _cachedFrameIndexes = [[NSMutableIndexSet alloc] init];
         _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
+        _delayTimes = [[NSMutableArray alloc] init];
 
         // Note: We could leverage `CGImageSourceCreateWithURL` too to add a second initializer `-initWithAnimatedGIFContentsOfURL:`.
         _imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
@@ -178,96 +183,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             return nil;
         }
         
-        // Get `LoopCount`
-        // Note: 0 means repeating the animation indefinitely.
-        // Image properties example:
-        // {
-        //     FileSize = 314446;
-        //     "{GIF}" = {
-        //         HasGlobalColorMap = 1;
-        //         LoopCount = 0;
-        //     };
-        // }
+        [self processFrames];
+        
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
-        _loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
-        
-        // Iterate through frame images
-        size_t imageCount = CGImageSourceGetCount(_imageSource);
-        NSMutableArray *delayTimesMutable = [NSMutableArray arrayWithCapacity:imageCount];
-        for (size_t i = 0; i < imageCount; i++) {
-            CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
-            if (frameImageRef) {
-                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
-                // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
-                if (frameImage) {
-                    // Set poster image
-                    if (!self.posterImage) {
-                        _posterImage = frameImage;
-                        // Set its size to proxy our size.
-                        _size = _posterImage.size;
-                        // Remember index of poster image so we never purge it; also add it to the cache.
-                        _posterImageFrameIndex = i;
-                        self.cachedFrames[self.posterImageFrameIndex] = self.posterImage;
-                        [self.cachedFrameIndexes addIndex:self.posterImageFrameIndex];
-                    } else {
-                        // Placeholder indicates that we don't have a cached frame.
-                        // We use an array instead of a dictionary for slightly faster access.
-                        self.cachedFrames[i] = [NSNull null];
-                    }
-                    
-                    // Get `DelayTime`
-                    // Note: It's not in (1/100) of a second like still falsly described in the documentation as per iOS 7 but in seconds stored as `kCFNumberFloat32Type`.
-                    // Frame properties example:
-                    // {
-                    //     ColorModel = RGB;
-                    //     Depth = 8;
-                    //     PixelHeight = 960;
-                    //     PixelWidth = 640;
-                    //     "{GIF}" = {
-                    //         DelayTime = "0.4";
-                    //         UnclampedDelayTime = "0.4";
-                    //     };
-                    // }
-                    
-                    NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
-                    NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
-                    
-                    // Try to use the unclamped delay time; fall back to the normal delay time.
-                    NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
-                    if (!delayTime) {
-                        delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
-                    }
-                    // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
-                    const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
-                    if (!delayTime) {
-                        if (i == 0) {
-                            NSLog(@"Verbose: Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
-                            delayTime = @(kDelayTimeIntervalDefault);
-                        } else {
-                            NSLog(@"Verbose: Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
-                            delayTime = delayTimesMutable[i - 1];
-                        }
-                    }
-                    // Support frame delays as low as `kDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
-                    // This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
-                    const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
-                    // Use `[NSNumber compare:]` for comparison to let it decide how to deal with accurate float representation.
-                    if ([delayTime compare:@(kDelayTimeIntervalMinimum)] == NSOrderedAscending) {
-                        NSLog(@"Verbose: Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
-                        delayTime = @(kDelayTimeIntervalDefault);
-                    }
-                    delayTimesMutable[i] = delayTime;
-                } else {
-                    NSLog(@"Verbose: Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
-                }
-                CFRelease(frameImageRef);
-            } else {
-                NSLog(@"Verbose: Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
-            }
-        }
-        _delayTimes = [delayTimesMutable copy];
-        _frameCount = [_delayTimes count];
-        
         if (self.frameCount == 0) {
             NSLog(@"Error: Failed to create any valid frames for GIF with properties %@", imageProperties);
             return nil;
@@ -278,23 +196,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             // We have multiple frames, rock on!
         }
         
-        // Calculate the optimal frame cache size: try choosing a larger buffer window depending on the predicted image size.
-        // It's only dependent on the image size & number of frames and never changes.
-        CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * self.frameCount / MEGABYTE;
-        if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
-            _frameCacheSizeOptimal = self.frameCount;
-        } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault) {
-            // This value doesn't depend on device memory much because if we're not keeping all frames in memory we will always be decoding 1 frame up ahead per 1 frame that gets played and at this point we might as well just keep a small buffer just large enough to keep from running out of frames.
-            _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeDefault;
-        } else {
-            // The predicted size exceeds the limits to build up a cache and we go into low memory mode from the beginning.
-            _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
-        }
-        // In any case, cap the optimal cache size at the frame count.
-        _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, self.frameCount);
-        
-        // Convenience/minor performance optimization; keep an index set handy with the full range to return in `-frameIndexesToCache`.
-        _allFramesIndexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, self.frameCount)];
+        [self calculateCache];
         
         // System Memory Warnings Notification Handler
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -302,6 +204,55 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return self;
 }
 
+-(instancetype)initWithURLForProgressiveGIF:(NSURL*)gifURL{
+    
+    //enfore .gif url's
+    if (![[gifURL pathExtension] isEqualToString:@"gif"]) {
+        NSLog(@"Error: URL given for progressive load is not a GIF.");
+        return nil;
+    }
+    
+    if(self = [super init]){
+        // Initialize internal data structures
+        // We'll fill in the initial `NSNull` values below, when we loop through all frames.
+        _cachedFrames = [[NSMutableArray alloc] init];
+        _cachedFrameIndexes = [[NSMutableIndexSet alloc] init];
+        _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
+        _delayTimes = [[NSMutableArray alloc] init];
+        
+        //default of load every 4   frames
+        _progressiveLoadFramePeriod = 4;
+        
+        _posterImage = nil;
+        
+        //we will need to hold a reference to all data as our incremental image source requires we update with all data
+        _progressiveData = [NSMutableData new];
+        _data = nil;//not used until completely loaded, at which point read-only
+        
+        //we create a source for providing progressive data
+        _imageSource = CGImageSourceCreateIncremental(nil);
+        
+        // Early return on failure!
+        if (!_imageSource) {
+            NSLog(@"Error: Failed to `CGImageSourceCreateIncremental");
+            return nil;
+        }
+        
+        //start download immediately, respond on background thread
+        NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
+        NSURLSession * ses = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[NSOperationQueue new]];
+        NSURLSessionDataTask *task = [ses dataTaskWithURL:gifURL];
+        //begin immediately
+        [task resume];
+        self.progressiveTask = task;
+        
+        // System Memory Warnings Notification Handler
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    }
+    
+    return self;
+}
 
 - (void)dealloc
 {
@@ -313,6 +264,10 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     if (_imageSource) {
         CFRelease(_imageSource);
+    }
+    
+    if(_progressiveTask){
+        [_progressiveTask cancel];
     }
     
     // Needed for deployment target iOS 5.0
@@ -468,6 +423,66 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 
 #pragma mark - Private Methods
+
+#pragma mark Progressive Image Loading
+
+-(void)appendDataForProgressiveLoad:(BOOL)final{
+    
+    // Early return if no data supplied!
+    BOOL hasData = ([self.progressiveData length] > 0);
+    if (!hasData) {
+        NSLog(@"Error: No animated GIF data supplied.");
+        return;
+    }
+    
+    if (!_serialQueue) {
+        _serialQueue = dispatch_queue_create("com.flipboard.framecachingqueue", DISPATCH_QUEUE_SERIAL);
+    }
+    /*
+     image source must be updated with full data source . However, if we update iamgeSource as another thread is trying to add frames to cache, the app will crash because imageSource was changed unexpectantly. thus we should add the process of pdating the source to the same serial queue as is used by the caching blocks, so the caching block is never going run at the same time
+     */
+    dispatch_async(_serialQueue, ^{
+        
+        CGImageSourceUpdateData(_imageSource, (__bridge CFDataRef)[NSData dataWithData:self.progressiveData], final);
+        
+        //set readonly data finally
+        if(final){
+            _data = [NSData dataWithData:self.progressiveData];
+            _progressiveData = nil;
+        }
+        
+        // Early return if not GIF!
+        CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
+        BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
+        if (!isGIFData) {
+            NSLog(@"Error: Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, self.progressiveData );
+            return;
+        }
+        
+        [self processFrames];
+        [self calculateCache];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if(final){
+                
+                if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+                    [self.debug_delegate debug_didProgressivelyLoadFrames:self];
+                }
+                if([self.debug_delegate respondsToSelector:@selector(debug_didCompleteProgressiveLoad:)]) {
+                    [self.debug_delegate debug_didCompleteProgressiveLoad:self];
+                }
+                
+            } else {
+                
+                if([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+                    [self.debug_delegate debug_didProgressivelyLoadFrames:self];
+                }
+            }
+        });
+    });
+}
+
 #pragma mark Frame Loading
 
 - (UIImage *)predrawnImageAtIndex:(NSUInteger)index
@@ -483,8 +498,129 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return image;
 }
 
+-(void)processFrames{
+    
+    // Get `LoopCount`
+    // Note: 0 means repeating the animation indefinitely.
+    // Image properties example:
+    // {
+    //     FileSize = 314446;
+    //     "{GIF}" = {
+    //         HasGlobalColorMap = 1;
+    //         LoopCount = 0;
+    //     };
+    // }
+    NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
+    _loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
+    
+    // Iterate through frame images
+    size_t imageCount = CGImageSourceGetCount(_imageSource);
+    NSMutableArray *delayTimesMutable = [NSMutableArray arrayWithArray:_delayTimes];
+    //start at the current frame count
+    for (size_t i = _frameCount; i < imageCount; i++) {
+        CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
+        if (frameImageRef) {
+            UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
+            // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
+            if (frameImage) {
+                // Set poster image
+                if (!self.posterImage) {
+                    _posterImage = frameImage;
+                    // Set its size to proxy our size.
+                    _size = _posterImage.size;
+                    // Remember index of poster image so we never purge it; also add it to the cache.
+                    _posterImageFrameIndex = i;
+                    self.cachedFrames[self.posterImageFrameIndex] = self.posterImage;
+                    [self.cachedFrameIndexes addIndex:self.posterImageFrameIndex];
+                } else {
+                    // Placeholder indicates that we don't have a cached frame.
+                    // We use an array instead of a dictionary for slightly faster access.
+                    self.cachedFrames[i] = [NSNull null];
+                }
+                
+                // Get `DelayTime`
+                // Note: It's not in (1/100) of a second like still falsly described in the documentation as per iOS 7 but in seconds stored as `kCFNumberFloat32Type`.
+                // Frame properties example:
+                // {
+                //     ColorModel = RGB;
+                //     Depth = 8;
+                //     PixelHeight = 960;
+                //     PixelWidth = 640;
+                //     "{GIF}" = {
+                //         DelayTime = "0.4";
+                //         UnclampedDelayTime = "0.4";
+                //     };
+                // }
+                
+                NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
+                NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
+                
+                // Try to use the unclamped delay time; fall back to the normal delay time.
+                NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
+                if (!delayTime) {
+                    delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                }
+                // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
+                const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
+                if (!delayTime) {
+                    if (i == 0) {
+                        NSLog(@"Verbose: Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
+                        delayTime = @(kDelayTimeIntervalDefault);
+                    } else {
+                        NSLog(@"Verbose: Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
+                        delayTime = delayTimesMutable[i - 1];
+                    }
+                }
+                // Support frame delays as low as `kDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
+                // This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
+                const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
+                // Use `[NSNumber compare:]` for comparison to let it decide how to deal with accurate float representation.
+                if ([delayTime compare:@(kDelayTimeIntervalMinimum)] == NSOrderedAscending) {
+                    NSLog(@"Verbose: Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
+                    delayTime = @(kDelayTimeIntervalDefault);
+                }
+                delayTimesMutable[i] = delayTime;
+            } else {
+                NSLog(@"Verbose: Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
+            }
+            CFRelease(frameImageRef);
+        } else {
+            NSLog(@"Verbose: Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
+        }
+    }
+    _delayTimes = [delayTimesMutable copy];
+    _frameCount = [_delayTimes count];
+}
+
 
 #pragma mark Frame Caching
+
+-(void)calculateCache{
+    
+    // Calculate the optimal frame cache size: try choosing a larger buffer window depending on the predicted image size.
+    // It's only dependent on the image size & number of frames and never changes.
+    CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * self.frameCount / MEGABYTE;
+    if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
+        _frameCacheSizeOptimal = self.frameCount;
+    } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault) {
+        // This value doesn't depend on device memory much because if we're not keeping all frames in memory we will always be decoding 1 frame up ahead per 1 frame that gets played and at this point we might as well just keep a small buffer just large enough to keep from running out of frames.
+        _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeDefault;
+    } else {
+        // The predicted size exceeds the limits to build up a cache and we go into low memory mode from the beginning.
+        _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
+    }
+    //in progressive loading we don't cache at all
+    if(!_data){
+        _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
+    }
+    
+    // In any case, cap the optimal cache size at the frame count.
+    _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, self.frameCount);
+    
+    // Convenience/minor performance optimization; keep an index set handy with the full range to return in `-frameIndexesToCache`.
+    _allFramesIndexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, self.frameCount)];
+    
+}
 
 - (NSIndexSet *)frameIndexesToCache
 {
@@ -676,6 +812,62 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return predrawnImage;
 }
 
+#pragma mark - NSURLSessionTaskDelegate
+
+//request completes and we finish progressive load
+-(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error{
+    
+    //finalize image source
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
+        //append data to image source
+        [self appendDataForProgressiveLoad:YES];
+        
+        if ([self.debug_delegate respondsToSelector:@selector(debug_didProgressivelyLoadFrames:)]) {
+            [self.debug_delegate debug_didProgressivelyLoadFrames:self];
+        }
+    });
+}
+
+#pragma mark - NSURLSessionDataDelegate
+
+//reequest recieves data and we determine whether to update the frames
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data{
+    
+    static size_t lastFrameCount;
+    static size_t lastLoad;
+
+    [self.progressiveData appendData:data];
+    
+    //We need to create a source of our incremental data to see if there is additional frames to load  yet
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)_progressiveData, NULL);
+    
+    // get frame count
+    size_t imageCount = CGImageSourceGetCount(imageSource);
+    
+    //if we have not made the poster image we need to do this ASAP
+    if(!self.posterImage && imageCount > 1){
+        
+        NSLog(@"created poster image for frame count: %ld", imageCount);
+        
+        //create poster and possibly additional frames
+        [self appendDataForProgressiveLoad:NO];
+        lastLoad = imageCount;
+        
+        //otherwise wait for the frame period to load more images
+    } else if(self.posterImage &&  imageCount > self.frameCount + self.progressiveLoadFramePeriod && lastLoad == self.frameCount){
+        
+        NSLog(@"appended data for frame count: %ld", imageCount);
+    
+        //append data to image source
+        [self appendDataForProgressiveLoad:NO];
+        lastLoad = imageCount;
+    }
+    lastFrameCount = imageCount;
+}
+
 
 #pragma mark - Description
 
@@ -745,6 +937,5 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // See https://www.mikeash.com/pyblog/friday-qa-2010-02-26-futures.html and https://github.com/steipete/PSTDelegateProxy/issues/1 for examples of using a method signature cache.
     return [NSObject instanceMethodSignatureForSelector:@selector(init)];
 }
-
 
 @end
