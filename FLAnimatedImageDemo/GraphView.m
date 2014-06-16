@@ -91,7 +91,9 @@
             self.descriptionLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:13.0];
             [self addSubview:self.descriptionLabel];
         }
-        self.descriptionLabel.text = self.style == GraphViewStyleMemoryUsage ? @"Memory usage\n(in MB)" : @"Frame delay\n(in ms)";
+        NSString *separator = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? @"\n" : @" ";
+        NSString *textFormat = self.style == GraphViewStyleMemoryUsage ? @"Memory usage%@(in MB)" : @"Frame delay%@(in ms)";
+        self.descriptionLabel.text = [NSString stringWithFormat:textFormat, separator];
         [self.descriptionLabel sizeToFit];
         self.descriptionLabel.frame = CGRectMake(rightEdge - self.descriptionLabel.bounds.size.width, self.bounds.origin.y, self.descriptionLabel.bounds.size.width, self.bounds.size.height);
         rightEdge = self.descriptionLabel.frame.origin.x - 8.0;
