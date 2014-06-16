@@ -48,7 +48,7 @@ Since FLAnimatedImage is licensed under MIT it's compatible with the terms of us
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
 - `UIScrollView` support
 - Smarter buffering
-- Bring demo app to iOS 5 and iPhone
+- Bring demo app to iOS 5
 
 This has shipped to many people and since mid 2013 we made many tweaks. But it's a version 1.0, so please come with your questions, issues and pull requests.
 
