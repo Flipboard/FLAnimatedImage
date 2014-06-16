@@ -78,7 +78,7 @@
         self.frameDelayView.style = GraphViewStyleFrameDelay;
         [self addSubview:self.frameDelayView];
     }
-        self.frameDelayView.numberOfDisplayedDataPoints = self.image.frameCount * 3;
+    self.frameDelayView.numberOfDisplayedDataPoints = self.image.frameCount * 3;
     self.frameDelayView.shouldShowDescription = self.style == DebugViewStyleDefault;
     CGFloat graphViewsSpacing = self.style == DebugViewStyleDefault ? 50.0 : 30.0;
     CGFloat frameDelayViewWidth = self.style == DebugViewStyleDefault ? 204.0 : 126.0;
