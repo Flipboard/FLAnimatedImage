@@ -110,7 +110,11 @@
         self.playPauseButton = [[RSPlayPauseButton alloc] init];
         self.playPauseButton.paused = NO;
         CGRect frame = self.playPauseButton.frame;
-        frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin);
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin - [self frameCacheViewHeight] - 20.0);
+        } else {
+            frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin);
+        }
         self.playPauseButton.frame = frame;
         self.playPauseButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         self.playPauseButton.color = [UIColor colorWithWhite:0.8 alpha:1.0];
@@ -122,7 +126,13 @@
         self.frameCacheView = [[FrameCacheView alloc] init];
         [self addSubview:self.frameCacheView];
     }
-    self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], self.playPauseButton.frame.origin.x - 2 * kMargin, [self frameCacheViewHeight]);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // On iPhone let the frame cache view extend the full width of the frame so that it's clearer
+        self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], CGRectGetWidth(self.bounds) - 2 * kMargin, [self frameCacheViewHeight]);
+    } else {
+        // On iPad it more aestetically pleasing if the play/pause button is on the right of it
+        self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], self.playPauseButton.frame.origin.x - 2 * kMargin, [self frameCacheViewHeight]);
+    }
     self.frameCacheView.image = self.image;
     
     if (!self.playheadView) {
