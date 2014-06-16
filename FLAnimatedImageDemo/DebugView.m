@@ -48,6 +48,12 @@
 }
 
 
+- (CGFloat)frameCacheViewHeight
+{
+    return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? CGRectGetHeight(self.playPauseButton.frame) : 12.0;
+}
+
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -70,8 +76,14 @@
     CGFloat memoryUsage = self.image.size.width * self.image.size.height * 4 * self.image.frameCount / 1024 / 1024;
     self.memoryUsageView.maxDataPoint = memoryUsage;
     self.memoryUsageView.shouldShowDescription = self.style == DebugViewStyleDefault;
-    CGFloat memoryUsageViewWidth = self.style == DebugViewStyleDefault ? 212.0 : 117.0;
-    self.memoryUsageView.frame = CGRectMake(kMargin, kMargin, memoryUsageViewWidth, 50.0);
+    CGFloat memoryUsageViewWidth = 0.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        memoryUsageViewWidth = self.style == DebugViewStyleDefault ? 212.0 : 117.0;
+    } else {
+        memoryUsageViewWidth = CGRectGetWidth(self.bounds) - 2 * kMargin;
+    }
+    CGFloat memoryUsageViewHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 50.0 : 24.0;
+    self.memoryUsageView.frame = CGRectMake(kMargin, kMargin, memoryUsageViewWidth, memoryUsageViewHeight);
     
     if (!self.frameDelayView) {
         self.frameDelayView = [[GraphView alloc] init];
@@ -81,8 +93,18 @@
     self.frameDelayView.numberOfDisplayedDataPoints = self.image.frameCount * 3;
     self.frameDelayView.shouldShowDescription = self.style == DebugViewStyleDefault;
     CGFloat graphViewsSpacing = self.style == DebugViewStyleDefault ? 50.0 : 30.0;
-    CGFloat frameDelayViewWidth = self.style == DebugViewStyleDefault ? 204.0 : 126.0;
-    self.frameDelayView.frame = CGRectMake(CGRectGetMaxX(self.memoryUsageView.frame) + graphViewsSpacing, kMargin, frameDelayViewWidth, 50.0);
+    CGFloat frameDelayViewWidth = 0.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        frameDelayViewWidth = self.style == DebugViewStyleDefault ? 204.0 : 126.0;;
+    } else {
+        frameDelayViewWidth = CGRectGetWidth(self.bounds) - 2 * kMargin;
+    }
+    CGFloat frameDelayViewHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 50.0 : 24.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.frameDelayView.frame = CGRectMake(CGRectGetMaxX(self.memoryUsageView.frame) + graphViewsSpacing, kMargin, frameDelayViewWidth, frameDelayViewHeight);
+    } else {
+        self.frameDelayView.frame = CGRectMake(CGRectGetMinX(self.memoryUsageView.frame), CGRectGetMaxY(self.memoryUsageView.frame) + kMargin, frameDelayViewWidth, frameDelayViewHeight);
+    }
     
     if (!self.playPauseButton) {
         self.playPauseButton = [[RSPlayPauseButton alloc] init];
@@ -100,7 +122,7 @@
         self.frameCacheView = [[FrameCacheView alloc] init];
         [self addSubview:self.frameCacheView];
     }
-    self.frameCacheView.frame = CGRectMake(kMargin, self.playPauseButton.frame.origin.y, self.playPauseButton.frame.origin.x - 2 * kMargin, self.playPauseButton.frame.size.height);
+    self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], self.playPauseButton.frame.origin.x - 2 * kMargin, [self frameCacheViewHeight]);
     self.frameCacheView.image = self.image;
     
     if (!self.playheadView) {
