@@ -63,7 +63,7 @@
     if (!self.gradientLayer) {
         self.gradientLayer = [CAGradientLayer layer];
         self.gradientLayer.colors = @[(__bridge id)[UIColor colorWithWhite:0.0 alpha:0.85].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.0].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.0].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.85].CGColor];
-        self.gradientLayer.locations = @[@0.0, @0.22, @0.78, @1.0];
+        self.gradientLayer.locations = @[@0.0, @0.5, @0.78, @1.0];
         [self.layer addSublayer:self.gradientLayer];
     }
     self.gradientLayer.frame = self.bounds;
