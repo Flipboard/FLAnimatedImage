@@ -251,8 +251,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
                     // Support frame delays as low as `kDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
                     // This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
                     const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
-                    // Use `[NSNumber compare:]` for comparison to let it decide how to deal with accurate float representation.
-                    if ([delayTime compare:@(kDelayTimeIntervalMinimum)] == NSOrderedAscending) {
+
+                    if (([delayTime floatValue] - (float)kDelayTimeIntervalMinimum) < -FLT_EPSILON) {
                         NSLog(@"Verbose: Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
                         delayTime = @(kDelayTimeIntervalDefault);
                     }
