@@ -13,7 +13,13 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 
+// From vm_param.h, define for iOS 8.0 or higher to build on device.
+#ifndef BYTE_SIZE
+#define BYTE_SIZE 8 // byte size in bits
+#endif
+
 #define MEGABYTE (1024 * 1024)
+
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
