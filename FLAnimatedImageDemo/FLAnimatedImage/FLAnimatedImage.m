@@ -712,6 +712,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 #pragma mark Life Cycle
 
+// This is the designated creation method of an `FLWeakProxy` and
+// as a subclass of `NSProxy` it doesn't respond to or need `-init`.
 + (instancetype)weakProxyForObject:(id)targetObject
 {
     FLWeakProxy *weakProxy = [FLWeakProxy alloc];
