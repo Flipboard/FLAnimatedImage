@@ -401,6 +401,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     }
     
     // Start streaming requested frames in the background into the cache.
+    // Avoid capturing self in the block as there's no reason to keep doing work if the animated image went away.
+    FLAnimatedImage * __weak weakSelf = self;
     dispatch_async(_serialQueue, ^{
         // Produce and cache next needed frame.
         void (^frameRangeBlock)(NSRange, BOOL *) = ^(NSRange range, BOOL *stop) {
@@ -409,7 +411,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 #if DEBUG
                 CFTimeInterval predrawBeginTime = CACurrentMediaTime();
 #endif
-                UIImage *image = [self predrawnImageAtIndex:i];
+                UIImage *image = [weakSelf predrawnImageAtIndex:i];
 #if DEBUG
                 CFTimeInterval predrawDuration = CACurrentMediaTime() - predrawBeginTime;
                 CFTimeInterval slowdownDuration = 0.0;
@@ -422,14 +424,14 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 #endif
                 // The results get returned one by one as soon as they're ready (and not in batch).
                 // The benefits of having the first frames as quick as possible outweigh building up a buffer to cope with potential hiccups when the CPU suddenly gets busy.
-                if (image) {
+                if (image && weakSelf) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        self.cachedFrames[i] = image;
-                        [self.cachedFrameIndexes addIndex:i];
-                        [self.requestedFrameIndexes removeIndex:i];
+                        weakSelf.cachedFrames[i] = image;
+                        [weakSelf.cachedFrameIndexes addIndex:i];
+                        [weakSelf.requestedFrameIndexes removeIndex:i];
 #if DEBUG
-                        if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
-                            [self.debug_delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
+                        if ([weakSelf.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
+                            [weakSelf.debug_delegate debug_animatedImage:weakSelf didUpdateCachedFrames:weakSelf.cachedFrameIndexes];
                         }
 #endif
                     });
