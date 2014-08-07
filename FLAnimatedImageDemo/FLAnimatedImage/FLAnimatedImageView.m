@@ -20,7 +20,7 @@
 
 @property (nonatomic, assign) NSUInteger loopCountdown;
 @property (nonatomic, assign) NSTimeInterval accumulator;
-@property (nonatomic, strong, readonly) CADisplayLink *displayLink;
+@property (nonatomic, strong) CADisplayLink *displayLink;
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image, window or superview has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
@@ -66,39 +66,11 @@
 }
 
 
-#pragma mark Private
-
-// Explicit synthesizing for `readonly` property with overridden getter.
-@synthesize displayLink = _displayLink;
-
-- (CADisplayLink *)displayLink
-{
-    if (!_displayLink) {
-        // Create and setup display link lazily; add it immediately to the run loop but start out paused.
-        // It is important to note the use of a weak proxy here to avoid a retain cycle. `-displayLinkWithTarget:selector:`
-        // will retain its target until it is invalidated. We use a weak proxy so that the image view will get deallocated
-        // independent of the display link's lifetime. Upon image view deallocation, we invalidate the display
-        // link which will lead to the deallocation of both the display link and the weak proxy.
-        FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
-        _displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
-        // `NSRunLoopCommonModes` would allow timer events during scrolling (i.e. animation) but we don't support this behavior.
-        [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-        _displayLink.paused = YES;
-        
-        // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
-        // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
-    }
-    
-    return _displayLink;
-}
-
-
 #pragma mark - Life Cycle
 
 - (void)dealloc
 {
     // Removes the display link from all run loop modes.
-    // Don't call the getter here because it will unnecessarily create/attach a display link.
     [_displayLink invalidate];
 }
 
@@ -164,6 +136,20 @@
 - (void)startAnimating
 {
     if (self.animatedImage) {
+        // Lazily create the display link.
+        if (!self.displayLink) {
+            // It is important to note the use of a weak proxy here to avoid a retain cycle. `-displayLinkWithTarget:selector:`
+            // will retain its target until it is invalidated. We use a weak proxy so that the image view will get deallocated
+            // independent of the display link's lifetime. Upon image view deallocation, we invalidate the display
+            // link which will lead to the deallocation of both the display link and the weak proxy.
+            FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
+            self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
+            // `NSRunLoopCommonModes` would allow timer events during scrolling (i.e. animation) but we don't support this behavior.
+            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+            
+            // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
+            // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
+        }
         self.displayLink.paused = NO;
     } else {
         [super startAnimating];
@@ -185,7 +171,7 @@
 {
     BOOL isAnimating = NO;
     if (self.animatedImage) {
-        isAnimating = !self.displayLink.isPaused;
+        isAnimating = self.displayLink && !self.displayLink.isPaused;
     } else {
         isAnimating = [super isAnimating];
     }
