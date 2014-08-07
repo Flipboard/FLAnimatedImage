@@ -36,7 +36,9 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
 @property (nonatomic, strong) CAShapeLayer *borderShapeLayer;
 @property (nonatomic, strong) CAShapeLayer *playPauseShapeLayer;
 @property (nonatomic, strong, readonly) UIBezierPath *pauseBezierPath;
+@property (nonatomic, strong, readonly) UIBezierPath *pauseRotateBezierPath;
 @property (nonatomic, strong, readonly) UIBezierPath *playBezierPath;
+@property (nonatomic, strong, readonly) UIBezierPath *playRotateBezierPath;
 
 @end
 
@@ -91,6 +93,32 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
 }
 
 
+@synthesize pauseRotateBezierPath = _pauseRotateBezierPath;
+
+- (UIBezierPath *)pauseRotateBezierPath
+{
+    if (!_pauseRotateBezierPath) {
+        _pauseRotateBezierPath = [UIBezierPath bezierPath];
+        
+        // Subpath for 1. line
+        [_pauseRotateBezierPath moveToPoint:p7];
+        [_pauseRotateBezierPath addLineToPoint:p8];
+        [_pauseRotateBezierPath addLineToPoint:p5];
+        [_pauseRotateBezierPath addLineToPoint:p6];
+        [_pauseRotateBezierPath closePath];
+        
+        // Subpath for 2. line
+        [_pauseRotateBezierPath moveToPoint:p3];
+        [_pauseRotateBezierPath addLineToPoint:p4];
+        [_pauseRotateBezierPath addLineToPoint:p1];
+        [_pauseRotateBezierPath addLineToPoint:p2];
+        [_pauseRotateBezierPath closePath];
+    }
+    
+    return _pauseRotateBezierPath;
+}
+
+
 @synthesize playBezierPath = _playBezierPath;
 
 - (UIBezierPath *)playBezierPath
@@ -140,6 +168,38 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
 }
 
 
+@synthesize playRotateBezierPath = _playRotateBezierPath;
+
+- (UIBezierPath *)playRotateBezierPath
+{
+    if (!_playRotateBezierPath) {
+        _playRotateBezierPath = [UIBezierPath bezierPath];
+        
+        const CGFloat kPauseLineHalfHeight = floor(kPauseLineHeight / 2);
+        
+        CGPoint _p1, _p2, _p3, _p4, _p5, _p6, _p7, _p8;
+        _p1 = _p2 = _p5 = _p6 = CGPointMake(p6.x + kPlayTriangleTipOffsetX, kPauseLineHalfHeight);
+        _p3 = _p8 = CGPointMake(p1.x + kPlayTriangleOffsetX, kPauseLineHalfHeight);
+        _p4 = CGPointMake(p1.x + kPlayTriangleOffsetX, p1.y);
+        _p7 = CGPointMake(p4.x + kPlayTriangleOffsetX, p4.y);
+        
+        [_playRotateBezierPath moveToPoint:_p1];
+        [_playRotateBezierPath addLineToPoint:_p2];
+        [_playRotateBezierPath addLineToPoint:_p3];
+        [_playRotateBezierPath addLineToPoint:_p4];
+        [_playRotateBezierPath closePath];
+        
+        [_playRotateBezierPath moveToPoint:_p5];
+        [_playRotateBezierPath addLineToPoint:_p6];
+        [_playRotateBezierPath addLineToPoint:_p7];
+        [_playRotateBezierPath addLineToPoint:_p8];
+        [_playRotateBezierPath closePath];
+    }
+    
+    return _playRotateBezierPath;
+}
+
+
 #pragma mark - Life Cycle
 
 - (id)initWithFrame:(CGRect)frame
@@ -147,7 +207,8 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
     self = [super initWithFrame:frame];
     if (self) {
         _paused = YES;
-        _color = [UIColor colorWithWhite:0.1 alpha:1.0];
+        _color = [UIColor colorWithWhite:0.04 alpha:1.0];
+        _animationStyle = RSPlayPauseButtonAnimationStyleSplitAndRotate;
         
         [self sizeToFit];
     }
@@ -190,7 +251,7 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
         playPauseRect.size.width = kPauseLineWidth + kPauseLinesSpace + kPauseLineWidth + kPlayTriangleTipOffsetX;
         playPauseRect.size.height = kPauseLineHeight;
         self.playPauseShapeLayer.frame = playPauseRect;
-        UIBezierPath *path = self.isPaused ? self.playBezierPath : self.pauseBezierPath;
+        UIBezierPath *path = self.isPaused ? self.playRotateBezierPath : self.pauseBezierPath;
         self.playPauseShapeLayer.path = path.CGPath;
         [self.layer addSublayer:self.playPauseShapeLayer];
     }
@@ -205,8 +266,18 @@ static const CGPoint p8 = {kPauseLineWidth + kPauseLinesSpace, kPauseLineHeight}
     if (_paused != paused) {
         _paused = paused;
         
-        UIBezierPath *fromPath = self.isPaused ? self.pauseBezierPath : self.playBezierPath;
-        UIBezierPath *toPath = self.isPaused ? self.playBezierPath : self.pauseBezierPath;
+        UIBezierPath *fromPath = nil;
+        UIBezierPath *toPath = nil;
+        if (self.animationStyle == RSPlayPauseButtonAnimationStyleSplit) {
+            fromPath = self.isPaused ? self.pauseBezierPath : self.playBezierPath;
+            toPath = self.isPaused ? self.playBezierPath : self.pauseBezierPath;
+        } else if (self.animationStyle == RSPlayPauseButtonAnimationStyleSplitAndRotate) {
+            fromPath = self.isPaused ? self.pauseBezierPath : self.playRotateBezierPath;
+            toPath = self.isPaused ? self.playRotateBezierPath : self.pauseRotateBezierPath;
+        } else {
+            // Unsupported animation style
+        }
+        
         if (animated) {
             // Morph between the two states.
             CABasicAnimation *morphAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
