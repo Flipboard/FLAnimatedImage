@@ -130,6 +130,15 @@
     super.image = image;
 }
 
+- (void)setHighlighted:(BOOL)highlighted
+{
+    if (!self.animatedImage) {
+        // Only allow highlighting if there isn't an animated image, else
+        // UIImageView's highlighting mechanism messes with view and causes it to black out
+        [super setHighlighted:highlighted];
+    }
+}
+
 
 #pragma mark Animating Images
 
