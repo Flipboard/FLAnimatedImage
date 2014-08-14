@@ -47,7 +47,7 @@
 #if DEBUG
 // Only intended to report internal state for debugging
 @property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
-@property (nonatomic, strong) NSDictionary *debug_info; // To track arbitrary data (e.g. original URL, loading durations, cache hits, etc.)
+@property (nonatomic, strong) NSMutableDictionary *debug_info; // To track arbitrary data (e.g. original URL, loading durations, cache hits, etc.)
 #endif
 
 @end
