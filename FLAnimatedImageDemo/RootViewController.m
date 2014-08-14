@@ -78,6 +78,13 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView2.animatedImage = animatedImage2;
+            
+            // Set up debug UI for image 2
+            self.imageView2.debug_delegate = self.debugView2;
+            animatedImage2.debug_delegate = self.debugView2;
+            self.debugView2.imageView = self.imageView2;
+            self.debugView2.image = animatedImage2;
+            self.imageView2.userInteractionEnabled = YES;
         });
     });
     
@@ -98,6 +105,13 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView3.animatedImage = animatedImage3;
+            
+            // Set up debug UI for image 3
+            self.imageView3.debug_delegate = self.debugView3;
+            animatedImage3.debug_delegate = self.debugView3;
+            self.debugView3.imageView = self.imageView3;
+            self.debugView3.image = animatedImage3;
+            self.imageView3.userInteractionEnabled = YES;
         });
     });
     
@@ -111,18 +125,6 @@
     self.debugView1.imageView = self.imageView1;
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;
-    
-    self.imageView2.debug_delegate = self.debugView2;
-    animatedImage2.debug_delegate = self.debugView2;
-    self.debugView2.imageView = self.imageView2;
-    self.debugView2.image = animatedImage2;
-    self.imageView2.userInteractionEnabled = YES;
-
-    self.imageView3.debug_delegate = self.debugView3;
-    animatedImage3.debug_delegate = self.debugView3;
-    self.debugView3.imageView = self.imageView3;
-    self.debugView3.image = animatedImage3;
-    self.imageView3.userInteractionEnabled = YES;
 }
 
 
