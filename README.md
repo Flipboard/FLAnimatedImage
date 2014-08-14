@@ -20,7 +20,13 @@ It's a well-tested [component that powers all GIFs in Flipboard](http://engineer
 
 FLAnimatedImage is a well encapsulated drop-in component. Simply replace your `UIImageView` instances with instances of `FLAnimatedImageView` to get animated GIF support. There is no central cache or state to manage.
 
-To get started, simply copy the two classes `FLAnimatedImage.h/.m` and `FLAnimatedImageView.h/.m` into your Xcode project or add via [CocoaPods](http://cocoapods.org) by adding this to your Podfile:
+If using CocoaPods, the quickest way to try it out is to type this on the command line:
+
+```shell
+$ pod try FLAnimatedImage
+```
+
+To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimatedImageView.h/.m` into your Xcode project or add via [CocoaPods](http://cocoapods.org) by adding this to your Podfile:
 
 ```ruby
 pod 'FLAnimatedImage', '~> 1.0'
