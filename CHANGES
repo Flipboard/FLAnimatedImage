@@ -1,0 +1,17 @@
+= 1.0.1 (2014-08-13)
+
+ * Fix issue where the minimum frame delay time of 0.02s sometimes wasn't supported because of float rounding (Andrej Mihajlov)
+
+ * Fix crash in `FLAnimatedImageView` when `-stopAnimating` is called from `-[UIImageView dealloc]` (Ryan Olson)
+
+ * Fix build issue "Use of undeclared identifier 'BYTE_SIZE'" when compiling for device with Xcode 6 (Raphael Schaad)
+
+ * Optimization by avoiding continued production of frames on a background thread when the image is going away (Raphael Schaad)
+
+ * Allow tracking arbitrary debugging data for any instance of `FLAnimatedImage` (Raphael Schaad)
+
+ * In the demo project, move loading of remote GIFs off the main thread (Raphael Schaad)
+
+= 1.0.0 (2014-05-29)
+
+ * Initial commit (Raphael Schaad)
