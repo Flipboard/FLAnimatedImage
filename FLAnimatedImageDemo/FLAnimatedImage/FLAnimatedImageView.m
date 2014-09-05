@@ -24,6 +24,7 @@
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image, window or superview has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
+@property (nonatomic, assign) BOOL animatesWhileScrolling;
 
 @end
 
@@ -145,7 +146,11 @@
             FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
             self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
             // `NSRunLoopCommonModes` would allow timer events during scrolling (i.e. animation) but we don't support this behavior.
-            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+            if (self.animatesWhileScrolling) {
+                [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+            }else{
+                [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+            }
             
             // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
             // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
