@@ -27,7 +27,7 @@
 
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;
-@property (nonatomic, assign) BOOL animatesWhileScrolling;
+@property (nonatomic, assign, readwrite) BOOL animatesWhileScrolling;
 
 #if DEBUG
 // Only intended to report internal state for debugging

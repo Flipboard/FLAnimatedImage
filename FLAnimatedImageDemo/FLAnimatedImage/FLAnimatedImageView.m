@@ -24,7 +24,6 @@
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image, window or superview has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
-@property (nonatomic, assign) BOOL animatesWhileScrolling;
 
 @end
 
