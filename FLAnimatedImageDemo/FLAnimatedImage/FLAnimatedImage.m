@@ -279,7 +279,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             return nil;
         } else if (self.frameCount == 1) {
             // Warn when we only have a single frame but return a valid GIF.
-            NSLog(@"Verbose: Created valid GIF but with only a single frame. Image properties: %@", imageProperties);
+//            NSLog(@"Verbose: Created valid GIF but with only a single frame. Image properties: %@", imageProperties);
         } else {
             // We have multiple frames, rock on!
         }
