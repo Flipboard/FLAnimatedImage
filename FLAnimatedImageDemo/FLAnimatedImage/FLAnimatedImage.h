@@ -11,6 +11,10 @@
 
 @protocol FLAnimatedImageDebugDelegate;
 
+typedef NS_ENUM(NSUInteger, FLAnimatedImageCacheDirection) {
+    FLAnimatedImageCacheDirectionForward = 0,              // 0 is the default for forward playback
+    FLAnimatedImageCacheDirectionReverse = 0,              // 1 is added so we can support reverse playback
+};
 
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.
