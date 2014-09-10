@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageCacheDirection) {
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeCurrent; // Current size of intelligently chosen buffer window; can range in the interval [1..frameCount]
 @property (nonatomic, assign) NSUInteger frameCacheSizeMax; // Allow to cap the cache size; 0 means no specific limit (default)
 
+@property (nonatomic, assign) FLAnimatedImageCacheDirection cacheDirection; // Support for forward / reverse playback. Defaults to FLAnimatedImageCacheDirectionForward
+
 // Intended to be called from main thread synchronously; will return immediately.
 // If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
 // After an initial loading time, depending on `frameCacheSize`, frames should be available immediately from the cache.

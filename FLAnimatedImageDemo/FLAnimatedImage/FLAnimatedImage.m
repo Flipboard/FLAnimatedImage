@@ -184,6 +184,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             return nil;
         }
         
+        // Initialize the cache direction (don't use overridden setter, avoids unnecesary logic)
+        _cacheDirection = FLAnimatedImageCacheDirectionForward;
+        
         // Get `LoopCount`
         // Note: 0 means repeating the animation indefinitely.
         // Image properties example:
@@ -684,6 +687,12 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return predrawnImage;
 }
 
+- (void)setCacheDirection:(FLAnimatedImageCacheDirection)cacheDirection
+{
+    _cacheDirection = cacheDirection;
+    
+    [self purgeFrameCacheIfNeeded];
+}
 
 #pragma mark - Description
 
