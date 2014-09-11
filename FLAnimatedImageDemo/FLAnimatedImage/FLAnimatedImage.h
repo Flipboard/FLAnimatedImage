@@ -13,7 +13,7 @@
 
 typedef NS_ENUM(NSUInteger, FLAnimatedImageCacheDirection) {
     FLAnimatedImageCacheDirectionForward = 0,              // 0 is the default for forward playback
-    FLAnimatedImageCacheDirectionReverse = 0,              // 1 is added so we can support reverse playback
+    FLAnimatedImageCacheDirectionReverse = 1,              // 1 is added so we can support reverse playback
 };
 
 //
