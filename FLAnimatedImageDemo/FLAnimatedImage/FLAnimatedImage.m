@@ -10,7 +10,6 @@
 #import "FLAnimatedImage.h"
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <CoreGraphics/CoreGraphics.h>
 
 
 // From vm_param.h, define for iOS 8.0 or higher to build on device.
