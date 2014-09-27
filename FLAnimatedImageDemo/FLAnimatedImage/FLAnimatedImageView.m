@@ -39,6 +39,8 @@
         if (animatedImage) {
             // Clear out the image.
             super.image = nil;
+            // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
+            [self invalidateIntrinsicContentSize];
         } else {
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
@@ -101,6 +103,21 @@
     } else {
         [self stopAnimating];
     }
+}
+
+#pragma mark Auto Layout
+
+- (CGSize)intrinsicContentSize
+{
+    // UIImageView's intrinsic content size seems to be the size of its image. The obvious approach, simply calling `-invalidateIntrinsicContentSize` when setting an animated image, results in UIImageView steadfastly returning `{UIViewNoIntrinsicMetric, UIViewNoIntrinsicMetric}` for its intrinsicContentSize. (Perhaps UIImageView bypasses its `-image` getter in its implementation of `-intrinsicContentSize`, as `-image` is not called after calling `-invalidateIntrinsicContentSize`.)
+    CGSize intrinsicContentSize;
+    if (self.animatedImage) {
+        intrinsicContentSize = self.image.size;
+    } else {
+        // Let UIImageView handle `images` versus `animatedImages`, and anything else it might consider.
+        intrinsicContentSize = [super intrinsicContentSize];
+    }
+    return intrinsicContentSize;
 }
 
 
