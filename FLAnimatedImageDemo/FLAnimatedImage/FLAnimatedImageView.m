@@ -68,6 +68,15 @@
 - (void)requestCurrentFrameIndex:(NSUInteger)currentFrameIndex
 {
   self.currentFrameIndex = currentFrameIndex;
+  UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
+  if (image)
+  {
+    self.currentFrame = image;
+    if (self.needsDisplayWhenImageBecomesAvailable) {
+      [self.layer setNeedsDisplay];
+      self.needsDisplayWhenImageBecomesAvailable = NO;
+    }
+  }
 }
 #pragma mark - Life Cycle
 
@@ -196,7 +205,6 @@
 {
     self.shouldAnimate = self.animatedImage && self.window && self.superview;
 }
-
 
 - (void)displayDidRefresh:(CADisplayLink *)displayLink
 {
