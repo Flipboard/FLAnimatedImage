@@ -641,8 +641,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     // "In iOS 4.0 and later, and OS X v10.6 and later, you can pass NULL if you want Quartz to allocate memory for the bitmap." (source: docs)
     void *data = NULL;
-    size_t width = imageToPredraw.size.width;
-    size_t height = imageToPredraw.size.height;
+    size_t width = imageToPredraw.size.width * imageToPredraw.scale;
+    size_t height = imageToPredraw.size.height * imageToPredraw.scale;
     size_t bitsPerComponent = CHAR_BIT;
     
     size_t bitsPerPixel = (bitsPerComponent * numberOfComponents);
@@ -675,9 +675,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     }
     
     // Draw image in bitmap context and create image by preserving receiver's properties.
-    CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, imageToPredraw.size.width, imageToPredraw.size.height), imageToPredraw.CGImage);
+    CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, width, height), imageToPredraw.CGImage);
     CGImageRef predrawnImageRef = CGBitmapContextCreateImage(bitmapContextRef);
-    UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef];
+    UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef scale:imageToPredraw.scale orientation:imageToPredraw.imageOrientation];
     CGImageRelease(predrawnImageRef);
     CGContextRelease(bitmapContextRef);
     
