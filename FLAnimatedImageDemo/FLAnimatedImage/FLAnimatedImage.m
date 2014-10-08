@@ -382,7 +382,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     // Purge if needed based on the current playhead position.
     [self purgeFrameCacheIfNeeded];
-    
+  
     return image;
 }
 
@@ -677,7 +677,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // Draw image in bitmap context and create image by preserving receiver's properties.
     CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, imageToPredraw.size.width, imageToPredraw.size.height), imageToPredraw.CGImage);
     CGImageRef predrawnImageRef = CGBitmapContextCreateImage(bitmapContextRef);
-    UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef scale:imageToPredraw.scale orientation:imageToPredraw.imageOrientation];
+    UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef];
     CGImageRelease(predrawnImageRef);
     CGContextRelease(bitmapContextRef);
     
@@ -702,7 +702,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     return description;
 }
-
 
 @end
 
@@ -761,6 +760,4 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // See https://www.mikeash.com/pyblog/friday-qa-2010-02-26-futures.html and https://github.com/steipete/PSTDelegateProxy/issues/1 for examples of using a method signature cache.
     return [NSObject instanceMethodSignatureForSelector:@selector(init)];
 }
-
-
 @end
