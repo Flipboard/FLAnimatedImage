@@ -339,7 +339,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // Early return if the requested index is beyond bounds.
     // Note: We're comparing an index with a count and need to bail on greater than or equal to.
     if (index >= self.frameCount) {
-        NSLog(@"Error: Skipping requested frame %lu beyond bounds (total frame count: %lu) for animated image: %@", (unsigned long)index,  (unsigned long)self.frameCount, self);
+        NSLog(@"Error: Skipping requested frame %lu beyond bounds (total frame count: %lu) for animated image: %@", (unsigned long)index, (unsigned long)self.frameCount, self);
         return nil;
     }
     
