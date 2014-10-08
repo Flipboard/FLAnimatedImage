@@ -33,6 +33,8 @@
 @property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;
 #endif
 
+- (void)requestCurrentFrameIndex:(NSUInteger)currentFrameIndex;
+
 @end
 
 

@@ -65,7 +65,10 @@
     }
 }
 
-
+- (void)requestCurrentFrameIndex:(NSUInteger)currentFrameIndex
+{
+  self.currentFrameIndex = currentFrameIndex;
+}
 #pragma mark - Life Cycle
 
 - (void)dealloc
