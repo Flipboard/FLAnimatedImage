@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     CGImageSourceRef _imageSource;
     // Note: Only if the deployment target is iOS 6.0 or higher, dispatch objects are declared as "true objects" and participate in ARC, etc.; See <os/object.h> or https://github.com/AFNetworking/AFNetworking/pull/517 for details.
     dispatch_queue_t _serialQueue;
+  
+    CGFloat _scale;
 }
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeOptimal; // The optimal number of frames to cache based on image size & number of frames; never changes
@@ -144,8 +146,11 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return nil;
 }
 
-
 - (instancetype)initWithAnimatedGIFData:(NSData *)data
+{
+  return [self initWithAnimatedGIFData:data scale:1.f];
+}
+- (instancetype)initWithAnimatedGIFData:(NSData *)data scale:(CGFloat)scale
 {
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
@@ -161,6 +166,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         // Keep a strong reference to `data` and expose it read-only publicly.
         // However, we will use the `_imageSource` as handler to the image data throughout our life cycle.
         _data = data;
+        _scale = MAX(scale, 1.f);
         
         // Initialize internal data structures
         // We'll fill in the initial `NSNull` values below, when we loop through all frames.
@@ -203,7 +209,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         for (size_t i = 0; i < imageCount; i++) {
             CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
             if (frameImageRef) {
-                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
+                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef scale:_scale orientation:UIImageOrientationUp];
                 // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
                 if (frameImage) {
                     // Set poster image
@@ -482,7 +488,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 {
     // It's very important to use the cached `_imageSource` since the random access to a frame with `CGImageSourceCreateImageAtIndex` turns from an O(1) into an O(n) operation when re-initializing the image source every time.
     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(_imageSource, index, NULL);
-    UIImage *image = [UIImage imageWithCGImage:imageRef];
+  UIImage *image = [UIImage imageWithCGImage:imageRef scale:_scale orientation:UIImageOrientationUp];
     CFRelease(imageRef);
     
     // Loading in the image object is only half the work, the displaying image view would still have to synchronosly wait and decode the image, so we go ahead and do that here on the background thread.

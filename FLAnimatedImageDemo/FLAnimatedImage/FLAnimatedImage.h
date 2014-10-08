@@ -41,6 +41,7 @@
 // Designated initializer
 // On success, returns a new `FLAnimatedImage` with all fields populated, on failure returns `nil` and an error will be logged.
 - (instancetype)initWithAnimatedGIFData:(NSData *)data;
+- (instancetype)initWithAnimatedGIFData:(NSData *)data scale:(CGFloat)scale;
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 

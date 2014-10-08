@@ -56,11 +56,11 @@
     [self.view addSubview:self.imageView1];
     self.imageView1.frame = CGRectMake(0.0, 120.0, self.view.bounds.size.width, 447.0);
     
-    NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
+    NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock@2x" withExtension:@"gif"];
     NSData *data1 = [NSData dataWithContentsOfURL:url1];
-    FLAnimatedImage *animatedImage1 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data1];
+    FLAnimatedImage *animatedImage1 = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data1 scale:2.f];
     self.imageView1.animatedImage = animatedImage1;
-    
+  
     // 2
     if (!self.imageView2) {
         self.imageView2 = [[FLAnimatedImageView alloc] init];

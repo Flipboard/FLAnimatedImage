@@ -26,6 +26,7 @@
 		87CB5A131935A8C600620C16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0C1935A8C600620C16 /* main.m */; };
 		87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0E1935A8C600620C16 /* PlayheadView.m */; };
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
+		DC4799C019E5232B005349CE /* rock@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = DC4799BF19E5232B005349CE /* rock@2x.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		87CB5A0F1935A8C600620C16 /* RSPlayPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSPlayPauseButton.h; path = FLAnimatedImageDemo/RSPlayPauseButton.h; sourceTree = "<group>"; };
 		87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSPlayPauseButton.m; path = FLAnimatedImageDemo/RSPlayPauseButton.m; sourceTree = "<group>"; };
 		87CB5A171935A93F00620C16 /* FLAnimatedImageDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImageDemo-Prefix.pch"; path = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch"; sourceTree = "<group>"; };
+		DC4799BF19E5232B005349CE /* rock@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "rock@2x.gif"; path = "FLAnimatedImageDemo/test-gifs/rock@2x.gif"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 		8791BCBF191B2AAE00A846A5 /* test-gifs */ = {
 			isa = PBXGroup;
 			children = (
+				DC4799BF19E5232B005349CE /* rock@2x.gif */,
 				870D79D41936EBFC009D1BCE /* rock.gif */,
 			);
 			name = "test-gifs";
@@ -218,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC4799C019E5232B005349CE /* rock@2x.gif in Resources */,
 				8790E1171935ABDA00459BC1 /* Images.xcassets in Resources */,
 				870D79D51936EBFC009D1BCE /* rock.gif in Resources */,
 				87CB5A001935A83900620C16 /* InfoPlist.strings in Resources */,
