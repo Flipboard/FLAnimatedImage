@@ -35,34 +35,38 @@
 
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
 {
-    if (![_animatedImage isEqual:animatedImage]) {
-        if (animatedImage) {
-            // Clear out the image.
-            super.image = nil;
-        } else {
-            // Stop animating before the animated image gets cleared out.
-            [self stopAnimating];
-        }
-        
-        _animatedImage = animatedImage;
-        
-        self.currentFrame = animatedImage.posterImage;
-        self.currentFrameIndex = 0;
-        if (animatedImage.loopCount > 0) {
-            self.loopCountdown = animatedImage.loopCount;
-        } else {
-            self.loopCountdown = NSUIntegerMax;
-        }
-        self.accumulator = 0.0;
-        
-        // Start animating after the new animated image has been set.
-        [self updateShouldAnimate];
-        if (self.shouldAnimate) {
-            [self startAnimating];
-        }
-        
-        [self.layer setNeedsDisplay];
+    // If animated images are the same then return right away.
+    // `==` for nil case
+    if (_animatedImage == animatedImage || [_animatedImage isEqual:animatedImage]) {
+        return;
     }
+    
+    if (animatedImage) {
+        // Clear out the image.
+        super.image = nil;
+    } else {
+        // Stop animating before the animated image gets cleared out.
+        [self stopAnimating];
+    }
+    
+    _animatedImage = animatedImage;
+    
+    self.currentFrame = animatedImage.posterImage;
+    self.currentFrameIndex = 0;
+    if (animatedImage.loopCount > 0) {
+        self.loopCountdown = animatedImage.loopCount;
+    } else {
+        self.loopCountdown = NSUIntegerMax;
+    }
+    self.accumulator = 0.0;
+    
+    // Start animating after the new animated image has been set.
+    [self updateShouldAnimate];
+    if (self.shouldAnimate) {
+        [self startAnimating];
+    }
+    
+    [self.layer setNeedsDisplay];
 }
 
 
