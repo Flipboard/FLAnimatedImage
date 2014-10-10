@@ -127,6 +127,7 @@
         self.animatedImage = nil;
     }
     
+    self.layer.contents = (id)[image CGImage];
     super.image = image;
 }
 
