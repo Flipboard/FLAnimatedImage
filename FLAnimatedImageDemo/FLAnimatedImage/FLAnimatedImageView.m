@@ -41,6 +41,7 @@
             super.image = nil;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
             [self invalidateIntrinsicContentSize];
+            super.highlighted = NO;
         } else {
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
@@ -201,6 +202,17 @@
         isAnimating = [super isAnimating];
     }
     return isAnimating;
+}
+
+
+#pragma mark Highlighted Image Unsupport
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    // Highlighted image is unsupported for animated images, but implementing it breaks the image view when embedded in a UICollectionViewCell.
+    if (!self.animatedImage) {
+        [super setHighlighted:highlighted];
+    }
 }
 
 
