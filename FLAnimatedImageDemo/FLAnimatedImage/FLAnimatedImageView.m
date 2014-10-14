@@ -249,7 +249,7 @@
 
 - (void)displayLayer:(CALayer *)layer
 {
-    layer.contents = (__bridge id)self.currentFrame.CGImage;
+    layer.contents = (__bridge id)self.image.CGImage;
 }
 
 
