@@ -200,14 +200,14 @@
     // If for some reason a wild call makes it through when we shouldn't be animating, bail.
     // Early return!
     if (!self.shouldAnimate) {
-        NSLog(@"Warn: Trying to animate image when we shouldn't: %@", self);
+        FLLogWarn(@"Trying to animate image when we shouldn't: %@", self);
         return;
     }
     
     // If we have a nil image, don't update the view nor playhead.
     UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
     if (image) {
-        //NSLog(@"Verbose: Showing frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
+        FLLogVerbose(@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
         self.currentFrame = image;
         if (self.needsDisplayWhenImageBecomesAvailable) {
             [self.layer setNeedsDisplay];
@@ -234,7 +234,7 @@
             self.needsDisplayWhenImageBecomesAvailable = YES;
         }
     } else {
-        //NSLog(@"Verbose: Waiting for frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
+        FLLogDebug(@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
 #if DEBUG
         if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
             [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];

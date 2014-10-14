@@ -46,6 +46,8 @@ It's flexible to integrate in your custom image loading stack and backwards comp
 
 It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreServices`, and `CoreGraphics`.
 
+It has fine-grained logging. By default, it uses NSLog. However, if your project uses [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack), it automatically can detect that and use CocoaLumberjack to send logs to the configured output.
+
 Since FLAnimatedImage is licensed under MIT it's compatible with the terms of using it for any app on the App Store.
 
 ## To Do
