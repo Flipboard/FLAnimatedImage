@@ -39,9 +39,10 @@
         if (animatedImage) {
             // Clear out the image.
             super.image = nil;
+            // Ensure disabled highlighting; it's not supported (see `-setHighlighted:`).
+            super.highlighted = NO;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
             [self invalidateIntrinsicContentSize];
-            super.highlighted = NO;
         } else {
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
