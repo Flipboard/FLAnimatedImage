@@ -130,19 +130,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 }
 
 
-// Explicit synthesizing for `readonly` property with overridden getter.
-@synthesize weakProxy = _weakProxy;
-
-- (FLAnimatedImage *)weakProxy
-{
-    if (!_weakProxy) {
-        _weakProxy = (id)[FLWeakProxy weakProxyForObject:self];
-    }
-    
-    return _weakProxy;
-}
-
-
 #pragma mark - Life Cycle
 
 - (id)init
@@ -308,6 +295,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         
         // Convenience/minor performance optimization; keep an index set handy with the full range to return in `-frameIndexesToCache`.
         _allFramesIndexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, self.frameCount)];
+        
+        _weakProxy = (id)[FLWeakProxy weakProxyForObject:self];
         
         // System Memory Warnings Notification Handler
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -583,19 +572,21 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 - (void)didReceiveMemoryWarning:(NSNotification *)notification
 {
-    // Hold (and use!) a strong reference to self, since `NSNotificationCenter` no longer strongly references the observer.
-    // This is another example of the lame fallout from the LLVM change in Xcode 5.1.
-    FLAnimatedImage *strongSelf = self;
+    // Bail when the weak reference to self is nil'ed out by the weak system.
+    // This indicates that we're already being deallocated on another thread and shouldn't do anymore work here.
+    if (!self.weakProxy) {
+        return;
+    }
     
-    strongSelf.memoryWarningCount++;
+    self.memoryWarningCount++;
     
     // If we were about to grow larger, but got rapped on our knuckles by the system again, cancel.
-    [NSObject cancelPreviousPerformRequestsWithTarget:strongSelf.weakProxy selector:@selector(growFrameCacheSizeAfterMemoryWarning:) object:@(FLAnimatedImageFrameCacheSizeGrowAfterMemoryWarning)];
-    [NSObject cancelPreviousPerformRequestsWithTarget:strongSelf.weakProxy selector:@selector(resetFrameCacheSizeMaxInternal) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.weakProxy selector:@selector(growFrameCacheSizeAfterMemoryWarning:) object:@(FLAnimatedImageFrameCacheSizeGrowAfterMemoryWarning)];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self.weakProxy selector:@selector(resetFrameCacheSizeMaxInternal) object:nil];
     
     // Go down to the minimum and by that implicitly immediately purge from the cache if needed to not get jettisoned by the system and start producing frames on-demand.
-    FLLogDebug(@"Attempt setting frame cache size max to %lu (previous was %lu) after memory warning #%lu for animated image: %@", (unsigned long)FLAnimatedImageFrameCacheSizeLowMemory, (unsigned long)strongSelf.frameCacheSizeMaxInternal, (unsigned long)strongSelf.memoryWarningCount, strongSelf);
-    strongSelf.frameCacheSizeMaxInternal = FLAnimatedImageFrameCacheSizeLowMemory;
+    FLLogDebug(@"Attempt setting frame cache size max to %lu (previous was %lu) after memory warning #%lu for animated image: %@", (unsigned long)FLAnimatedImageFrameCacheSizeLowMemory, (unsigned long)self.frameCacheSizeMaxInternal, (unsigned long)self.memoryWarningCount, self);
+    self.frameCacheSizeMaxInternal = FLAnimatedImageFrameCacheSizeLowMemory;
     
     // Schedule growing larger again after a while, but cap our attempts to prevent a periodic sawtooth wave (ramps upward and then sharply drops) of memory usage.
     //
@@ -611,8 +602,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     //
     const NSUInteger kGrowAttemptsMax = 2;
     const NSTimeInterval kGrowDelay = 2.0;
-    if ((strongSelf.memoryWarningCount - 1) <= kGrowAttemptsMax) {
-        [strongSelf.weakProxy performSelector:@selector(growFrameCacheSizeAfterMemoryWarning:) withObject:@(FLAnimatedImageFrameCacheSizeGrowAfterMemoryWarning) afterDelay:kGrowDelay];
+    if ((self.memoryWarningCount - 1) <= kGrowAttemptsMax) {
+        [self.weakProxy performSelector:@selector(growFrameCacheSizeAfterMemoryWarning:) withObject:@(FLAnimatedImageFrameCacheSizeGrowAfterMemoryWarning) afterDelay:kGrowDelay];
     }
     
     // Note: It's not possible to get the level of a memory warning with a public API: http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean/2915477#2915477
