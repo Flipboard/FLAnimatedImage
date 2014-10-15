@@ -10,7 +10,6 @@
 #import "FLAnimatedImage.h"
 #import <ImageIO/ImageIO.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <CoreGraphics/CoreGraphics.h>
 
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
