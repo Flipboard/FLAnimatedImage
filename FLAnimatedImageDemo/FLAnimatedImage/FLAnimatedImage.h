@@ -80,24 +80,29 @@
 #endif
 
 
-// Try to detect and import CocoaLumberjack in all scenarious.
+#if COCOAPODS_VERSION_MAJOR_CocoaLumberjack == 2
+#endif
+// Try to detect and import CocoaLumberjack in all scenarious (library versions, way of including it, CocoaPods versions, etc.).
 #if FLLumberjackIntegrationEnabled
     #if defined(__has_include)
         #if __has_include("<CocoaLumberjack/CocoaLumberjack.h>")
-            // CocoaLumberjack is installed via CocoaPods.
-            #include <CocoaLumberjack/CocoaLumberjack.h>
-            #define FLLumberjackAvailable
+            #import <CocoaLumberjack/CocoaLumberjack.h>
         #elif __has_include("CocoaLumberjack.h")
-            // CocoaLumberjack is otherwise available in the project.
-            #include "CocoaLumberjack.h"
-            #define FLLumberjackAvailable
+            #import "CocoaLumberjack.h"
+        #elif __has_include("<CocoaLumberjack/DDLog.h>")
+            #import <CocoaLumberjack/DDLog.h>
+        #elif __has_include("DDLog.h")
+            #import "DDLog.h"
         #endif
     #elif defined(COCOAPODS_POD_AVAILABLE_CocoaLumberjack) || defined(__POD_CocoaLumberjack)
-        // CocoaLumberjack is installed via CocoaPods.
-        #import <CocoaLumberjack/CocoaLumberjack.h>
-        #define FLLumberjackAvailable
-    #elif defined(LOG_VERBOSE)
-        // CocoaLumberjack is otherwise available in the project and already imported.
+        #if COCOAPODS_VERSION_MAJOR_CocoaLumberjack == 2
+            #import <CocoaLumberjack/CocoaLumberjack.h>
+        #else
+            #import <CocoaLumberjack/DDLog.h>
+        #endif
+    #endif
+
+    #if defined(DDLogError) && defined(DDLogWarn) && defined(DDLogInfo) && defined(DDLogDebug) && defined(DDLogVerbose)
         #define FLLumberjackAvailable
     #endif
 #endif
