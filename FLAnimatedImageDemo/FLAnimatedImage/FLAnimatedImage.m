@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 // The weak proxy is used to break retain cycles with delayed actions from memory warnings.
 // We are lying about the actual type here to gain static type checking and eliminate casts.
-// The actual type of the object is `FLWeakProxy`. Lazily instantiated since it is not typically needed.
+// The actual type of the object is `FLWeakProxy`.
 @property (nonatomic, strong, readonly) FLAnimatedImage *weakProxy;
 
 @end
