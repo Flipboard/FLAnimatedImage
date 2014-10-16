@@ -68,6 +68,11 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 // The actual type of the object is `FLWeakProxy`.
 @property (nonatomic, strong, readonly) FLAnimatedImage *weakProxy;
 
+// The weak self is used to prevent handling memory warning notifications (on the main thread),
+// when the object already entered dealloc (on a background thread) and hence would crash there.
+// We leverage the fact that the weak system guarantees to nil-out this reference before entering dealloc.
+@property (nonatomic, weak, readonly) FLAnimatedImage *weakSelf;
+
 @end
 
 
@@ -296,7 +301,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         // Convenience/minor performance optimization; keep an index set handy with the full range to return in `-frameIndexesToCache`.
         _allFramesIndexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, self.frameCount)];
         
+        // See the property declarations for descriptions.
         _weakProxy = (id)[FLWeakProxy weakProxyForObject:self];
+        _weakSelf = self;
         
         // System Memory Warnings Notification Handler
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
@@ -574,7 +581,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 {
     // Bail when the weak reference to self is nil'ed out by the weak system.
     // This indicates that we're already being deallocated on another thread and shouldn't do anymore work here.
-    if (!self.weakProxy) {
+    if (!self.weakSelf) {
         return;
     }
     
