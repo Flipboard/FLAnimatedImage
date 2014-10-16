@@ -32,7 +32,7 @@ To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimat
 pod 'FLAnimatedImage', '~> 1.0'
 ```
 
-In your code, `#import "FLAnimatedImage.h"` and `#import "FLAnimatedImageView.h"` and then create an image from an animated GIF and setup the image view to display it:
+In your code, `#import "FLAnimatedImage.h"`, create an image from an animated GIF, and setup the image view to display it:
 
 ```objective-c
 FLAnimatedImage *image = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"]]];
