@@ -14,7 +14,7 @@ It's a well-tested [component that powers all GIFs in Flipboard](http://engineer
 
 - Apps that don't support animated GIFs yet
 - Apps that already support animated GIFs but want a higher performance solution
-- People who want to tinker with the code ([the corresponding blog post](http://engineering.flipboard.com/2014/05/animated-gif/) is a great place to start; also see the "To Do" section below)
+- People who want to tinker with the code ([the corresponding blog post](http://engineering.flipboard.com/2014/05/animated-gif/) is a great place to start; also see the *To Do* section below)
 
 ## Installation & Usage
 
@@ -48,16 +48,24 @@ It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreService
 
 It has fine-grained logging. By default, it uses NSLog. However, if your project uses [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack), it automatically can detect that and use CocoaLumberjack to send logs to the configured output.
 
-Since FLAnimatedImage is licensed under MIT it's compatible with the terms of using it for any app on the App Store.
+Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of using it for any app on the App Store.
 
 ## To Do
 - Support other animated image formats such as APNG or WebP
 - Integration into network libraries and image caches
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
-- `UIScrollView` support
 - Smarter buffering
 - Bring demo app to iOS 5 and iPhone
 
-This has shipped to many people and since mid 2013 we made many tweaks. But it's a version 1.0, so please come with your questions, issues and pull requests.
+This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
 Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) for further help.
+
+## Apps using FLAnimatedImage
+- [Dropbox](https://www.dropbox.com)
+- [LiveBooth](http://www.liveboothapp.com)
+- [Design Shots](https://itunes.apple.com/us/app/design-shots-dribbble-client/id792517951)
+- [lWlVl Festival](http://lwlvl.com)
+- [Flipboard](https://flipboard.com)
+
+Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
