@@ -63,6 +63,7 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 
 ## Apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
+- [Medium](https://medium.com)
 - [LiveBooth](http://www.liveboothapp.com)
 - [Design Shots](https://itunes.apple.com/us/app/design-shots-dribbble-client/id792517951)
 - [lWlVl Festival](http://lwlvl.com)
