@@ -17,9 +17,14 @@
 
 // Logging
 // If set to 0, disables integration with CocoaLumberjack Logger (only matters if CocoaLumberjack is installed).
-#define FLLumberjackIntegrationEnabled 1
+#ifndef FLLumberjackIntegrationEnabled
+    #define FLLumberjackIntegrationEnabled 1
+#endif
+
 // If set to 1, enables NSLog logging (only matters #if DEBUG -- never for release builds).
-#define FLDebugLoggingEnabled 0
+#ifndef FLDebugLoggingEnabled
+    #define FLDebugLoggingEnabled 0
+#endif
 
 
 //
