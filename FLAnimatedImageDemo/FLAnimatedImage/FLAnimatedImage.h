@@ -32,6 +32,7 @@
 
 @property (nonatomic, strong, readonly) UIImage *posterImage; // Guaranteed to be loaded; usually equivalent to `-imageLazilyCachedAtIndex:0`
 @property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
+@property (nonatomic, assign, readonly) NSUInteger posterImageFrameIndex; // Index of always-available poster image; never changes
 
 @property (nonatomic, assign, readonly) NSUInteger loopCount; // 0 means repeating the animation indefinitely
 @property (nonatomic, strong, readonly) NSArray *delayTimes; // Of type `NSTimeInterval` boxed in `NSNumber`s
@@ -43,6 +44,7 @@
 // Intended to be called from main thread synchronously; will return immediately.
 // If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
 // After an initial loading time, depending on `frameCacheSize`, frames should be available immediately from the cache.
+// If the frame is corrupt, returns `NSNull`.
 - (UIImage *)imageLazilyCachedAtIndex:(NSUInteger)index;
 
 // Pass either a `UIImage` or an `FLAnimatedImage` and get back its size
