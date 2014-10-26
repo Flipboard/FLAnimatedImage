@@ -64,12 +64,29 @@
         if (self.shouldAnimate) {
             [self startAnimating];
         }
+      
+        if (animatedImage)
+        {
+          self.contentScaleFactor = animatedImage.posterImage.scale;
+        }
         
         [self.layer setNeedsDisplay];
     }
 }
 
-
+- (void)requestCurrentFrameIndex:(NSUInteger)currentFrameIndex
+{
+  self.currentFrameIndex = currentFrameIndex;
+  UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
+  if (image)
+  {
+    self.currentFrame = image;
+    if (self.needsDisplayWhenImageBecomesAvailable) {
+      [self.layer setNeedsDisplay];
+      self.needsDisplayWhenImageBecomesAvailable = NO;
+    }
+  }
+}
 #pragma mark - Life Cycle
 
 - (void)dealloc
@@ -226,7 +243,6 @@
 {
     self.shouldAnimate = self.animatedImage && self.window && self.superview;
 }
-
 
 - (void)displayDidRefresh:(CADisplayLink *)displayLink
 {

@@ -51,6 +51,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     CGImageSourceRef _imageSource;
     // Note: Only if the deployment target is iOS 6.0 or higher, dispatch objects are declared as "true objects" and participate in ARC, etc.; See <os/object.h> or https://github.com/AFNetworking/AFNetworking/pull/517 for details.
     dispatch_queue_t _serialQueue;
+  
+    CGFloat _scale;
 }
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeOptimal; // The optimal number of frames to cache based on image size & number of frames; never changes
@@ -143,8 +145,11 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     return nil;
 }
 
-
 - (instancetype)initWithAnimatedGIFData:(NSData *)data
+{
+  return [self initWithAnimatedGIFData:data scale:1.f];
+}
+- (instancetype)initWithAnimatedGIFData:(NSData *)data scale:(CGFloat)scale
 {
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
@@ -160,6 +165,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         // Keep a strong reference to `data` and expose it read-only publicly.
         // However, we will use the `_imageSource` as handler to the image data throughout our life cycle.
         _data = data;
+        _scale = MAX(scale, 1.f);
         
         // Initialize internal data structures
         // We'll fill in the initial `NSNull` values below, when we loop through all frames.
@@ -202,7 +208,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         for (size_t i = 0; i < imageCount; i++) {
             CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
             if (frameImageRef) {
-                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
+                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef scale:_scale orientation:UIImageOrientationUp];
                 // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
                 if (frameImage) {
                     // Set poster image
@@ -379,7 +385,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     // Purge if needed based on the current playhead position.
     [self purgeFrameCacheIfNeeded];
-    
+  
     return image;
 }
 
@@ -485,7 +491,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 {
     // It's very important to use the cached `_imageSource` since the random access to a frame with `CGImageSourceCreateImageAtIndex` turns from an O(1) into an O(n) operation when re-initializing the image source every time.
     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(_imageSource, index, NULL);
-    UIImage *image = [UIImage imageWithCGImage:imageRef];
+  UIImage *image = [UIImage imageWithCGImage:imageRef scale:_scale orientation:UIImageOrientationUp];
     CFRelease(imageRef);
     
     // Loading in the image object is only half the work, the displaying image view would still have to synchronosly wait and decode the image, so we go ahead and do that here on the background thread.
@@ -640,8 +646,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     // "In iOS 4.0 and later, and OS X v10.6 and later, you can pass NULL if you want Quartz to allocate memory for the bitmap." (source: docs)
     void *data = NULL;
-    size_t width = imageToPredraw.size.width;
-    size_t height = imageToPredraw.size.height;
+    size_t width = imageToPredraw.size.width * imageToPredraw.scale;
+    size_t height = imageToPredraw.size.height * imageToPredraw.scale;
     size_t bitsPerComponent = CHAR_BIT;
     
     size_t bitsPerPixel = (bitsPerComponent * numberOfComponents);
@@ -674,7 +680,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     }
     
     // Draw image in bitmap context and create image by preserving receiver's properties.
-    CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, imageToPredraw.size.width, imageToPredraw.size.height), imageToPredraw.CGImage);
+    CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, width, height), imageToPredraw.CGImage);
     CGImageRef predrawnImageRef = CGBitmapContextCreateImage(bitmapContextRef);
     UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef scale:imageToPredraw.scale orientation:imageToPredraw.imageOrientation];
     CGImageRelease(predrawnImageRef);
@@ -701,7 +707,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     
     return description;
 }
-
 
 @end
 
@@ -760,6 +765,4 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     // See https://www.mikeash.com/pyblog/friday-qa-2010-02-26-futures.html and https://github.com/steipete/PSTDelegateProxy/issues/1 for examples of using a method signature cache.
     return [NSObject instanceMethodSignatureForSelector:@selector(init)];
 }
-
-
 @end
