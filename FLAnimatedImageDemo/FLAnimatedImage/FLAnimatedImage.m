@@ -12,14 +12,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 
-#if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
-    #if DEBUG
-        const int ddLogLevel = LOG_LEVEL_DEBUG;
-    #else
-        const int ddLogLevel = LOG_LEVEL_WARN;
-    #endif
-#endif
-
 // From vm_param.h, define for iOS 8.0 or higher to build on device.
 #ifndef BYTE_SIZE
 #define BYTE_SIZE 8 // byte size in bits
@@ -136,6 +128,22 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 
 #pragma mark - Life Cycle
+
++ (void)initialize
+{
+    // Protect from potential multiple calls if subclassed.
+    if (self == [FLAnimatedImage self]) {
+        // Set log level of our per-file copy of static `ddLogLevel` variable.
+        #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
+            #if DEBUG
+                ddLogLevel = LOG_LEVEL_DEBUG;
+            #else
+                ddLogLevel = LOG_LEVEL_WARN;
+            #endif
+        #endif
+    }
+}
+
 
 - (id)init
 {

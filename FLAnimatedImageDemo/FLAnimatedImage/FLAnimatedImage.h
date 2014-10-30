@@ -115,7 +115,7 @@
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
     // Global log level for the whole library, not per-file.
-    extern const int ddLogLevel;
+    extern int ddLogLevel;
     #define FLLogError(...)   DDLogError(__VA_ARGS__)
     #define FLLogWarn(...)    DDLogWarn(__VA_ARGS__)
     #define FLLogInfo(...)    DDLogInfo(__VA_ARGS__)
