@@ -1,3 +1,9 @@
+= 1.0.3 (2014-10-29)
+
+  * Move to non-const ddLogLevel for better configurability of log level (Raphael Schaad)
+
+  * Allow FLLumberjackIntegrationEnabled and FLDebugLoggingEnabled to be configured externally (Vinicius Baggio Fuentes)
+
 = 1.0.2 (2014-10-21)
 
   * Move to #import single header FLAnimatedImage.h (Raphael Schaad)
