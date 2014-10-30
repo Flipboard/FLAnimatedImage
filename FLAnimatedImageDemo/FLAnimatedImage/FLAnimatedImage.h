@@ -88,8 +88,6 @@
 #endif
 
 
-#if COCOAPODS_VERSION_MAJOR_CocoaLumberjack == 2
-#endif
 // Try to detect and import CocoaLumberjack in all scenarious (library versions, way of including it, CocoaPods versions, etc.).
 #if FLLumberjackIntegrationEnabled
     #if defined(__has_include)
