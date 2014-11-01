@@ -114,8 +114,11 @@
 #endif
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
+    // Use a custom log level for this library.
+    #undef LOG_LEVEL_DEF
+    #define LOG_LEVEL_DEF flAnimatedImageLogLevel
     // Global log level for the whole library, not per-file.
-    extern int ddLogLevel;
+    extern int flAnimatedImageLogLevel;
     #define FLLogError(...)   DDLogError(__VA_ARGS__)
     #define FLLogWarn(...)    DDLogWarn(__VA_ARGS__)
     #define FLLogInfo(...)    DDLogInfo(__VA_ARGS__)

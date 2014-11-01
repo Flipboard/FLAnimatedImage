@@ -19,6 +19,14 @@
 
 #define MEGABYTE (1024 * 1024)
 
+#if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
+    #if DEBUG
+        int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
+    #else
+        int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
+    #endif
+#endif
+
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
@@ -128,22 +136,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 
 #pragma mark - Life Cycle
-
-+ (void)initialize
-{
-    // Protect from potential multiple calls if subclassed.
-    if (self == [FLAnimatedImage self]) {
-        // Set log level of our per-file copy of static `ddLogLevel` variable.
-        #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
-            #if DEBUG
-                ddLogLevel = LOG_LEVEL_DEBUG;
-            #else
-                ddLogLevel = LOG_LEVEL_WARN;
-            #endif
-        #endif
-    }
-}
-
 
 - (id)init
 {
