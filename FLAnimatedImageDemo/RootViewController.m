@@ -9,7 +9,6 @@
 
 #import "RootViewController.h"
 #import "FLAnimatedImage.h"
-#import "FLAnimatedImageView.h"
 #import "DebugView.h"
 
 
