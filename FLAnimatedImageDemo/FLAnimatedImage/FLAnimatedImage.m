@@ -315,6 +315,13 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 }
 
 
++ (instancetype)animatedImageWithGIFData:(NSData *)data
+{
+    FLAnimatedImage *animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+    return animatedImage;
+}
+
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
