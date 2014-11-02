@@ -35,7 +35,7 @@ pod 'FLAnimatedImage', '~> 1.0'
 In your code, `#import "FLAnimatedImage.h"`, create an image from an animated GIF, and setup the image view to display it:
 
 ```objective-c
-FLAnimatedImage *image = [[FLAnimatedImage alloc] initWithAnimatedGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"]]];
+FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"]]];
 FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
 imageView.animatedImage = image;
 imageView.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
