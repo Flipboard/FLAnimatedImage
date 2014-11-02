@@ -137,10 +137,13 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 #pragma mark - Life Cycle
 
-- (id)init
+- (instancetype)init
 {
-    FLLogError(@"Use `-initWithAnimatedGIFData:` and supply the animated GIF data as an argument to initialize an object of type `FLAnimatedImage`.");
-    return nil;
+    FLAnimatedImage *animatedImage = [self initWithAnimatedGIFData:nil];
+    if (!animatedImage) {
+        FLLogError(@"Use `-initWithAnimatedGIFData:` and supply the animated GIF data as an argument to initialize an object of type `FLAnimatedImage`.");
+    }
+    return animatedImage;
 }
 
 

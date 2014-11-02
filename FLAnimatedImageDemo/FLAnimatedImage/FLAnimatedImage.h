@@ -27,6 +27,15 @@
 #endif
 
 
+#ifndef NS_DESIGNATED_INITIALIZER
+    #if __has_attribute(objc_designated_initializer)
+        #define NS_DESIGNATED_INITIALIZER __attribute((objc_designated_initializer))
+    #else
+        #define NS_DESIGNATED_INITIALIZER
+    #endif
+#endif
+
+
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.
 //  It subclasses `NSObject` and not `UIImage` because it's only an "image" in the sense that a sea lion is a lion.
@@ -53,9 +62,9 @@
 // Pass either a `UIImage` or an `FLAnimatedImage` and get back its size
 + (CGSize)sizeForImage:(id)image;
 
-// Designated initializer
 // On success, returns a new `FLAnimatedImage` with all fields populated, on failure returns `nil` and an error will be logged.
 - (instancetype)initWithAnimatedGIFData:(NSData *)data;
+- (instancetype)initWithAnimatedGIFData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
