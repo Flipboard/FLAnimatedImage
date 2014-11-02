@@ -1,3 +1,9 @@
+= 1.0.4 (2014-11-01)
+
+  * Add convenience initializer `+animatedImageWithGIFData:` and improve existing initialization semantics (Raphael Schaad)
+
+  * Use custom CocoaLumberjack log level to avoid `ddLogLevel` re-definition (or lack of definition) issues (Raphael Schaad)
+
 = 1.0.3 (2014-10-29)
 
   * Move to non-const ddLogLevel for better configurability of log level (Raphael Schaad)
