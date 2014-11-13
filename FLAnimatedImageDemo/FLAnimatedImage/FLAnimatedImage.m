@@ -23,7 +23,7 @@
     #if DEBUG
         int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
     #else
-        int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
+        int flAnimatedImageLogLevel = LOG_LEVEL_ERROR;
     #endif
 #endif
 
