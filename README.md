@@ -69,4 +69,7 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [lWlVl Festival](http://lwlvl.com)
 - [Flipboard](https://flipboard.com)
 
+## Libraries using FLAnimatedImage
+- [KIChameleonView](https://github.com/kaiinui/KIChameleonView)
+
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
