@@ -21,7 +21,7 @@
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
     #if DEBUG
-        int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
+        int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
     #else
         int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
     #endif
