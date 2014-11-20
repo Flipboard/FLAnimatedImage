@@ -166,13 +166,16 @@
             // link which will lead to the deallocation of both the display link and the weak proxy.
             FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
             self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
+            
+            NSString *mode = NSDefaultRunLoopMode;
             // Enable playback during scrolling by allowing timer events (i.e. animation) with `NSRunLoopCommonModes`.
             // But too keep scrolling smooth, only do this for hardware with more than one core and otherwise keep it at the default `NSDefaultRunLoopMode`.
             // The only devices (supporting iOS 5+) with single-core chips are iPhone 3GS and 4, iPod Touch 3rd and 4th gen, and iPad 1st gen.
             // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
             if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
-                [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+                mode = NSRunLoopCommonModes;
             }
+            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
             
             // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
             // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
