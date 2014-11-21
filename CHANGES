@@ -1,3 +1,7 @@
+= 1.0.6 (2014-11-20)
+
+  * Decouple project and library CocoaLumberjack log levels (Raphael Schaad)
+
 = 1.0.5 (2014-11-20)
 
   * Fix regression from v1.0.2 that prevented animation on single-core devices iPhone 3GS and 4, iPod Touch 3rd and 4th gen, and iPad 1st gen (Raphael Schaad)
