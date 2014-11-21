@@ -21,9 +21,17 @@
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
     #if DEBUG
-        int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
+        #if defined (LOG_LEVEL_DEBUG) // CocoaLumberjack 1.x
+            int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
+        #else // CocoaLumberjack 2.x
+            int flAnimatedImageLogLevel = DDLogFlagDebug;
+        #endif
     #else
-        int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
+        #if defined (LOG_LEVEL_WARN) // CocoaLumberjack 1.x
+            int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
+        #else // CocoaLumberjack 2.x
+            int flAnimatedImageLogLevel = DDLogFlagWarning;
+        #endif
     #endif
 #endif
 
