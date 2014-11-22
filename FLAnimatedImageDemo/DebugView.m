@@ -48,6 +48,12 @@
 }
 
 
+- (CGFloat)frameCacheViewHeight
+{
+    return [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? CGRectGetHeight(self.playPauseButton.frame) : 12.0;
+}
+
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -57,7 +63,7 @@
     if (!self.gradientLayer) {
         self.gradientLayer = [CAGradientLayer layer];
         self.gradientLayer.colors = @[(__bridge id)[UIColor colorWithWhite:0.0 alpha:0.85].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.0].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.0].CGColor, (__bridge id)[UIColor colorWithWhite:0.0 alpha:0.85].CGColor];
-        self.gradientLayer.locations = @[@0.0, @0.22, @0.78, @1.0];
+        self.gradientLayer.locations = @[@0.0, @0.5, @0.78, @1.0];
         [self.layer addSublayer:self.gradientLayer];
     }
     self.gradientLayer.frame = self.bounds;
@@ -70,25 +76,45 @@
     CGFloat memoryUsage = self.image.size.width * self.image.size.height * 4 * self.image.frameCount / 1024 / 1024;
     self.memoryUsageView.maxDataPoint = memoryUsage;
     self.memoryUsageView.shouldShowDescription = self.style == DebugViewStyleDefault;
-    CGFloat memoryUsageViewWidth = self.style == DebugViewStyleDefault ? 212.0 : 117.0;
-    self.memoryUsageView.frame = CGRectMake(kMargin, kMargin, memoryUsageViewWidth, 50.0);
+    CGFloat memoryUsageViewWidth = 0.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        memoryUsageViewWidth = self.style == DebugViewStyleDefault ? 212.0 : 117.0;
+    } else {
+        memoryUsageViewWidth = CGRectGetWidth(self.bounds) - 2 * kMargin;
+    }
+    CGFloat memoryUsageViewHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 50.0 : 24.0;
+    self.memoryUsageView.frame = CGRectMake(kMargin, kMargin, memoryUsageViewWidth, memoryUsageViewHeight);
     
     if (!self.frameDelayView) {
         self.frameDelayView = [[GraphView alloc] init];
         self.frameDelayView.style = GraphViewStyleFrameDelay;
         [self addSubview:self.frameDelayView];
     }
-        self.frameDelayView.numberOfDisplayedDataPoints = self.image.frameCount * 3;
+    self.frameDelayView.numberOfDisplayedDataPoints = self.image.frameCount * 3;
     self.frameDelayView.shouldShowDescription = self.style == DebugViewStyleDefault;
     CGFloat graphViewsSpacing = self.style == DebugViewStyleDefault ? 50.0 : 30.0;
-    CGFloat frameDelayViewWidth = self.style == DebugViewStyleDefault ? 204.0 : 126.0;
-    self.frameDelayView.frame = CGRectMake(CGRectGetMaxX(self.memoryUsageView.frame) + graphViewsSpacing, kMargin, frameDelayViewWidth, 50.0);
+    CGFloat frameDelayViewWidth = 0.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        frameDelayViewWidth = self.style == DebugViewStyleDefault ? 204.0 : 126.0;;
+    } else {
+        frameDelayViewWidth = CGRectGetWidth(self.bounds) - 2 * kMargin;
+    }
+    CGFloat frameDelayViewHeight = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 50.0 : 24.0;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.frameDelayView.frame = CGRectMake(CGRectGetMaxX(self.memoryUsageView.frame) + graphViewsSpacing, kMargin, frameDelayViewWidth, frameDelayViewHeight);
+    } else {
+        self.frameDelayView.frame = CGRectMake(CGRectGetMinX(self.memoryUsageView.frame), CGRectGetMaxY(self.memoryUsageView.frame) + kMargin, frameDelayViewWidth, frameDelayViewHeight);
+    }
     
     if (!self.playPauseButton) {
         self.playPauseButton = [[RSPlayPauseButton alloc] init];
         self.playPauseButton.paused = NO;
         CGRect frame = self.playPauseButton.frame;
-        frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin);
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+            frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin - [self frameCacheViewHeight] - 20.0);
+        } else {
+            frame.origin = CGPointMake(CGRectGetMaxX(self.bounds) - frame.size.width - kMargin, CGRectGetMaxY(self.bounds) - frame.size.height - kMargin);
+        }
         self.playPauseButton.frame = frame;
         self.playPauseButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
         self.playPauseButton.color = [UIColor colorWithWhite:0.8 alpha:1.0];
@@ -100,7 +126,13 @@
         self.frameCacheView = [[FrameCacheView alloc] init];
         [self addSubview:self.frameCacheView];
     }
-    self.frameCacheView.frame = CGRectMake(kMargin, self.playPauseButton.frame.origin.y, self.playPauseButton.frame.origin.x - 2 * kMargin, self.playPauseButton.frame.size.height);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        // On iPhone let the frame cache view extend the full width of the frame so that it's clearer
+        self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], CGRectGetWidth(self.bounds) - 2 * kMargin, [self frameCacheViewHeight]);
+    } else {
+        // On iPad it more aestetically pleasing if the play/pause button is on the right of it
+        self.frameCacheView.frame = CGRectMake(kMargin, CGRectGetHeight(self.bounds) - kMargin - [self frameCacheViewHeight], self.playPauseButton.frame.origin.x - 2 * kMargin, [self frameCacheViewHeight]);
+    }
     self.frameCacheView.image = self.image;
     
     if (!self.playheadView) {

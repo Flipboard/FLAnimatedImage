@@ -38,11 +38,14 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
     
-    self.titleLabel.frame = CGRectMake(18.0, 27.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
-    self.subtitleLabel.frame = CGRectMake(20.0, 74.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
-    self.memoryWarningButton.frame = CGRectMake(544.0, 69.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
+    CGSize titleLabelSize = [self.titleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.view.bounds) - 40.0, CGFLOAT_MAX)];
+    self.titleLabel.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - titleLabelSize.width / 2.0, 20.0, titleLabelSize.width, titleLabelSize.height);
     
+    CGSize subtitleLabelSize = [self.subtitleLabel sizeThatFits:CGSizeMake(CGRectGetWidth(self.view.bounds) - 40.0, CGFLOAT_MAX)];
+    self.subtitleLabel.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - subtitleLabelSize.width / 2.0, CGRectGetMaxY(self.titleLabel.frame) + 10.0, subtitleLabelSize.width, subtitleLabelSize.height);
     
+    [self.memoryWarningButton sizeToFit];
+    self.memoryWarningButton.center = CGPointMake(CGRectGetMidX(self.subtitleLabel.frame), CGRectGetMaxY(self.subtitleLabel.frame) + 10.0 + CGRectGetMidY(self.memoryWarningButton.bounds));
     
     // Setup the three `FLAnimatedImageView`s and load GIFs into them:
     
@@ -53,12 +56,13 @@
         self.imageView1.clipsToBounds = YES;
     }
     [self.view addSubview:self.imageView1];
-    self.imageView1.frame = CGRectMake(0.0, 120.0, self.view.bounds.size.width, 447.0);
     
     NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
     NSData *data1 = [NSData dataWithContentsOfURL:url1];
     FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data1];
     self.imageView1.animatedImage = animatedImage1;
+    
+    self.imageView1.frame = CGRectMake(0.0, MAX(CGRectGetMaxY(self.subtitleLabel.frame), CGRectGetMaxY(self.memoryWarningButton.frame)) + 10.0, self.view.bounds.size.width, self.view.bounds.size.width * (animatedImage1.size.height / animatedImage1.size.width));
     
     // 2
     if (!self.imageView2) {
@@ -67,7 +71,7 @@
         self.imageView2.clipsToBounds = YES;
     }
     [self.view addSubview:self.imageView2];
-    self.imageView2.frame = CGRectMake(0.0, 577.0, 379.0, 447.0);
+    self.imageView2.frame = CGRectMake(0.0, CGRectGetMaxY(self.imageView1.frame), CGRectGetWidth(self.view.bounds) / 2.0, CGRectGetMaxY(self.view.bounds) - CGRectGetMaxY(self.imageView1.frame));
     
     FLAnimatedImage * __block animatedImage2 = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -94,7 +98,7 @@
         self.imageView3.clipsToBounds = YES;
     }
     [self.view addSubview:self.imageView3];
-    self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
+    self.imageView3.frame = CGRectMake(CGRectGetMaxX(self.imageView2.frame), CGRectGetMaxY(self.imageView1.frame), CGRectGetMaxX(self.view.bounds) - CGRectGetMaxX(self.imageView2.frame), CGRectGetMaxY(self.view.bounds) - CGRectGetMaxY(self.imageView1.frame));
     
     FLAnimatedImage * __block animatedImage3 = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -133,7 +137,8 @@
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:31.0];
+        CGFloat fontSize = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 31.0 : 18.0;
+        _titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:fontSize];
         _titleLabel.textColor = [UIColor colorWithWhite:0.05 alpha:1.0];
         _titleLabel.text = @"FLAnimatedImage Demo Player";
         [_titleLabel sizeToFit];
@@ -149,9 +154,12 @@
 {
     if (!_subtitleLabel) {
         _subtitleLabel = [[UILabel alloc] init];
-        _subtitleLabel.font = [UIFont systemFontOfSize:17.0];
+        CGFloat fontSize = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 17.0 : 14.0;
+        _subtitleLabel.font = [UIFont systemFontOfSize:fontSize];
         _subtitleLabel.textColor = [UIColor colorWithWhite:0.05 alpha:1.0];
         _subtitleLabel.text = @"Cache sizes are optimized individually for each image.";
+        _subtitleLabel.numberOfLines = 0;
+        _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [_subtitleLabel sizeToFit];
     }
     _subtitleLabel.backgroundColor = self.view.backgroundColor;
@@ -165,7 +173,8 @@
 {
     if (!_memoryWarningButton) {
         _memoryWarningButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        _memoryWarningButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
+        CGFloat fontSize = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ? 17.0 : 14.0;
+        _memoryWarningButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
         _memoryWarningButton.tintColor = [UIColor colorWithRed:0.8 green:0.15 blue:0.15 alpha:1.0];
         [_memoryWarningButton setTitle:@"Simulate Memory Warning" forState:UIControlStateNormal];
         [_memoryWarningButton addTarget:[UIApplication sharedApplication] action:@selector(_performMemoryWarning) forControlEvents:UIControlEventTouchUpInside];
