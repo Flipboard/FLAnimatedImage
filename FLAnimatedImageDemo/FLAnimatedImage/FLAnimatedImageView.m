@@ -51,7 +51,7 @@
         _animatedImage = animatedImage;
         
         self.currentFrame = animatedImage.posterImage;
-        self.currentFrameIndex = 0;
+        self.currentFrameIndex = animatedImage.posterImageFrameIndex;
         if (animatedImage.loopCount > 0) {
             self.loopCountdown = animatedImage.loopCount;
         } else {
@@ -243,11 +243,15 @@
     // If we have a nil image, don't update the view nor playhead.
     UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
     if (image) {
-        FLLogVerbose(@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
-        self.currentFrame = image;
-        if (self.needsDisplayWhenImageBecomesAvailable) {
-            [self.layer setNeedsDisplay];
-            self.needsDisplayWhenImageBecomesAvailable = NO;
+        
+        // NSNull comes back when the frame is corrupt, so let's only show valid frames.
+        if ([image isKindOfClass:[UIImage class]]) {
+            FLLogVerbose(@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
+            self.currentFrame = image;
+            if (self.needsDisplayWhenImageBecomesAvailable) {
+                [self.layer setNeedsDisplay];
+                self.needsDisplayWhenImageBecomesAvailable = NO;
+            }
         }
         
         self.accumulator += displayLink.duration;
@@ -263,7 +267,7 @@
                     [self stopAnimating];
                     return;
                 }
-                self.currentFrameIndex = 0;
+                self.currentFrameIndex = self.animatedImage.posterImageFrameIndex;
             }
             // Calling `-setNeedsDisplay` will just paint the current frame, not the new frame that we may have moved to.
             // Instead, set `needsDisplayWhenImageBecomesAvailable` to `YES` -- this will paint the new image once loaded.
