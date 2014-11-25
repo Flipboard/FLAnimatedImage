@@ -7,13 +7,13 @@
 //
 
 
-#import "RootViewController.h"
+#import "ObjCViewController.h"
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 #import "DebugView.h"
 
 
-@interface RootViewController ()
+@interface ObjCViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
@@ -31,7 +31,7 @@
 @end
 
 
-@implementation RootViewController
+@implementation ObjCViewController
 
 - (void)viewWillAppear:(BOOL)animated
 {

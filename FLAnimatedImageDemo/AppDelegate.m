@@ -14,7 +14,7 @@
 @interface AppDelegate ()
 <UIApplicationDelegate>
 
-@property (nonatomic, strong) RootViewController *viewController;
+@property (nonatomic, strong) UINavigationController *viewController;
 
 @end
 
@@ -26,7 +26,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[RootViewController alloc] init];
+    self.viewController = [[UINavigationController alloc] initWithRootViewController:[[RootViewController alloc] init]];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

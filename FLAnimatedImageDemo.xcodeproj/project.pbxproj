@@ -16,7 +16,7 @@
 		872EBEBD178B8FA000B7531B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBEBC178B8FA000B7531B /* QuartzCore.framework */; };
 		8790E1171935ABDA00459BC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8790E1161935ABDA00459BC1 /* Images.xcassets */; };
 		87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59ED1935A7BB00620C16 /* AppDelegate.m */; };
-		87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59EF1935A7BB00620C16 /* RootViewController.m */; };
+		87CB59F11935A7BB00620C16 /* ObjCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59EF1935A7BB00620C16 /* ObjCViewController.m */; };
 		87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */; };
 		87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */; };
 		87CB5A001935A83900620C16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87CB59FE1935A83900620C16 /* InfoPlist.strings */; };
@@ -26,6 +26,10 @@
 		87CB5A131935A8C600620C16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0C1935A8C600620C16 /* main.m */; };
 		87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0E1935A8C600620C16 /* PlayheadView.m */; };
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
+		F71B00201A23F3A7000A057E /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F71B001F1A23F3A7000A057E /* RootViewController.m */; };
+		F71B00231A23F3B3000A057E /* SwiftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F71B00221A23F3B3000A057E /* SwiftViewController.m */; };
+		F7B3447A1A23FCFD0031954C /* AnimatedGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B344781A23FCFD0031954C /* AnimatedGif.swift */; };
+		F7B3447B1A23FCFD0031954C /* AnimatedGifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B344791A23FCFD0031954C /* AnimatedGifView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +44,8 @@
 		8790E1161935ABDA00459BC1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FLAnimatedImageDemo/Images.xcassets; sourceTree = "<group>"; };
 		87CB59EC1935A7BB00620C16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = FLAnimatedImageDemo/AppDelegate.h; sourceTree = "<group>"; };
 		87CB59ED1935A7BB00620C16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = FLAnimatedImageDemo/AppDelegate.m; sourceTree = "<group>"; };
-		87CB59EE1935A7BB00620C16 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = FLAnimatedImageDemo/RootViewController.h; sourceTree = "<group>"; };
-		87CB59EF1935A7BB00620C16 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = FLAnimatedImageDemo/RootViewController.m; sourceTree = "<group>"; };
+		87CB59EE1935A7BB00620C16 /* ObjCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjCViewController.h; path = FLAnimatedImageDemo/ObjCViewController.h; sourceTree = "<group>"; };
+		87CB59EF1935A7BB00620C16 /* ObjCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjCViewController.m; path = FLAnimatedImageDemo/ObjCViewController.m; sourceTree = "<group>"; };
 		87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = SOURCE_ROOT; };
 		87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = SOURCE_ROOT; };
 		87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = SOURCE_ROOT; };
@@ -60,6 +64,14 @@
 		87CB5A0F1935A8C600620C16 /* RSPlayPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSPlayPauseButton.h; path = FLAnimatedImageDemo/RSPlayPauseButton.h; sourceTree = "<group>"; };
 		87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSPlayPauseButton.m; path = FLAnimatedImageDemo/RSPlayPauseButton.m; sourceTree = "<group>"; };
 		87CB5A171935A93F00620C16 /* FLAnimatedImageDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImageDemo-Prefix.pch"; path = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch"; sourceTree = "<group>"; };
+		F71B001E1A23F3A7000A057E /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		F71B001F1A23F3A7000A057E /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		F71B00211A23F3B3000A057E /* SwiftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftViewController.h; sourceTree = "<group>"; };
+		F71B00221A23F3B3000A057E /* SwiftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwiftViewController.m; sourceTree = "<group>"; };
+		F7B344781A23FCFD0031954C /* AnimatedGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedGif.swift; path = FLAnimatedImageDemo/AnimatedGif.swift; sourceTree = SOURCE_ROOT; };
+		F7B344791A23FCFD0031954C /* AnimatedGifView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedGifView.swift; path = FLAnimatedImageDemo/AnimatedGifView.swift; sourceTree = SOURCE_ROOT; };
+		F7B3447D1A2408D70031954C /* FLAnimatedImageDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		F7F231E41A252E030087E32D /* DebugAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugAnimatedImage.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,8 +126,12 @@
 			children = (
 				87CB59EC1935A7BB00620C16 /* AppDelegate.h */,
 				87CB59ED1935A7BB00620C16 /* AppDelegate.m */,
-				87CB59EE1935A7BB00620C16 /* RootViewController.h */,
-				87CB59EF1935A7BB00620C16 /* RootViewController.m */,
+				F71B001E1A23F3A7000A057E /* RootViewController.h */,
+				F71B001F1A23F3A7000A057E /* RootViewController.m */,
+				F71B00211A23F3B3000A057E /* SwiftViewController.h */,
+				F71B00221A23F3B3000A057E /* SwiftViewController.m */,
+				87CB59EE1935A7BB00620C16 /* ObjCViewController.h */,
+				87CB59EF1935A7BB00620C16 /* ObjCViewController.m */,
 				8791BCB2191B2A8000A846A5 /* FLAnimatedImage */,
 				8791BCBF191B2AAE00A846A5 /* test-gifs */,
 				8790E1161935ABDA00459BC1 /* Images.xcassets */,
@@ -141,6 +157,7 @@
 				87CB5A0E1935A8C600620C16 /* PlayheadView.m */,
 				87CB5A0F1935A8C600620C16 /* RSPlayPauseButton.h */,
 				87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */,
+				F7B3447D1A2408D70031954C /* FLAnimatedImageDemo-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -148,10 +165,13 @@
 		8791BCB2191B2A8000A846A5 /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
+				F7B344781A23FCFD0031954C /* AnimatedGif.swift */,
+				F7B344791A23FCFD0031954C /* AnimatedGifView.swift */,
 				87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */,
 				87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */,
 				87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */,
 				87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */,
+				F7F231E41A252E030087E32D /* DebugAnimatedImage.h */,
 			);
 			name = FLAnimatedImage;
 			path = AnimatedImageDemo/FLAnimatedImage;
@@ -233,11 +253,15 @@
 			files = (
 				87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */,
 				87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */,
-				87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */,
+				87CB59F11935A7BB00620C16 /* ObjCViewController.m in Sources */,
 				87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */,
+				F7B3447A1A23FCFD0031954C /* AnimatedGif.swift in Sources */,
 				87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */,
 				87CB5A031935A84900620C16 /* DebugView.m in Sources */,
 				87CB5A121935A8C600620C16 /* GraphView.m in Sources */,
+				F71B00201A23F3A7000A057E /* RootViewController.m in Sources */,
+				F71B00231A23F3B3000A057E /* SwiftViewController.m in Sources */,
+				F7B3447B1A23FCFD0031954C /* AnimatedGifView.swift in Sources */,
 				87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */,
 				87CB5A131935A8C600620C16 /* main.m in Sources */,
 				87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */,
@@ -321,12 +345,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_NAME = FLAnimatedImageDemo;
+				SWIFT_OBJC_BRIDGING_HEADER = "FLAnimatedImageDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -336,12 +368,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_NAME = FLAnimatedImageDemo;
+				SWIFT_OBJC_BRIDGING_HEADER = "FLAnimatedImageDemo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 2;
+				WARNING_CFLAGS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

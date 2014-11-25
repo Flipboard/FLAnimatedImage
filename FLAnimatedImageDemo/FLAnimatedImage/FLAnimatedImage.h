@@ -8,9 +8,9 @@
 
 
 #import <Foundation/Foundation.h>
+#import "DebugAnimatedImage.h"
 
 @protocol FLAnimatedImageDebugDelegate;
-
 
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.
@@ -18,7 +18,7 @@
 //  It tries to intelligently choose the frame cache size depending on the image and memory situation with the goal to lower CPU usage for smaller ones, lower memory usage for larger ones and always deliver frames for high performant play-back.
 //  Note: `posterImage`, `size`, `loopCount`, `delayTimes` and `frameCount` don't change after successful initialization.
 //
-@interface FLAnimatedImage : NSObject
+@interface FLAnimatedImage : NSObject<DebugAnimatedImage>
 
 @property (nonatomic, strong, readonly) UIImage *posterImage; // Guaranteed to be loaded; usually equivalent to `-imageLazilyCachedAtIndex:0`
 @property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
@@ -65,9 +65,9 @@
 
 @optional
 
-- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache;
-- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index;
-- (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(FLAnimatedImage *)animatedImage;
+- (void)debug_animatedImage:(id)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache;
+- (void)debug_animatedImage:(id)animatedImage didRequestCachedFrame:(NSUInteger)index;
+- (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(id)animatedImage;
 
 @end
 #endif
