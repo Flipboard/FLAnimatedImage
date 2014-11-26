@@ -39,9 +39,9 @@
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
     
-    self.titleLabel.frame = CGRectMake(18.0, 27.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
-    self.subtitleLabel.frame = CGRectMake(20.0, 74.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
-    self.memoryWarningButton.frame = CGRectMake(544.0, 69.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
+    self.titleLabel.frame = CGRectMake(18.0, 50.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
+    self.subtitleLabel.frame = CGRectMake(20.0, 94.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
+    self.memoryWarningButton.frame = CGRectMake(544.0, 89.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
     
     
     
