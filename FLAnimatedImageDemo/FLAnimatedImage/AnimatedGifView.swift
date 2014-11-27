@@ -3,7 +3,6 @@
 //  AnimatedGIFViewDemo
 //
 //  Created by David Kasper on 9/21/14.
-//  Copyright (c) 2014 David Kasper. All rights reserved.
 //
 
 import UIKit

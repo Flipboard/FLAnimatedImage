@@ -1,3 +1,47 @@
+= 1.0.7 (2014-11-20)
+
+  * CocoaLumberjack 2.x-beta compatibility (Raphael Schaad)
+
+= 1.0.6 (2014-11-20)
+
+  * Decouple project and library CocoaLumberjack log levels (Raphael Schaad)
+
+= 1.0.5 (2014-11-20)
+
+  * Fix regression from v1.0.2 that prevented animation on single-core devices iPhone 3GS and 4, iPod Touch 3rd and 4th gen, and iPad 1st gen (Raphael Schaad)
+
+= 1.0.4 (2014-11-01)
+
+  * Add convenience initializer `+animatedImageWithGIFData:` and improve existing initialization semantics (Raphael Schaad)
+
+  * Use custom CocoaLumberjack log level to avoid `ddLogLevel` re-definition (or lack of definition) issues (Raphael Schaad)
+
+= 1.0.3 (2014-10-29)
+
+  * Move to non-const ddLogLevel for better configurability of log level (Raphael Schaad)
+
+  * Allow FLLumberjackIntegrationEnabled and FLDebugLoggingEnabled to be configured externally (Vinicius Baggio Fuentes)
+
+= 1.0.2 (2014-10-21)
+
+  * Move to #import single header FLAnimatedImage.h (Raphael Schaad)
+
+  * Fix potential crash during memory warning (Raphael Schaad, Ryan Olson)
+
+  * Import UIKit in FLAnimatedImage to allow omitting the prefix header and enabling its usage as Swift module (Nolan Waite)
+
+  * Fix issue where an animated image view would go black on receiving a touch inside a collection view cell/getting highlighted (Nolan Waite, Aditya KD)
+
+  * Support Auto Layout better by sizing the image view's correctly (Nolan Waite)
+
+  * Add CocoaLumberjack logging integration (Raphael Schaad)
+
+  * Fix issue where setting a still image didn't display when an animated image previously was displayed in the same view (Nikolai Sander)
+
+  * Enable continuous playback when scrolling in a UIScrollView (Raphael Schaad)
+
+  * In the demo project, make debug views work with async image loading. (Tim Johnsen)
+
 = 1.0.1 (2014-08-13)
 
  * Fix issue where the minimum frame delay time of 0.02s sometimes wasn't supported because of float rounding (Andrej Mihajlov)

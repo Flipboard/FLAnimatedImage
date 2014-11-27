@@ -3,7 +3,6 @@
 //  FLAnimatedImageDemo
 //
 //  Created by David Kasper on 11/24/14.
-//  Copyright (c) 2014 Flipboard. All rights reserved.
 //
 
 #import "RootViewController.h"
@@ -11,6 +10,7 @@
 #import "SwiftViewController.h"
 
 #define BUTTON_HEIGHT 20
+#define PADDING 10
 
 @interface RootViewController ()
 
@@ -40,8 +40,8 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.objCButton.frame = CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame), self.view.bounds.size.width, BUTTON_HEIGHT);
-    self.swiftButton.frame = CGRectMake(0, CGRectGetMaxY(self.objCButton.frame), self.view.bounds.size.width, BUTTON_HEIGHT);
+    self.objCButton.frame = CGRectMake(0, CGRectGetMaxY(self.navigationController.navigationBar.frame) + PADDING, self.view.bounds.size.width, BUTTON_HEIGHT);
+    self.swiftButton.frame = CGRectMake(0, CGRectGetMaxY(self.objCButton.frame) + PADDING, self.view.bounds.size.width, BUTTON_HEIGHT);
     
     [self.view addSubview:self.objCButton];
     [self.view addSubview:self.swiftButton];

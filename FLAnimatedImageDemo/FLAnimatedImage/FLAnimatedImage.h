@@ -7,10 +7,36 @@
 //
 
 
-#import <Foundation/Foundation.h>
+
+#import <UIKit/UIKit.h>
 #import "DebugAnimatedImage.h"
 
+// Allow user classes conveniently just importing one header.
+#import "FLAnimatedImageView.h"
+
 @protocol FLAnimatedImageDebugDelegate;
+
+
+// Logging
+// If set to 0, disables integration with CocoaLumberjack Logger (only matters if CocoaLumberjack is installed).
+#ifndef FLLumberjackIntegrationEnabled
+    #define FLLumberjackIntegrationEnabled 1
+#endif
+
+// If set to 1, enables NSLog logging (only matters #if DEBUG -- never for release builds).
+#ifndef FLDebugLoggingEnabled
+    #define FLDebugLoggingEnabled 0
+#endif
+
+
+#ifndef NS_DESIGNATED_INITIALIZER
+    #if __has_attribute(objc_designated_initializer)
+        #define NS_DESIGNATED_INITIALIZER __attribute((objc_designated_initializer))
+    #else
+        #define NS_DESIGNATED_INITIALIZER
+    #endif
+#endif
+
 
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.
@@ -38,9 +64,9 @@
 // Pass either a `UIImage` or an `FLAnimatedImage` and get back its size
 + (CGSize)sizeForImage:(id)image;
 
-// Designated initializer
-// On success, returns a new `FLAnimatedImage` with all fields populated, on failure returns `nil` and an error will be logged.
-- (instancetype)initWithAnimatedGIFData:(NSData *)data;
+// On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
+- (instancetype)initWithAnimatedGIFData:(NSData *)data NS_DESIGNATED_INITIALIZER;
++ (instancetype)animatedImageWithGIFData:(NSData *)data;
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
@@ -70,4 +96,61 @@
 - (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(id)animatedImage;
 
 @end
+#endif
+
+
+// Try to detect and import CocoaLumberjack in all scenarious (library versions, way of including it, CocoaPods versions, etc.).
+#if FLLumberjackIntegrationEnabled
+    #if defined(__has_include)
+        #if __has_include("<CocoaLumberjack/CocoaLumberjack.h>")
+            #import <CocoaLumberjack/CocoaLumberjack.h>
+        #elif __has_include("CocoaLumberjack.h")
+            #import "CocoaLumberjack.h"
+        #elif __has_include("<CocoaLumberjack/DDLog.h>")
+            #import <CocoaLumberjack/DDLog.h>
+        #elif __has_include("DDLog.h")
+            #import "DDLog.h"
+        #endif
+    #elif defined(COCOAPODS_POD_AVAILABLE_CocoaLumberjack) || defined(__POD_CocoaLumberjack)
+        #if COCOAPODS_VERSION_MAJOR_CocoaLumberjack == 2
+            #import <CocoaLumberjack/CocoaLumberjack.h>
+        #else
+            #import <CocoaLumberjack/DDLog.h>
+        #endif
+    #endif
+
+    #if defined(DDLogError) && defined(DDLogWarn) && defined(DDLogInfo) && defined(DDLogDebug) && defined(DDLogVerbose)
+        #define FLLumberjackAvailable
+    #endif
+#endif
+
+#if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
+    // Use a custom, global (not per-file) log level for this library.
+    extern int flAnimatedImageLogLevel;
+    #if defined(LOG_OBJC_MAYBE) // CocoaLumberjack 1.x
+        #define FLLogError(frmt, ...)   LOG_OBJC_MAYBE(LOG_ASYNC_ERROR,   flAnimatedImageLogLevel, LOG_FLAG_ERROR,   0, frmt, ##__VA_ARGS__)
+        #define FLLogWarn(frmt, ...)    LOG_OBJC_MAYBE(LOG_ASYNC_WARN,    flAnimatedImageLogLevel, LOG_FLAG_WARN,    0, frmt, ##__VA_ARGS__)
+        #define FLLogInfo(frmt, ...)    LOG_OBJC_MAYBE(LOG_ASYNC_INFO,    flAnimatedImageLogLevel, LOG_FLAG_INFO,    0, frmt, ##__VA_ARGS__)
+        #define FLLogDebug(frmt, ...)   LOG_OBJC_MAYBE(LOG_ASYNC_DEBUG,   flAnimatedImageLogLevel, LOG_FLAG_DEBUG,   0, frmt, ##__VA_ARGS__)
+        #define FLLogVerbose(frmt, ...) LOG_OBJC_MAYBE(LOG_ASYNC_VERBOSE, flAnimatedImageLogLevel, LOG_FLAG_VERBOSE, 0, frmt, ##__VA_ARGS__)
+    #else // CocoaLumberjack 2.x
+        #define FLLogError(frmt, ...)   LOG_MAYBE(NO,                flAnimatedImageLogLevel, DDLogFlagError,   0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+        #define FLLogWarn(frmt, ...)    LOG_MAYBE(LOG_ASYNC_ENABLED, flAnimatedImageLogLevel, DDLogFlagWarning, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+        #define FLLogInfo(frmt, ...)    LOG_MAYBE(LOG_ASYNC_ENABLED, flAnimatedImageLogLevel, DDLogFlagInfo,    0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+        #define FLLogDebug(frmt, ...)   LOG_MAYBE(LOG_ASYNC_ENABLED, flAnimatedImageLogLevel, DDLogFlagDebug,   0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+        #define FLLogVerbose(frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, flAnimatedImageLogLevel, DDLogFlagVerbose, 0, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+    #endif
+#else
+    #if FLDebugLoggingEnabled && DEBUG
+        // CocoaLumberjack is disabled or not available, but we want to fallback to regular logging (debug builds only).
+        #define FLLog(...) NSLog(__VA_ARGS__)
+    #else
+        // No logging at all.
+        #define FLLog(...) ((void)0)
+    #endif
+    #define FLLogError(...)   FLLog(__VA_ARGS__)
+    #define FLLogWarn(...)    FLLog(__VA_ARGS__)
+    #define FLLogInfo(...)    FLLog(__VA_ARGS__)
+    #define FLLogDebug(...)   FLLog(__VA_ARGS__)
+    #define FLLogVerbose(...) FLLog(__VA_ARGS__)
 #endif

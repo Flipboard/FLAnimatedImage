@@ -39,6 +39,10 @@
         if (animatedImage) {
             // Clear out the image.
             super.image = nil;
+            // Ensure disabled highlighting; it's not supported (see `-setHighlighted:`).
+            super.highlighted = NO;
+            // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
+            [self invalidateIntrinsicContentSize];
         } else {
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
@@ -104,6 +108,24 @@
 }
 
 
+#pragma mark Auto Layout
+
+- (CGSize)intrinsicContentSize
+{
+    // Default to let UIImageView handle the sizing of its image, and anything else it might consider.
+    CGSize intrinsicContentSize = [super intrinsicContentSize];
+    
+    // If we have have an animated image, use its image size.
+    // UIImageView's intrinsic content size seems to be the size of its image. The obvious approach, simply calling `-invalidateIntrinsicContentSize` when setting an animated image, results in UIImageView steadfastly returning `{UIViewNoIntrinsicMetric, UIViewNoIntrinsicMetric}` for its intrinsicContentSize.
+    // (Perhaps UIImageView bypasses its `-image` getter in its implementation of `-intrinsicContentSize`, as `-image` is not called after calling `-invalidateIntrinsicContentSize`.)
+    if (self.animatedImage) {
+        intrinsicContentSize = self.image.size;
+    }
+    
+    return intrinsicContentSize;
+}
+
+
 #pragma mark - UIImageView Method Overrides
 #pragma mark Image Data
 
@@ -144,8 +166,16 @@
             // link which will lead to the deallocation of both the display link and the weak proxy.
             FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
             self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
-            // `NSRunLoopCommonModes` would allow timer events during scrolling (i.e. animation) but we don't support this behavior.
-            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+            
+            NSString *mode = NSDefaultRunLoopMode;
+            // Enable playback during scrolling by allowing timer events (i.e. animation) with `NSRunLoopCommonModes`.
+            // But too keep scrolling smooth, only do this for hardware with more than one core and otherwise keep it at the default `NSDefaultRunLoopMode`.
+            // The only devices (supporting iOS 5+) with single-core chips are iPhone 3GS and 4, iPod Touch 3rd and 4th gen, and iPad 1st gen.
+            // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
+            if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
+                mode = NSRunLoopCommonModes;
+            }
+            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
             
             // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
             // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
@@ -179,6 +209,17 @@
 }
 
 
+#pragma mark Highlighted Image Unsupport
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    // Highlighted image is unsupported for animated images, but implementing it breaks the image view when embedded in a UICollectionViewCell.
+    if (!self.animatedImage) {
+        [super setHighlighted:highlighted];
+    }
+}
+
+
 #pragma mark - Private Methods
 #pragma mark Animation
 
@@ -195,14 +236,14 @@
     // If for some reason a wild call makes it through when we shouldn't be animating, bail.
     // Early return!
     if (!self.shouldAnimate) {
-        NSLog(@"Warn: Trying to animate image when we shouldn't: %@", self);
+        FLLogWarn(@"Trying to animate image when we shouldn't: %@", self);
         return;
     }
     
     // If we have a nil image, don't update the view nor playhead.
     UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
     if (image) {
-        //NSLog(@"Verbose: Showing frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
+        FLLogVerbose(@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
         self.currentFrame = image;
         if (self.needsDisplayWhenImageBecomesAvailable) {
             [self.layer setNeedsDisplay];
@@ -229,7 +270,7 @@
             self.needsDisplayWhenImageBecomesAvailable = YES;
         }
     } else {
-        //NSLog(@"Verbose: Waiting for frame %d for animated image: %@", self.currentFrameIndex, self.animatedImage);
+        FLLogDebug(@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
 #if DEBUG
         if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
             [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];
@@ -244,7 +285,7 @@
 
 - (void)displayLayer:(CALayer *)layer
 {
-    layer.contents = (__bridge id)self.currentFrame.CGImage;
+    layer.contents = (__bridge id)self.image.CGImage;
 }
 
 
