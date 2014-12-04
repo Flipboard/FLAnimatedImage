@@ -10,19 +10,23 @@
 #import "FLAnimatedImage.h"
 #import "FLAnimatedImageView.h"
 #import <UIKit/UIKit.h>
+#import "FLAnimatedImageDemo-Swift.h"
 
 typedef NS_ENUM(NSUInteger, DebugViewStyle) {
     DebugViewStyleDefault,
     DebugViewStyleCondensed
 };
 
-
 @interface DebugView : UIView
-<FLAnimatedImageDebugDelegate,
-FLAnimatedImageViewDebugDelegate>
 
-@property (nonatomic, weak) FLAnimatedImage *image;
-@property (nonatomic, weak) FLAnimatedImageView *imageView;
+@property (nonatomic, weak) id<DebugAnimatedImage> image;
+@property (nonatomic, weak) id imageView;
 @property (nonatomic, assign) DebugViewStyle style;
 
 @end
+
+#if DEBUG
+@interface DebugView(Debug)<FLAnimatedImageDebugDelegate,
+FLAnimatedImageViewDebugDelegate>
+@end
+#endif
