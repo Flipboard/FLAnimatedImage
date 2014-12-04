@@ -73,7 +73,9 @@ public class AnimatedGif: NSObject, DebugAnimatedImage {
     private let frameCacheSizeOptimal: Int
     
     public var size = CGSizeZero
+    #if DEBUG
     public weak var debug_delegate: FLAnimatedImageDebugDelegate?
+    #endif
     
     // This is the definite value the frame cache needs to size itself to
     public var frameCacheSizeCurrent: Int {
@@ -223,7 +225,9 @@ public class AnimatedGif: NSObject, DebugAnimatedImage {
         }
         requestedFrameIndex = index
         
+        #if DEBUG
         self.debug_delegate?.debug_animatedImage?(self, didRequestCachedFrame: UInt(index))
+        #endif
         
         if cachedFrameIndexes.count < Int(frameCount) {
             var indexesToCache = NSMutableIndexSet(indexSet: frameIndexesToCache)
@@ -253,7 +257,9 @@ public class AnimatedGif: NSObject, DebugAnimatedImage {
                                     weakSelf?.cachedFrameIndexes.addIndex(index)
                                     weakSelf?.requestedFrameIndexes.removeIndex(index)
                                     
+                                    #if DEBUG
                                     weakSelf?.debug_delegate?.debug_animatedImage?(weakSelf!, didUpdateCachedFrames: weakSelf?.cachedFrameIndexes)
+                                    #endif
                                 }
                             }
                         }
@@ -304,7 +310,9 @@ public class AnimatedGif: NSObject, DebugAnimatedImage {
                         self.cachedFrameIndexes.removeIndex(index)
                         self.cachedFrames[index] = NSNull()
                         
+                        #if DEBUG
                         self.debug_delegate?.debug_animatedImage?(self, didUpdateCachedFrames: self.cachedFrameIndexes)
+                        #endif
                     }
                 }
             }

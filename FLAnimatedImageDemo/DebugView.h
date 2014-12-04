@@ -18,11 +18,15 @@ typedef NS_ENUM(NSUInteger, DebugViewStyle) {
 };
 
 @interface DebugView : UIView
-<FLAnimatedImageDebugDelegate,
-FLAnimatedImageViewDebugDelegate>
 
 @property (nonatomic, weak) id<DebugAnimatedImage> image;
 @property (nonatomic, weak) id imageView;
 @property (nonatomic, assign) DebugViewStyle style;
 
 @end
+
+#if DEBUG
+@interface DebugView(Debug)<FLAnimatedImageDebugDelegate,
+FLAnimatedImageViewDebugDelegate>
+@end
+#endif

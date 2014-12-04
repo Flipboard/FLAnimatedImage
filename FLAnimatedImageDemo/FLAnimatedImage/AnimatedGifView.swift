@@ -42,7 +42,9 @@ public class AnimatedGifView: UIView {
         return superview != nil && window != nil && !pauseAnimation
     }
     
+    #if DEBUG
     public weak var debug_delegate: FLAnimatedImageViewDebugDelegate?
+    #endif
 
     public override init() {
         super.init(frame: CGRectZero)
