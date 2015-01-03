@@ -59,6 +59,9 @@
     NSData *data1 = [NSData dataWithContentsOfURL:url1];
     FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data1];
     self.imageView1.animatedImage = animatedImage1;
+    self.imageView1.loopCompletionBlock = ^(FLAnimatedImageView *imageView, NSUInteger loopLeft) {
+        NSLog(@"imageView1 - loopCompleted - %ld loop(s) left", (unsigned long)loopLeft);
+    };
     
     // 2
     if (!self.imageView2) {
@@ -86,6 +89,10 @@
             self.debugView2.imageView = self.imageView2;
             self.debugView2.image = animatedImage2;
             self.imageView2.userInteractionEnabled = YES;
+            
+            self.imageView2.loopCompletionBlock = ^(FLAnimatedImageView *imageView, NSUInteger loopLeft) {
+                NSLog(@"imageView2 - loopCompleted - %ld loop(s) left", (unsigned long)loopLeft);
+            };
         });
     });
     
@@ -115,6 +122,9 @@
             self.debugView3.imageView = self.imageView3;
             self.debugView3.image = animatedImage3;
             self.imageView3.userInteractionEnabled = YES;
+            self.imageView3.loopCompletionBlock = ^(FLAnimatedImageView *imageView, NSUInteger loopLeft) {
+                NSLog(@"imageView3 - loopCompleted - %ld loop(s) left", (unsigned long)loopLeft);
+            };
         });
     });
     
