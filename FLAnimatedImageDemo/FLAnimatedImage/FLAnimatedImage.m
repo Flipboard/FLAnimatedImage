@@ -54,12 +54,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 
 @interface FLAnimatedImage ()
-{
-    // Use old school ivar instead of property for retained non-object types (CF type, dispatch "object") to avoid ARC confusion: http://stackoverflow.com/questions/9684972/strong-property-with-attribute-nsobject-for-a-cf-type-doesnt-retain/9690656#9690656
-    CGImageSourceRef _imageSource;
-    // Note: Only if the deployment target is iOS 6.0 or higher, dispatch objects are declared as "true objects" and participate in ARC, etc.; See <os/object.h> or https://github.com/AFNetworking/AFNetworking/pull/517 for details.
-    dispatch_queue_t _serialQueue;
-}
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeOptimal; // The optimal number of frames to cache based on image size & number of frames; never changes
 @property (nonatomic, assign) NSUInteger frameCacheSizeMaxInternal; // Allow to cap the cache size e.g. when memory warnings occur; 0 means no specific limit (default)
@@ -70,6 +64,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 @property (nonatomic, strong, readonly) NSMutableIndexSet *requestedFrameIndexes; // Indexes of frames that are currently produced in the background
 @property (nonatomic, strong, readonly) NSIndexSet *allFramesIndexSet; // Default index set with the full range of indexes; never changes
 @property (nonatomic, assign) NSUInteger memoryWarningCount;
+@property (nonatomic, strong, readonly) dispatch_queue_t serialQueue;
+@property (nonatomic, strong, readonly) __attribute__((NSObject)) CGImageSourceRef imageSource;
 
 // The weak proxy is used to break retain cycles with delayed actions from memory warnings.
 // We are lying about the actual type here to gain static type checking and eliminate casts.
@@ -341,13 +337,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     if (_imageSource) {
         CFRelease(_imageSource);
     }
-    
-    // Needed for deployment target iOS 5.0
-#if ((__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_6_0) || (!defined(__IPHONE_6_0)))
-    if (_serialQueue) {
-        dispatch_release(_serialQueue);
-    }
-#endif
 }
 
 
@@ -417,14 +406,14 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
     [self.requestedFrameIndexes addIndexes:frameIndexesToAddToCache];
     
     // Lazily create dedicated isolation queue.
-    if (!_serialQueue) {
+    if (!self.serialQueue) {
         _serialQueue = dispatch_queue_create("com.flipboard.framecachingqueue", DISPATCH_QUEUE_SERIAL);
     }
     
     // Start streaming requested frames in the background into the cache.
     // Avoid capturing self in the block as there's no reason to keep doing work if the animated image went away.
     FLAnimatedImage * __weak weakSelf = self;
-    dispatch_async(_serialQueue, ^{
+    dispatch_async(self.serialQueue, ^{
         // Produce and cache next needed frame.
         void (^frameRangeBlock)(NSRange, BOOL *) = ^(NSRange range, BOOL *stop) {
             // Iterate through contiguous indexes; can be faster than `enumerateIndexesInRange:options:usingBlock:`.
@@ -460,14 +449,8 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
             }
         };
         
-        // Guard against crashing on 0-length ranges with an 'NSRangeException' "last range index (-1) beyond bounds" (Apple's error message is bogus here).
-        // This is only needed on iOS 5, iPad only, running on device and only for the range {0,0} but regardless of whether the index set is mutable or immutable or what the indexes in the set are (can even be empty).
-        if (firstRange.length > 0) {
-            [frameIndexesToAddToCache enumerateRangesInRange:firstRange options:0 usingBlock:frameRangeBlock];
-        }
-        if (secondRange.length > 0) {
-            [frameIndexesToAddToCache enumerateRangesInRange:secondRange options:0 usingBlock:frameRangeBlock];
-        }
+        [frameIndexesToAddToCache enumerateRangesInRange:firstRange options:0 usingBlock:frameRangeBlock];
+        [frameIndexesToAddToCache enumerateRangesInRange:secondRange options:0 usingBlock:frameRangeBlock];
     });
 }
 

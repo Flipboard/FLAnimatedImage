@@ -170,7 +170,7 @@
             NSString *mode = NSDefaultRunLoopMode;
             // Enable playback during scrolling by allowing timer events (i.e. animation) with `NSRunLoopCommonModes`.
             // But too keep scrolling smooth, only do this for hardware with more than one core and otherwise keep it at the default `NSDefaultRunLoopMode`.
-            // The only devices (supporting iOS 5+) with single-core chips are iPhone 3GS and 4, iPod Touch 3rd and 4th gen, and iPad 1st gen.
+            // The only devices with single-core chips (supporting iOS 6+) are iPhone 3GS/4 and iPod Touch 4th gen.
             // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
             if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
                 mode = NSRunLoopCommonModes;

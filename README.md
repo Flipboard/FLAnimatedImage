@@ -42,7 +42,7 @@ imageView.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
 [self.view addSubview:imageView];
 ```
 
-It's flexible to integrate in your custom image loading stack and backwards compatible to iOS 5.
+It's flexible to integrate in your custom image loading stack and backwards compatible to iOS 6.
 
 It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreServices`, and `CoreGraphics`.
 
@@ -55,7 +55,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 - Integration into network libraries and image caches
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
 - Smarter buffering
-- Bring demo app to iOS 5 and iPhone
+- Bring demo app to iOS 6 and iPhone
 
 This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
