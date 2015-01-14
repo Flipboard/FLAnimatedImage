@@ -1,5 +1,7 @@
 = X.X.X (XXX-XX-XX)
 
+  * Fix occasional crash during memory warning (Chris Marcellino)
+
   * Drop iOS 5 compatibility code and bump minimum version in preparation for a bug fix using iOS 6+ API (Raphael Schaad)
 
 = 1.0.7 (2014-11-20)
