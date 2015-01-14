@@ -72,15 +72,41 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 // The actual type of the object is `FLWeakProxy`.
 @property (nonatomic, strong, readonly) FLAnimatedImage *weakProxy;
 
-// The weak self is used to prevent handling memory warning notifications (on the main thread),
-// when the object already entered dealloc (on a background thread) and hence would crash there.
-// We leverage the fact that the weak system guarantees to nil-out this reference before entering dealloc.
-@property (nonatomic, weak, readonly) FLAnimatedImage *weakSelf;
-
 @end
 
 
+// For dispatching memory warnings
+static NSHashTable *allAnimatedImagesWeak;
+
 @implementation FLAnimatedImage
+
++ (void)initialize
+{
+    if (self == [FLAnimatedImage class]) {
+        // UIKit memory warning notification handler shared by all of the instances
+        allAnimatedImagesWeak = [NSHashTable weakObjectsHashTable];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note){
+            // UIKit notifications are posted on the main thread. didReceiveMemoryWarning: is expecting the main run loop, and we don't lock on allAnimatedImagesWeak
+            NSAssert([NSThread isMainThread], @"recevied memory warning on non-main thread");
+            // Get a strong reference to all of the images. If an instance is returned in this array, it is still live and has not entered dealloc.
+            NSArray *images;
+            @synchronized(allAnimatedImagesWeak) {      // FLAnimatedImages can be created on any thread
+                images = [[allAnimatedImagesWeak allObjects] copy];
+            }
+            // Now issue notifications to all of the images while holding a strong reference to them
+            [images makeObjectsPerformSelector:@selector(didReceiveMemoryWarning:) withObject:note];
+        }];
+    }
+}
+
++ (void)registerInstanceOfClassForMemoryWarnings:(FLAnimatedImage *)animatedImage
+{
+    // Add this instance to the weak table for memory notifications. The NSHashTable will clean up after itself when we're gone.
+    @synchronized(allAnimatedImagesWeak) {      // FLAnimatedImages can be created on any thread
+        [allAnimatedImagesWeak addObject:animatedImage];
+    }
+}
 
 #pragma mark - Accessors
 #pragma mark Public
@@ -310,10 +336,9 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
         
         // See the property declarations for descriptions.
         _weakProxy = (id)[FLWeakProxy weakProxyForObject:self];
-        _weakSelf = self;
         
-        // System Memory Warnings Notification Handler
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning:) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+        // Register for memory notifications
+        [[self class] registerInstanceOfClassForMemoryWarnings:self];
     }
     return self;
 }
@@ -328,8 +353,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
     if (_weakProxy) {
         [NSObject cancelPreviousPerformRequestsWithTarget:_weakProxy];
     }
@@ -580,12 +603,6 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 
 - (void)didReceiveMemoryWarning:(NSNotification *)notification
 {
-    // Bail when the weak reference to self is nil'ed out by the weak system.
-    // This indicates that we're already being deallocated on another thread and shouldn't do anymore work here.
-    if (!self.weakSelf) {
-        return;
-    }
-    
     self.memoryWarningCount++;
     
     // If we were about to grow larger, but got rapped on our knuckles by the system again, cancel.
