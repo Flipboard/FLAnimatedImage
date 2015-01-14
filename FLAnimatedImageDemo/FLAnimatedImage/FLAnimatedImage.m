@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 @end
 
 
-// For dispatching memory warnings
+// For custom dispatching of memory warnings to avoid deallocation races since NSNotificationCenter doesn't retain objects it is notifying.
 static NSHashTable *allAnimatedImagesWeak;
 
 @implementation FLAnimatedImage
@@ -86,12 +86,13 @@ static NSHashTable *allAnimatedImagesWeak;
         // UIKit memory warning notification handler shared by all of the instances
         allAnimatedImagesWeak = [NSHashTable weakObjectsHashTable];
         
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note){
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
             // UIKit notifications are posted on the main thread. didReceiveMemoryWarning: is expecting the main run loop, and we don't lock on allAnimatedImagesWeak
-            NSAssert([NSThread isMainThread], @"recevied memory warning on non-main thread");
+            NSAssert([NSThread isMainThread], @"Received memory warning on non-main thread");
             // Get a strong reference to all of the images. If an instance is returned in this array, it is still live and has not entered dealloc.
-            NSArray *images;
-            @synchronized(allAnimatedImagesWeak) {      // FLAnimatedImages can be created on any thread
+            // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
+            NSArray *images = nil;
+            @synchronized(allAnimatedImagesWeak) {
                 images = [[allAnimatedImagesWeak allObjects] copy];
             }
             // Now issue notifications to all of the images while holding a strong reference to them
@@ -103,7 +104,8 @@ static NSHashTable *allAnimatedImagesWeak;
 + (void)registerInstanceOfClassForMemoryWarnings:(FLAnimatedImage *)animatedImage
 {
     // Add this instance to the weak table for memory notifications. The NSHashTable will clean up after itself when we're gone.
-    @synchronized(allAnimatedImagesWeak) {      // FLAnimatedImages can be created on any thread
+    // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
+    @synchronized(allAnimatedImagesWeak) {
         [allAnimatedImagesWeak addObject:animatedImage];
     }
 }
