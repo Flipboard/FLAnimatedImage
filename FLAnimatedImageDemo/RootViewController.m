@@ -79,8 +79,10 @@
             self.imageView2.animatedImage = animatedImage2;
             
             // Set up debug UI for image 2
+#if DEBUG
             self.imageView2.debug_delegate = self.debugView2;
             animatedImage2.debug_delegate = self.debugView2;
+#endif
             self.debugView2.imageView = self.imageView2;
             self.debugView2.image = animatedImage2;
             self.imageView2.userInteractionEnabled = YES;
@@ -106,8 +108,10 @@
             self.imageView3.animatedImage = animatedImage3;
             
             // Set up debug UI for image 3
+#if DEBUG
             self.imageView3.debug_delegate = self.debugView3;
             animatedImage3.debug_delegate = self.debugView3;
+#endif
             self.debugView3.imageView = self.imageView3;
             self.debugView3.image = animatedImage3;
             self.imageView3.userInteractionEnabled = YES;
@@ -119,8 +123,10 @@
     
     
     // Setting the delegates is for the debug UI in this demo only and is usually not needed.
+#if DEBUG
     self.imageView1.debug_delegate = self.debugView1;
     animatedImage1.debug_delegate = self.debugView1;
+#endif
     self.debugView1.imageView = self.imageView1;
     self.debugView1.image = animatedImage1;
     self.imageView1.userInteractionEnabled = YES;

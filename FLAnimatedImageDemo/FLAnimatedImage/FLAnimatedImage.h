@@ -12,7 +12,9 @@
 // Allow user classes conveniently just importing one header.
 #import "FLAnimatedImageView.h"
 
+#if DEBUG
 @protocol FLAnimatedImageDebugDelegate;
+#endif
 
 
 // Logging

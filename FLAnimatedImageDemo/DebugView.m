@@ -126,12 +126,14 @@
 }
 
 
+#if DEBUG
 #pragma mark - FLAnimatedImageDebugDelegate
 
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache
 {
     self.frameCacheView.framesInCache = indexesOfFramesInCache;
 }
+#endif
 
 
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index
