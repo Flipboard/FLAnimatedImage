@@ -80,36 +80,6 @@ static NSHashTable *allAnimatedImagesWeak;
 
 @implementation FLAnimatedImage
 
-+ (void)initialize
-{
-    if (self == [FLAnimatedImage class]) {
-        // UIKit memory warning notification handler shared by all of the instances
-        allAnimatedImagesWeak = [NSHashTable weakObjectsHashTable];
-        
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-            // UIKit notifications are posted on the main thread. didReceiveMemoryWarning: is expecting the main run loop, and we don't lock on allAnimatedImagesWeak
-            NSAssert([NSThread isMainThread], @"Received memory warning on non-main thread");
-            // Get a strong reference to all of the images. If an instance is returned in this array, it is still live and has not entered dealloc.
-            // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
-            NSArray *images = nil;
-            @synchronized(allAnimatedImagesWeak) {
-                images = [[allAnimatedImagesWeak allObjects] copy];
-            }
-            // Now issue notifications to all of the images while holding a strong reference to them
-            [images makeObjectsPerformSelector:@selector(didReceiveMemoryWarning:) withObject:note];
-        }];
-    }
-}
-
-+ (void)registerInstanceOfClassForMemoryWarnings:(FLAnimatedImage *)animatedImage
-{
-    // Add this instance to the weak table for memory notifications. The NSHashTable will clean up after itself when we're gone.
-    // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
-    @synchronized(allAnimatedImagesWeak) {
-        [allAnimatedImagesWeak addObject:animatedImage];
-    }
-}
-
 #pragma mark - Accessors
 #pragma mark Public
 
@@ -168,6 +138,28 @@ static NSHashTable *allAnimatedImagesWeak;
 
 
 #pragma mark - Life Cycle
+
++ (void)initialize
+{
+    if (self == [FLAnimatedImage class]) {
+        // UIKit memory warning notification handler shared by all of the instances
+        allAnimatedImagesWeak = [NSHashTable weakObjectsHashTable];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            // UIKit notifications are posted on the main thread. didReceiveMemoryWarning: is expecting the main run loop, and we don't lock on allAnimatedImagesWeak
+            NSAssert([NSThread isMainThread], @"Received memory warning on non-main thread");
+            // Get a strong reference to all of the images. If an instance is returned in this array, it is still live and has not entered dealloc.
+            // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
+            NSArray *images = nil;
+            @synchronized(allAnimatedImagesWeak) {
+                images = [[allAnimatedImagesWeak allObjects] copy];
+            }
+            // Now issue notifications to all of the images while holding a strong reference to them
+            [images makeObjectsPerformSelector:@selector(didReceiveMemoryWarning:) withObject:note];
+        }];
+    }
+}
+
 
 - (instancetype)init
 {
@@ -339,8 +331,11 @@ static NSHashTable *allAnimatedImagesWeak;
         // See the property declarations for descriptions.
         _weakProxy = (id)[FLWeakProxy weakProxyForObject:self];
         
-        // Register for memory notifications
-        [[self class] registerInstanceOfClassForMemoryWarnings:self];
+        // Register this instance in the weak table for memory notifications. The NSHashTable will clean up after itself when we're gone.
+        // Note that FLAnimatedImages can be created on any thread, so the hash table must be locked.
+        @synchronized(allAnimatedImagesWeak) {
+            [allAnimatedImagesWeak addObject:self];
+        }
     }
     return self;
 }
