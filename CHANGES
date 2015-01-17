@@ -1,4 +1,4 @@
-= X.X.X (XXX-XX-XX)
+= 1.0.8 (2015-01-16)
 
   * Fix occasional crash during memory warning (Chris Marcellino)
 
