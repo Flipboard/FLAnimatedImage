@@ -248,7 +248,7 @@ static NSHashTable *allAnimatedImagesWeak;
                     }
                     
                     // Get `DelayTime`
-                    // Note: It's not in (1/100) of a second like still falsly described in the documentation as per iOS 7 but in seconds stored as `kCFNumberFloat32Type`.
+                    // Note: It's not in (1/100) of a second like still falsely described in the documentation as per iOS 8 (rdar://19507384) but in seconds stored as `kCFNumberFloat32Type`.
                     // Frame properties example:
                     // {
                     //     ColorModel = RGB;
