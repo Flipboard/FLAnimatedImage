@@ -67,6 +67,7 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [LiveBooth](http://www.liveboothapp.com)
 - [Design Shots](https://itunes.apple.com/us/app/design-shots-dribbble-client/id792517951)
 - [lWlVl Festival](http://lwlvl.com)
+- [Close-up](http://closeu.pe)
 - [Flipboard](https://flipboard.com)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
