@@ -61,13 +61,14 @@ This has successfully shipped to many people as is, but please do come with your
 
 Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) for further help.
 
-## Apps using FLAnimatedImage
+## Select apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
 - [Medium](https://medium.com)
 - [LiveBooth](http://www.liveboothapp.com)
 - [Design Shots](https://itunes.apple.com/us/app/design-shots-dribbble-client/id792517951)
 - [lWlVl Festival](http://lwlvl.com)
 - [Close-up](http://closeu.pe)
+- [Zip Code Finder](https://itunes.apple.com/app/id893031254)
 - [Flipboard](https://flipboard.com)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
