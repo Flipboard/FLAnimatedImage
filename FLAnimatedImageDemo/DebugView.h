@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, DebugViewStyle) {
 
 
 @interface DebugView : UIView
-#if DEBUG
+#if defined(DEBUG) && DEBUG
 <FLAnimatedImageDebugDelegate,
 FLAnimatedImageViewDebugDelegate>
 #endif

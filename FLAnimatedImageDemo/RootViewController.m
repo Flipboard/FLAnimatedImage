@@ -79,7 +79,7 @@
             self.imageView2.animatedImage = animatedImage2;
             
             // Set up debug UI for image 2
-#if DEBUG
+#if defined(DEBUG) && DEBUG
             self.imageView2.debug_delegate = self.debugView2;
             animatedImage2.debug_delegate = self.debugView2;
 #endif
@@ -108,7 +108,7 @@
             self.imageView3.animatedImage = animatedImage3;
             
             // Set up debug UI for image 3
-#if DEBUG
+#if defined(DEBUG) && DEBUG
             self.imageView3.debug_delegate = self.debugView3;
             animatedImage3.debug_delegate = self.debugView3;
 #endif
@@ -123,7 +123,7 @@
     
     
     // Setting the delegates is for the debug UI in this demo only and is usually not needed.
-#if DEBUG
+#if defined(DEBUG) && DEBUG
     self.imageView1.debug_delegate = self.debugView1;
     animatedImage1.debug_delegate = self.debugView1;
 #endif
