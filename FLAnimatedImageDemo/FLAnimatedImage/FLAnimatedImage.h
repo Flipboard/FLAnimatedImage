@@ -12,7 +12,7 @@
 // Allow user classes conveniently just importing one header.
 #import "FLAnimatedImageView.h"
 
-#if DEBUG
+#if defined(DEBUG) && DEBUG
 @protocol FLAnimatedImageDebugDelegate;
 #endif
 
@@ -70,7 +70,7 @@
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
-#if DEBUG
+#if defined(DEBUG) && DEBUG
 // Only intended to report internal state for debugging
 @property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
 @property (nonatomic, strong) NSMutableDictionary *debug_info; // To track arbitrary data (e.g. original URL, loading durations, cache hits, etc.)
@@ -86,7 +86,7 @@
 @end
 
 
-#if DEBUG
+#if defined(DEBUG) && DEBUG
 @protocol FLAnimatedImageDebugDelegate <NSObject>
 
 @optional

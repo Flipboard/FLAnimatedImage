@@ -126,7 +126,7 @@
 }
 
 
-#if DEBUG
+#if defined(DEBUG) && DEBUG
 #pragma mark - FLAnimatedImageDebugDelegate
 
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache

@@ -375,7 +375,7 @@ static NSHashTable *allAnimatedImagesWeak;
     
     // Remember requested frame index, this influences what we should cache next.
     self.requestedFrameIndex = index;
-#if DEBUG
+#if defined(DEBUG) && DEBUG
     if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didRequestCachedFrame:)]) {
         [self.debug_delegate debug_animatedImage:self didRequestCachedFrame:index];
     }
@@ -438,11 +438,11 @@ static NSHashTable *allAnimatedImagesWeak;
         void (^frameRangeBlock)(NSRange, BOOL *) = ^(NSRange range, BOOL *stop) {
             // Iterate through contiguous indexes; can be faster than `enumerateIndexesInRange:options:usingBlock:`.
             for (NSUInteger i = range.location; i < NSMaxRange(range); i++) {
-#if DEBUG
+#if defined(DEBUG) && DEBUG
                 CFTimeInterval predrawBeginTime = CACurrentMediaTime();
 #endif
                 UIImage *image = [weakSelf predrawnImageAtIndex:i];
-#if DEBUG
+#if defined(DEBUG) && DEBUG
                 CFTimeInterval predrawDuration = CACurrentMediaTime() - predrawBeginTime;
                 CFTimeInterval slowdownDuration = 0.0;
                 if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImagePredrawingSlowdownFactor:)]) {
@@ -459,7 +459,7 @@ static NSHashTable *allAnimatedImagesWeak;
                         weakSelf.cachedFrames[i] = image;
                         [weakSelf.cachedFrameIndexes addIndex:i];
                         [weakSelf.requestedFrameIndexes removeIndex:i];
-#if DEBUG
+#if defined(DEBUG) && DEBUG
                         if ([weakSelf.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
                             [weakSelf.debug_delegate debug_animatedImage:weakSelf didUpdateCachedFrames:weakSelf.cachedFrameIndexes];
                         }
@@ -565,7 +565,7 @@ static NSHashTable *allAnimatedImagesWeak;
                 [self.cachedFrameIndexes removeIndex:i];
                 self.cachedFrames[i] = [NSNull null];
                 // Note: Don't `CGImageSourceRemoveCacheAtIndex` on the image source for frames that we don't want cached any longer to maintain O(1) time access.
-#if DEBUG
+#if defined(DEBUG) && DEBUG
                 if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.debug_delegate debug_animatedImage:self didUpdateCachedFrames:self.cachedFrameIndexes];
