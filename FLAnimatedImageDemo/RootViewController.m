@@ -44,6 +44,7 @@
     
     
     
+#warning Update examples (modes)
     // Setup the three `FLAnimatedImageView`s and load GIFs into them:
     
     // 1
@@ -55,9 +56,7 @@
     [self.view addSubview:self.imageView1];
     self.imageView1.frame = CGRectMake(0.0, 120.0, self.view.bounds.size.width, 447.0);
     
-    NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
-    NSData *data1 = [NSData dataWithContentsOfURL:url1];
-    FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data1];
+    FLAnimatedImage *animatedImage1 = [FLAnimatedImage imageNamed:@"rock.gif"];
     self.imageView1.animatedImage = animatedImage1;
     
     // 2
@@ -73,7 +72,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSURL *url2 = [NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"];
         NSData *data2 = [NSData dataWithContentsOfURL:url2];
-        animatedImage2 = [FLAnimatedImage animatedImageWithGIFData:data2];
+        animatedImage2 = [FLAnimatedImage imageWithData:data2];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView2.animatedImage = animatedImage2;
@@ -102,7 +101,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
         NSData *data3 = [NSData dataWithContentsOfURL:url3];
-        animatedImage3 = [FLAnimatedImage animatedImageWithGIFData:data3];
+        animatedImage3 = [FLAnimatedImage imageWithData:data3];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.imageView3.animatedImage = animatedImage3;

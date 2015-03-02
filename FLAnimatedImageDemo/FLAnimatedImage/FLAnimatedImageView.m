@@ -33,6 +33,7 @@
 #pragma mark - Accessors
 #pragma mark Public
 
+#warning Unify `-setAnimatedImage:` and `-setImage:`?
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
 {
     if (![_animatedImage isEqual:animatedImage]) {
@@ -43,6 +44,8 @@
             super.highlighted = NO;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
             [self invalidateIntrinsicContentSize];
+            // Pick up the animated image's scale; `-setImage:` does the same for regular images.
+            self.contentScaleFactor = animatedImage.scale;
         } else {
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
@@ -50,7 +53,7 @@
         
         _animatedImage = animatedImage;
         
-        self.currentFrame = animatedImage.posterImage;
+        self.currentFrame = animatedImage;
         self.currentFrameIndex = 0;
         if (animatedImage.loopCount > 0) {
             self.loopCountdown = animatedImage.loopCount;

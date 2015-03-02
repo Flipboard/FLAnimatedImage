@@ -38,16 +38,26 @@
 #endif
 
 
+typedef NS_ENUM(NSUInteger, FLAnimatedImageInitMode) {
+    FLAnimatedImageInitModeDefault = 0, // Streaming (fast init)
+    FLAnimatedImageInitModeLazy = 1,    // Streaming Lazy (fastest init, no properties)
+    FLAnimatedImageInitModeFull = 2     // For WKInterfaceImage? (slower init, uses more memory)
+};
+
+
+#warning Update Description
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.
 //  It subclasses `NSObject` and not `UIImage` because it's only an "image" in the sense that a sea lion is a lion.
 //  It tries to intelligently choose the frame cache size depending on the image and memory situation with the goal to lower CPU usage for smaller ones, lower memory usage for larger ones and always deliver frames for high performant play-back.
 //  Note: `posterImage`, `size`, `loopCount`, `delayTimes` and `frameCount` don't change after successful initialization.
 //
-@interface FLAnimatedImage : NSObject
+//@property (nonatomic, strong, readonly) UIImage *posterImage; // Guaranteed to be loaded; usually equivalent to `-imageLazilyCachedAtIndex:0`
+//@property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
 
-@property (nonatomic, strong, readonly) UIImage *posterImage; // Guaranteed to be loaded; usually equivalent to `-imageLazilyCachedAtIndex:0`
-@property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
+//@property(nonatomic,readonly) NSArray *images;
+//@property(nonatomic,readonly) NSTimeInterval duration;
+@interface FLAnimatedImage : UIImage
 
 @property (nonatomic, assign, readonly) NSUInteger loopCount; // 0 means repeating the animation indefinitely
 @property (nonatomic, strong, readonly) NSArray *delayTimes; // Of type `NSTimeInterval` boxed in `NSNumber`s
@@ -56,25 +66,35 @@
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeCurrent; // Current size of intelligently chosen buffer window; can range in the interval [1..frameCount]
 @property (nonatomic, assign) NSUInteger frameCacheSizeMax; // Allow to cap the cache size; 0 means no specific limit (default)
 
-// Intended to be called from main thread synchronously; will return immediately.
-// If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
-// After an initial loading time, depending on `frameCacheSize`, frames should be available immediately from the cache.
-- (UIImage *)imageLazilyCachedAtIndex:(NSUInteger)index;
-
-// Pass either a `UIImage` or an `FLAnimatedImage` and get back its size
-+ (CGSize)sizeForImage:(id)image;
-
-// On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
-- (instancetype)initWithAnimatedGIFData:(NSData *)data NS_DESIGNATED_INITIALIZER;
-+ (instancetype)animatedImageWithGIFData:(NSData *)data;
-
-@property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
+@property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with
+@property (nonatomic, assign, readonly) FLAnimatedImageInitMode mode; // The mode the receiver was initialized with
 
 #if defined(DEBUG) && DEBUG
 // Only intended to report internal state for debugging
 @property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
 @property (nonatomic, strong) NSMutableDictionary *debug_info; // To track arbitrary data (e.g. original URL, loading durations, cache hits, etc.)
 #endif
+
+// For initialization use the adopted `UIImage` convenience initializers (e.g. [FLAnimatedImage imageNamed:@"nyan.gif"]) or the specific `FLAnimatedImage` initializers (see `FLAnimatedImageInitMode` for details on mode).
++ (instancetype)imageNamed:(NSString *)name;
++ (instancetype)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *)traitCollection;
++ (instancetype)imageWithContentsOfFile:(NSString *)path;
+- (instancetype)initWithImageData:(NSData *)data;
+- (instancetype)initWithImageData:(NSData *)data mode:(FLAnimatedImageInitMode)mode;
+- (instancetype)initWithImageData:(NSData *)data scale:(CGFloat)scale;
+- (instancetype)initWithImageData:(NSData *)data mode:(FLAnimatedImageInitMode)mode scale:(CGFloat)scale;
++ (instancetype)imageWithData:(NSData *)data;
++ (instancetype)imageWithData:(NSData *)data mode:(FLAnimatedImageInitMode)mode;
++ (instancetype)imageWithData:(NSData *)data scale:(CGFloat)scale;
++ (instancetype)imageWithData:(NSData *)data mode:(FLAnimatedImageInitMode)mode scale:(CGFloat)scale;
+// Note: The `-[UIImage init*]` and `+[UIImage animated*]` initializers remain unchanged.
+
+#warning Add a convenience method such as `+ (UIImage *)animatedImageNamed:(NSString *)name;` that would return a `_UIAnimatedImage` for the watch?
+
+// Intended to be called from main thread synchronously; will return immediately.
+// If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
+- (UIImage *)imageLazilyCachedAtIndex:(NSUInteger)index;
+#warning Add Comment about how to request frames/performance/cash miss. Note: `-images`
 
 @end
 
