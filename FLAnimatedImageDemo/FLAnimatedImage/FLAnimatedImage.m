@@ -210,18 +210,7 @@ static NSHashTable *allAnimatedImagesWeak;
 
 + (instancetype)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *)traitCollection
 {
-    FLAnimatedImage *animatedImage = nil;
-    
-    // By going through super we preserve the lookup and caching behavior.
-    UIImage *image = [super imageNamed:name inBundle:bundle compatibleWithTraitCollection:traitCollection];
-    if (image) {
-        animatedImage = [[self alloc] initWithCGImage:image.CGImage scale:image.scale orientation:image.imageOrientation];
-        NSString *path = [bundle pathForResource:name ofType:nil];
-        NSData *data = [NSData dataWithContentsOfFile:path];
-        [animatedImage prepareAnimatedImageWithData:data mode:FLAnimatedImageInitModeDefault];
-    }
-    
-    return animatedImage;
+    return [self imageNamed:name inBundle:bundle compatibleWithTraitCollection:traitCollection mode:FLAnimatedImageInitModeDefault];
 }
 
 
@@ -244,6 +233,24 @@ static NSHashTable *allAnimatedImagesWeak;
 
 
 #pragma mark Init Helpers
+
+// This worker method including `mode` remains unexposed to keep the header cleaner.
++ (instancetype)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *)traitCollection mode:(FLAnimatedImageInitMode)mode
+{
+    FLAnimatedImage *animatedImage = nil;
+    
+    // By going through super we preserve the lookup and caching behavior.
+    UIImage *image = [super imageNamed:name inBundle:bundle compatibleWithTraitCollection:traitCollection];
+    if (image) {
+        animatedImage = [[self alloc] initWithCGImage:image.CGImage scale:image.scale orientation:image.imageOrientation];
+        NSString *path = [bundle pathForResource:name ofType:nil];
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        [animatedImage prepareAnimatedImageWithData:data mode:mode];
+    }
+    
+    return animatedImage;
+}
+
 
 - (void)prepareAnimatedImageWithData:(NSData *)data mode:(FLAnimatedImageInitMode)mode
 {
@@ -794,6 +801,101 @@ static NSHashTable *allAnimatedImagesWeak;
     description = [description stringByAppendingFormat:@" frameCount=%lu", (unsigned long)self.frameCount];
     
     return description;
+}
+
+
+@end
+
+
+#pragma mark - UIImage FLAnimatedImage Category
+
+@implementation UIImage (FLAnimatedImage)
+
++ (UIImage *)animatedImageNamed:(NSString *)name
+{
+    FLAnimatedImage *image = [FLAnimatedImage imageNamed:name inBundle:[NSBundle mainBundle] compatibleWithTraitCollection:nil mode:FLAnimatedImageInitModeFull];
+    return [self animatedImageWithFLAnimatedImage:image options:FLAnimatedImageOptionVariableDelays];
+}
+
+
++ (UIImage *)animatedImageWithData:(NSData *)data options:(FLAnimatedImageOptions)options
+{
+    FLAnimatedImage *image = [FLAnimatedImage imageWithData:data mode:FLAnimatedImageInitModeFull];
+    return [self animatedImageWithFLAnimatedImage:image options:options];
+}
+
+
+#pragma mark - Helper
+
++ (UIImage *)animatedImageWithFLAnimatedImage:(FLAnimatedImage *)image options:(FLAnimatedImageOptions)options
+{
+    NSArray *images = image.images;
+    
+    if (options & FLAnimatedImageOptionVariableDelays) {
+        // Use a high, constant frame rate and slot in images with longer delays multiple times in a row.
+        
+        // Convert seconds to integer centiseconds to find out the GCD ( http://en.wikipedia.org/wiki/Greatest_common_divisor ) of the delays.
+        NSMutableArray *delayTimesCentisecondsMutable = [NSMutableArray arrayWithCapacity:image.frameCount];
+        for (NSNumber *delayTime in image.delayTimes) {
+            NSUInteger delayTimeCentiseconds = lrint([delayTime doubleValue] * 100);
+            [delayTimesCentisecondsMutable addObject:@(delayTimeCentiseconds)];
+        }
+        NSArray *delayTimesCentiseconds = [delayTimesCentisecondsMutable copy];
+        NSUInteger durationCentiseconds = lrint(image.duration * 100);
+        
+        // Example of an image with three frames (delay in seconds): A (3s), B (9s), and C (15s).
+        // Divide each by the GCD (3) and add each frame the resulting number of times.
+        // Thus, `images` = [ A ][ B ][ B ][ B ][ C ][ C ][ C ][ C ][ C ] and `duration`= (3+9+15)/100 = 0.27s.
+        // Note: B and C will fortunately not duplicate their memory usage.
+        NSUInteger delayTimesCentisecondsGCD = gcdArray(delayTimesCentiseconds);
+        NSUInteger frameCount = durationCentiseconds / delayTimesCentisecondsGCD;
+        
+        NSMutableArray *framesMutable = [NSMutableArray arrayWithCapacity:frameCount];
+        for (NSUInteger i = 0, frameNumber = 0; i < [images count]; i++) {
+            for (NSUInteger j = [delayTimesCentiseconds[i] unsignedIntegerValue] / delayTimesCentisecondsGCD; j > 0; j--) {
+                framesMutable[frameNumber++] = images[i];
+            }
+        }
+        
+        images = [framesMutable copy];
+    }
+    
+    return [self animatedImageWithImages:images duration:image.duration];
+}
+
+
+static NSUInteger gcdArray(NSArray *values)
+{
+    NSUInteger gcd = 0;
+    
+    NSUInteger count = [values count];
+    if (count > 0) {
+        gcd = [values[0] unsignedIntegerValue];
+        for (NSUInteger i = 1; i < count; i++) {
+            // After processing the first few elements `gcd` will likely be smaller than any remaining element.
+            // By passing the smaller value as second argument to `gcdPair(,)` we avoid the sawp.
+            gcd = gcdPair([values[i] unsignedIntegerValue], gcd);
+        }
+    }
+    
+    return gcd;
+}
+
+
+static NSUInteger gcdPair(NSUInteger a, NSUInteger b)
+{
+    if (a < b) {
+        return gcdPair(b, a);
+    }
+    
+    while (true) {
+        NSUInteger r = a % b;
+        if (r == 0) {
+            return b;
+        }
+        a = b;
+        b = r;
+    }
 }
 
 

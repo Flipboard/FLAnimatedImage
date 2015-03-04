@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageInitMode) {
 @property (nonatomic, strong) NSMutableDictionary *debug_info; // To track arbitrary data (e.g. original URL, loading durations, cache hits, etc.)
 #endif
 
-// For initialization use the adopted `UIImage` convenience initializers (e.g. [FLAnimatedImage imageNamed:@"nyan.gif"]) or the specific `FLAnimatedImage` initializers (see `FLAnimatedImageInitMode` for details on mode).
+// For initialization use the adopted `UIImage` convenience initializers (e.g. `[FLAnimatedImage imageNamed:@"nyan.gif"]`) or the specific `FLAnimatedImage` initializers (see `FLAnimatedImageInitMode` for details on mode).
 + (instancetype)imageNamed:(NSString *)name;
 + (instancetype)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle compatibleWithTraitCollection:(UITraitCollection *)traitCollection;
 + (instancetype)imageWithContentsOfFile:(NSString *)path;
@@ -89,12 +89,27 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageInitMode) {
 + (instancetype)imageWithData:(NSData *)data mode:(FLAnimatedImageInitMode)mode scale:(CGFloat)scale;
 // Note: The `-[UIImage init*]` and `+[UIImage animated*]` initializers remain unchanged.
 
-#warning Add a convenience method such as `+ (UIImage *)animatedImageNamed:(NSString *)name;` that would return a `_UIAnimatedImage` for the watch?
 
 // Intended to be called from main thread synchronously; will return immediately.
 // If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
 - (UIImage *)imageLazilyCachedAtIndex:(NSUInteger)index;
 #warning Add Comment about how to request frames/performance/cash miss. Note: `-images`
+
+@end
+
+
+typedef NS_OPTIONS(NSUInteger, FLAnimatedImageOptions) {
+    FLAnimatedImageOptionNone           = 0,
+    FLAnimatedImageOptionVariableDelays = 1 << 0 // Support variable delays by repeating frames with longer delays.
+};
+
+
+// Create plain animated `UIImage`s (e.g. to set on Apple Watch with `-[WKInterfaceImage setImage:]`).
+// Note: Like with the `+[UIImage animated*]` initializers, the returned objects are actually of type `[_UIAnimatedImage]`.
+@interface UIImage (FLAnimatedImage)
+
++ (UIImage *)animatedImageNamed:(NSString *)name; // Defaults to `FLAnimatedImageOptionVariableDelays` for most accurate playback
++ (UIImage *)animatedImageWithData:(NSData *)data options:(FLAnimatedImageOptions)options;
 
 @end
 
