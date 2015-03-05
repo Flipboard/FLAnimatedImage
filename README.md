@@ -69,6 +69,7 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [lWlVl Festival](http://lwlvl.com)
 - [Close-up](http://closeu.pe)
 - [Zip Code Finder](https://itunes.apple.com/app/id893031254)
+- [getGIF](https://itunes.apple.com/app/id964784701)
 - [Flipboard](https://flipboard.com)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
