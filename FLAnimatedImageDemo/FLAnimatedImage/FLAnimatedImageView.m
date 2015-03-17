@@ -155,6 +155,43 @@
 
 #pragma mark Animating Images
 
+- (NSUInteger)calculateOptimalFrameInterval:(NSArray *)delays
+{
+    const NSTimeInterval precision = 100.0;   // 10 millisecond precision
+    const NSTimeInterval refreshRate = 60.0;  // 60Hz
+
+    NSUInteger scaledGCD = lrint([delays.firstObject floatValue] * precision);
+    for (NSNumber *value in delays) {
+        scaledGCD = gcd(lrint([value floatValue] * precision), scaledGCD);
+    }
+
+    NSTimeInterval unscaledGCD = scaledGCD / precision;
+    NSUInteger frameInterval = MAX(unscaledGCD * refreshRate, 1);
+
+    return frameInterval;
+}
+
+
+static NSUInteger gcd(NSUInteger a, NSUInteger b)
+{
+    // http://en.wikipedia.org/wiki/Greatest_common_divisor
+    if (a < b) {
+        return gcd(b, a);
+    } else if (a == b) {
+        return b;
+    }
+
+    while (true) {
+        NSUInteger remainder = a % b;
+        if (remainder == 0) {
+            return b;
+        }
+        a = b;
+        b = remainder;
+    }
+}
+
+
 - (void)startAnimating
 {
     if (self.animatedImage) {
@@ -176,10 +213,12 @@
                 mode = NSRunLoopCommonModes;
             }
             [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
-            
-            // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
-            // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
         }
+
+        // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
+        // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
+        self.displayLink.frameInterval = [self calculateOptimalFrameInterval:self.animatedImage.delayTimes];
+
         self.displayLink.paused = NO;
     } else {
         [super startAnimating];
@@ -250,7 +289,7 @@
             self.needsDisplayWhenImageBecomesAvailable = NO;
         }
         
-        self.accumulator += displayLink.duration;
+        self.accumulator += displayLink.duration * displayLink.frameInterval;
         
         // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
         while (self.accumulator >= [self.animatedImage.delayTimes[self.currentFrameIndex] floatValue]) {
@@ -273,7 +312,7 @@
         FLLogDebug(@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
 #if defined(DEBUG) && DEBUG
         if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
-            [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];
+            [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)displayLink.duration * displayLink.frameInterval];
         }
 #endif
     }
