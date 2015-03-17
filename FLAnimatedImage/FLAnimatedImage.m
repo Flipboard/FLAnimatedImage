@@ -19,6 +19,8 @@
 
 #define MEGABYTE (1024 * 1024)
 
+// This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
+const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum = 0.02;
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
@@ -275,12 +277,10 @@ static NSHashTable *allAnimatedImagesWeak;
                             delayTime = delayTimesForIndexesMutable[@(i - 1)];
                         }
                     }
-                    // Support frame delays as low as `kDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
-                    // This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
-                    const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
+                    // Support frame delays as low as `kFLAnimatedImageDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
                     // To support the minimum even when rounding errors occur, use an epsilon when comparing. We downcast to float because that's what we get for delayTime from ImageIO.
-                    if ([delayTime floatValue] < ((float)kDelayTimeIntervalMinimum - FLT_EPSILON)) {
-                        [FLAnimatedImage logString:[NSString stringWithFormat:@"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum] withLevel:FLLogLevelInfo];
+                    if ([delayTime floatValue] < ((float)kFLAnimatedImageDelayTimeIntervalMinimum - FLT_EPSILON)) {
+                        [FLAnimatedImage logString:[NSString stringWithFormat:@"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kFLAnimatedImageDelayTimeIntervalMinimum] withLevel:FLLogLevelInfo];
                         delayTime = @(kDelayTimeIntervalDefault);
                     }
                     delayTimesForIndexesMutable[@(i)] = delayTime;
