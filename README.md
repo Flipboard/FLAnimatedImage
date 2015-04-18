@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ribeto/FLAnimatedImage.svg)](https://travis-ci.org/ribeto/FLAnimatedImage) [![Coverage Status](https://coveralls.io/repos/ribeto/FLAnimatedImage/badge.svg)](https://coveralls.io/r/ribeto/FLAnimatedImage)
+[![Build Status](https://travis-ci.org/Flipboard/FLAnimatedImage.svg)](https://travis-ci.org/Flipboard/FLAnimatedImage) [![Coverage Status](https://coveralls.io/repos/Flipboard/FLAnimatedImage/badge.svg)](https://coveralls.io/r/Flipboard/FLAnimatedImage)
 
 FLAnimatedImage is a performant animated GIF engine for iOS:
 
