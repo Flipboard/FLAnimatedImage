@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ribeto/FLAnimatedImage.svg)](https://travis-ci.org/ribeto/FLAnimatedImage) [![Coverage Status](https://coveralls.io/repos/ribeto/FLAnimatedImage/badge.svg)](https://coveralls.io/r/ribeto/FLAnimatedImage)
+
 FLAnimatedImage is a performant animated GIF engine for iOS:
 
 - Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers
