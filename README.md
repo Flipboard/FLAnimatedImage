@@ -72,6 +72,7 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [Close-up](http://closeu.pe)
 - [Zip Code Finder](https://itunes.apple.com/app/id893031254)
 - [getGIF](https://itunes.apple.com/app/id964784701)
+- [Giffage](http://giffage.com)
 - [Flipboard](https://flipboard.com)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
