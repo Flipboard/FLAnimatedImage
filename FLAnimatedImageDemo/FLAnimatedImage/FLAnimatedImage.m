@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 @property (nonatomic, assign) NSUInteger frameCacheSizeMaxInternal; // Allow to cap the cache size e.g. when memory warnings occur; 0 means no specific limit (default)
 @property (nonatomic, assign) NSUInteger requestedFrameIndex; // Most recently requested frame index
 @property (nonatomic, assign, readonly) NSUInteger posterImageFrameIndex; // Index of non-purgable poster image; never changes
-@property (nonatomic, strong, readonly) NSMutableArray *cachedFrames; // Uncached frame indexes hold `NSNull`
+@property (nonatomic, strong, readonly) NSMutableDictionary *cachedFramesForIndexes;
 @property (nonatomic, strong, readonly) NSMutableIndexSet *cachedFrameIndexes; // Indexes of cached frames
 @property (nonatomic, strong, readonly) NSMutableIndexSet *requestedFrameIndexes; // Indexes of frames that are currently produced in the background
 @property (nonatomic, strong, readonly) NSIndexSet *allFramesIndexSet; // Default index set with the full range of indexes; never changes
@@ -189,8 +189,7 @@ static NSHashTable *allAnimatedImagesWeak;
         _data = data;
         
         // Initialize internal data structures
-        // We'll fill in the initial `NSNull` values below, when we loop through all frames.
-        _cachedFrames = [[NSMutableArray alloc] init];
+        _cachedFramesForIndexes = [[NSMutableDictionary alloc] init];
         _cachedFrameIndexes = [[NSMutableIndexSet alloc] init];
         _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
 
@@ -239,12 +238,8 @@ static NSHashTable *allAnimatedImagesWeak;
                         _size = _posterImage.size;
                         // Remember index of poster image so we never purge it; also add it to the cache.
                         _posterImageFrameIndex = i;
-                        self.cachedFrames[self.posterImageFrameIndex] = self.posterImage;
+                        [self.cachedFramesForIndexes setObject:self.posterImage forKey:@(self.posterImageFrameIndex)];
                         [self.cachedFrameIndexes addIndex:self.posterImageFrameIndex];
-                    } else {
-                        // Placeholder indicates that we don't have a cached frame.
-                        // We use an array instead of a dictionary for slightly faster access.
-                        self.cachedFrames[i] = [NSNull null];
                     }
                     
                     // Get `DelayTime`
@@ -397,12 +392,8 @@ static NSHashTable *allAnimatedImagesWeak;
         }
     }
     
-    // Get the specified image. Watch out for `NSNull` placeholders.
-    UIImage *image = nil;
-    id tryImage = self.cachedFrames[index];
-    if ([tryImage isKindOfClass:[UIImage class]]) {
-        image = tryImage;
-    }
+    // Get the specified image.
+    UIImage *image = self.cachedFramesForIndexes[@(index)];
     
     // Purge if needed based on the current playhead position.
     [self purgeFrameCacheIfNeeded];
@@ -456,7 +447,7 @@ static NSHashTable *allAnimatedImagesWeak;
                 // The benefits of having the first frames as quick as possible outweigh building up a buffer to cope with potential hiccups when the CPU suddenly gets busy.
                 if (image && weakSelf) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        weakSelf.cachedFrames[i] = image;
+                        weakSelf.cachedFramesForIndexes[@(i)] = image;
                         [weakSelf.cachedFrameIndexes addIndex:i];
                         [weakSelf.requestedFrameIndexes removeIndex:i];
 #if defined(DEBUG) && DEBUG
@@ -563,7 +554,7 @@ static NSHashTable *allAnimatedImagesWeak;
             // Iterate through contiguous indexes; can be faster than `enumerateIndexesInRange:options:usingBlock:`.
             for (NSUInteger i = range.location; i < NSMaxRange(range); i++) {
                 [self.cachedFrameIndexes removeIndex:i];
-                self.cachedFrames[i] = [NSNull null];
+                [self.cachedFramesForIndexes removeObjectForKey:@(i)];
                 // Note: Don't `CGImageSourceRemoveCacheAtIndex` on the image source for frames that we don't want cached any longer to maintain O(1) time access.
 #if defined(DEBUG) && DEBUG
                 if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImage:didUpdateCachedFrames:)]) {
