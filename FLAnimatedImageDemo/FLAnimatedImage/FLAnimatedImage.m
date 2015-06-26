@@ -224,6 +224,7 @@ static NSHashTable *allAnimatedImagesWeak;
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
+        NSInteger skippedFrameCount = 0;
         NSMutableDictionary *delayTimesForIndexesMutable = [NSMutableDictionary dictionaryWithCapacity:imageCount];
         for (size_t i = 0; i < imageCount; i++) {
             CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
@@ -285,10 +286,12 @@ static NSHashTable *allAnimatedImagesWeak;
                     }
                     delayTimesForIndexesMutable[@(i)] = delayTime;
                 } else {
+                    skippedFrameCount++;
                     FLLogInfo(@"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
                 }
                 CFRelease(frameImageRef);
             } else {
+                skippedFrameCount++;
                 FLLogInfo(@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
             }
         }
@@ -307,7 +310,7 @@ static NSHashTable *allAnimatedImagesWeak;
         
         // Calculate the optimal frame cache size: try choosing a larger buffer window depending on the predicted image size.
         // It's only dependent on the image size & number of frames and never changes.
-        CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * self.frameCount / MEGABYTE;
+        CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * (self.frameCount - skippedFrameCount) / MEGABYTE;
         if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
             _frameCacheSizeOptimal = self.frameCount;
         } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault) {
