@@ -224,7 +224,7 @@ static NSHashTable *allAnimatedImagesWeak;
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
-        NSMutableArray *delayTimesMutable = [NSMutableArray arrayWithCapacity:imageCount];
+        NSMutableDictionary *delayTimesForIndexesMutable = [NSMutableDictionary dictionaryWithCapacity:imageCount];
         for (size_t i = 0; i < imageCount; i++) {
             CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
             if (frameImageRef) {
@@ -272,7 +272,7 @@ static NSHashTable *allAnimatedImagesWeak;
                             delayTime = @(kDelayTimeIntervalDefault);
                         } else {
                             FLLogInfo(@"Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
-                            delayTime = delayTimesMutable[i - 1];
+                            delayTime = delayTimesForIndexesMutable[@(i - 1)];
                         }
                     }
                     // Support frame delays as low as `kDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
@@ -283,7 +283,7 @@ static NSHashTable *allAnimatedImagesWeak;
                         FLLogInfo(@"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
                         delayTime = @(kDelayTimeIntervalDefault);
                     }
-                    delayTimesMutable[i] = delayTime;
+                    delayTimesForIndexesMutable[@(i)] = delayTime;
                 } else {
                     FLLogInfo(@"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
                 }
@@ -292,8 +292,8 @@ static NSHashTable *allAnimatedImagesWeak;
                 FLLogInfo(@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
             }
         }
-        _delayTimes = [delayTimesMutable copy];
-        _frameCount = [_delayTimes count];
+        _delayTimesForIndexes = [delayTimesForIndexesMutable copy];
+        _frameCount = imageCount;
         
         if (self.frameCount == 0) {
             FLLogInfo(@"Failed to create any valid frames for GIF with properties %@", imageProperties);

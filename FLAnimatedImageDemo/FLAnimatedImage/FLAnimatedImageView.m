@@ -253,8 +253,9 @@
         self.accumulator += displayLink.duration;
         
         // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
-        while (self.accumulator >= [self.animatedImage.delayTimes[self.currentFrameIndex] floatValue]) {
-            self.accumulator -= [self.animatedImage.delayTimes[self.currentFrameIndex] floatValue];
+        NSTimeInterval delayTime = [[self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)] floatValue];
+        while (self.accumulator >= delayTime) {
+            self.accumulator -= delayTime;
             self.currentFrameIndex++;
             if (self.currentFrameIndex >= self.animatedImage.frameCount) {
                 // If we've looped the number of times that this animated image describes, stop looping.

@@ -50,7 +50,7 @@
 @property (nonatomic, assign, readonly) CGSize size; // The `.posterImage`'s `.size`
 
 @property (nonatomic, assign, readonly) NSUInteger loopCount; // 0 means repeating the animation indefinitely
-@property (nonatomic, strong, readonly) NSArray *delayTimes; // Of type `NSTimeInterval` boxed in `NSNumber`s
+@property (nonatomic, strong, readonly) NSDictionary *delayTimesForIndexes; // Of type `NSTimeInterval` boxed in `NSNumber`s
 @property (nonatomic, assign, readonly) NSUInteger frameCount; // Number of valid frames; equal to `[.delayTimes count]`
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeCurrent; // Current size of intelligently chosen buffer window; can range in the interval [1..frameCount]

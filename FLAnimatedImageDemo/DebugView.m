@@ -141,7 +141,7 @@
     if (self.frameCacheView.requestedFrameIndex != index) {
         self.frameCacheView.requestedFrameIndex = index;
         
-        NSTimeInterval delayTime = [self.image.delayTimes[index] doubleValue];
+        NSTimeInterval delayTime = [self.image.delayTimesForIndexes[@(index)] doubleValue];
         CGRect frameRect = ((UIView *)self.frameCacheView.subviews[index]).frame;
         
         CGPoint playheadStartCenter = CGPointMake(self.frameCacheView.frame.origin.x + frameRect.origin.x, self.playheadView.center.y);
