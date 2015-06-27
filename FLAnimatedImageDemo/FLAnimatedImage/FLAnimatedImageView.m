@@ -240,8 +240,9 @@
         return;
     }
     
-    NSTimeInterval delayTime = [[self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)] floatValue];
-    if (delayTime > 0.0) {
+    NSNumber *delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
+    if (delayTimeNumber) {
+        NSTimeInterval delayTime = [delayTimeNumber floatValue];
         // If we have a nil image, don't update the view nor playhead.
         UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
         if (image) {
