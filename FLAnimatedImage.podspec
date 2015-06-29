@@ -29,4 +29,12 @@ Pod::Spec.new do |spec|
   spec.subspec "GIF" do |subspec|
     subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/GIF/**/*.{h.m}"
   end
+
+  spec.subspec "WebP" do |subspec|
+    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/WebP/**/*.{h.m}"
+    subspec.dependency      "libwebp"
+  end
+
+  spec.default_subspecs   "Core", "GIF"
 end
+

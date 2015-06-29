@@ -10,6 +10,7 @@
 
 typedef NS_ENUM(NSUInteger, FLAnimatedImageDataType) {
     FLAnimatedImageDataTypeGIF,
+    FLAnimatedImageDataTypeWebP,
 };
 
 @interface FLAnimatedImageData : NSObject <NSCopying>
