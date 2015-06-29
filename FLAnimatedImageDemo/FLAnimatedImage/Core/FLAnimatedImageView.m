@@ -6,11 +6,12 @@
 //  Copyright (c) 2013-2015 Flipboard. All rights reserved.
 //
 
-
 #import "FLAnimatedImageView.h"
-#import "FLAnimatedImage.h"
+
 #import <QuartzCore/QuartzCore.h>
 
+#import "FLAnimatedImage.h"
+#import "FLWeakProxy.h"
 
 @interface FLAnimatedImageView ()
 
@@ -24,6 +25,7 @@
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image, window or superview has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
+@property (nonatomic, assign) BOOL isUserPaused;
 
 @end
 
@@ -35,7 +37,7 @@
 
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
 {
-    if (![_animatedImage isEqual:animatedImage]) {
+    if (_animatedImage != animatedImage && ![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
             // Clear out the image.
             super.image = nil;
@@ -47,9 +49,9 @@
             // Stop animating before the animated image gets cleared out.
             [self stopAnimating];
         }
-        
+
         _animatedImage = animatedImage;
-        
+
         self.currentFrame = animatedImage.posterImage;
         self.currentFrameIndex = 0;
         if (animatedImage.loopCount > 0) {
@@ -58,13 +60,13 @@
             self.loopCountdown = NSUIntegerMax;
         }
         self.accumulator = 0.0;
-        
+
         // Start animating after the new animated image has been set.
         [self updateShouldAnimate];
         if (self.shouldAnimate) {
             [self startAnimating];
         }
-        
+
         [self.layer setNeedsDisplay];
     }
 }
@@ -85,7 +87,7 @@
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
-    
+
     [self updateShouldAnimate];
     if (self.shouldAnimate) {
         [self startAnimating];
@@ -98,7 +100,7 @@
 - (void)didMoveToWindow
 {
     [super didMoveToWindow];
-    
+
     [self updateShouldAnimate];
     if (self.shouldAnimate) {
         [self startAnimating];
@@ -148,12 +150,26 @@
         // Clear out the animated image and implicitly pause animation playback.
         self.animatedImage = nil;
     }
-    
+
     super.image = image;
 }
 
-
 #pragma mark Animating Images
+
+- (void)play
+{
+    self.isUserPaused = NO;
+    [self updateShouldAnimate];
+    [self startAnimating];
+}
+
+- (void)pause
+{
+    self.isUserPaused = YES;
+    [self updateShouldAnimate];
+    [self stopAnimating];
+}
+
 
 - (void)startAnimating
 {
@@ -176,7 +192,7 @@
                 mode = NSRunLoopCommonModes;
             }
             [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
-            
+
             // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
             // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
         }
@@ -208,13 +224,15 @@
     return isAnimating;
 }
 
-
 #pragma mark Highlighted Image Unsupport
 
 - (void)setHighlighted:(BOOL)highlighted
 {
+    // -[UIImageView setHighlighted] messes with the image being displayed, causing this to become blank if it
+    // was playing an animated image. For now just don't react to setHighlighted being called, this could be modified
+    // in the future if the concept of a 'highlighted animated image' is needed.
     // Highlighted image is unsupported for animated images, but implementing it breaks the image view when embedded in a UICollectionViewCell.
-    if (!self.animatedImage) {
+    if (self.animatedImage) {
         [super setHighlighted:highlighted];
     }
 }
@@ -227,7 +245,12 @@
 // Just update our cached value whenever the animated image, window or superview is changed.
 - (void)updateShouldAnimate
 {
-    self.shouldAnimate = self.animatedImage && self.window && self.superview;
+    self.shouldAnimate = self.animatedImage && self.window && self.superview && !self.isUserPaused;
+    // CADisplayLink changes from paused == YES to paused == NO when we navigate away from this view and back
+    // This is a hack to ensure that we restore the state to what it was supposed to be
+    if (self.animatedImage && self.isUserPaused) {
+        self.displayLink.paused = YES;
+    }
 }
 
 
@@ -252,9 +275,9 @@
                 [self.layer setNeedsDisplay];
                 self.needsDisplayWhenImageBecomesAvailable = NO;
             }
-            
+
             self.accumulator += displayLink.duration;
-            
+
             // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
             while (self.accumulator >= delayTime) {
                 self.accumulator -= delayTime;
@@ -266,11 +289,10 @@
                         [self stopAnimating];
                         return;
                     }
-                    self.currentFrameIndex = 0;
+                    // Calling `-setNeedsDisplay` will just paint the current frame, not the new frame that we may have moved to.
+                    // Instead, set `needsDisplayWhenImageBecomesAvailable` to `YES` -- this will paint the new image once loaded.
+                    self.needsDisplayWhenImageBecomesAvailable = YES;
                 }
-                // Calling `-setNeedsDisplay` will just paint the current frame, not the new frame that we may have moved to.
-                // Instead, set `needsDisplayWhenImageBecomesAvailable` to `YES` -- this will paint the new image once loaded.
-                self.needsDisplayWhenImageBecomesAvailable = YES;
             }
         } else {
             FLLogDebug(@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
