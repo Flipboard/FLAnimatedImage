@@ -20,7 +20,7 @@
 #define MEGABYTE (1024 * 1024)
 
 #if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
-    #if DEBUG
+    #if defined(DEBUG) && DEBUG
         #if defined(LOG_LEVEL_DEBUG) // CocoaLumberjack 1.x
             int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
         #else // CocoaLumberjack 2.x
