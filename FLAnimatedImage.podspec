@@ -19,7 +19,22 @@ Pod::Spec.new do |spec|
   spec.social_media_url = "https://twitter.com/raphaelschaad"
   spec.platform         = :ios, "6.0"
   spec.source           = { :git => "https://github.com/Flipboard/FLAnimatedImage.git", :tag => "1.0.8" }
-  spec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage", "FLAnimatedImageDemo/FLAnimatedImage/**/*.{h,m}"
   spec.frameworks       = "QuartzCore", "ImageIO", "MobileCoreServices", "CoreGraphics"
   spec.requires_arc     = true
+
+  spec.subspec "Core" do |subspec|
+    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/Core/**/*.{h.m}"
+  end
+
+  spec.subspec "GIF" do |subspec|
+    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/GIF/**/*.{h.m}"
+  end
+
+  spec.subspec "WebP" do |subspec|
+    subspec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage/WebP/**/*.{h.m}"
+    subspec.dependency      "libwebp"
+  end
+
+  spec.default_subspecs   "Core", "GIF"
 end
+

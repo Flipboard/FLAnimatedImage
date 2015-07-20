@@ -28,6 +28,11 @@
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;
 
+// Use these for user driven actions instead of startAnimating and stopAnimating
+// The latter are affected by the view moving windows and such
+- (void)play;
+- (void)pause;
+
 #if defined(DEBUG) && DEBUG
 // Only intended to report internal state for debugging
 @property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;

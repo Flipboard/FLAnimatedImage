@@ -1,5 +1,5 @@
 # Global .gitignore
-# Files such as .DS_Store on OS X should be excluded system-wide: $ git config --global core.excludesfile "~/.gitignore_global_osx"
+.DS_Store
 
 # Xcode
 build/*

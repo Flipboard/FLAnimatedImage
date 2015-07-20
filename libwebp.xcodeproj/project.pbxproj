@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18A611B91B34E79C0009CDC9 /* vp8i.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29CFA126A500000000 /* vp8i.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BA1B34E79C0009CDC9 /* vp8li.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E292485E1F500000000 /* vp8li.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BB1B34E79C0009CDC9 /* webpi.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2948F87B0700000000 /* webpi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BC1B34E79C0009CDC9 /* dsp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2905B71F7B00000000 /* dsp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BD1B34E79C0009CDC9 /* lossless.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29844C463600000000 /* lossless.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BE1B34E79C0009CDC9 /* yuv.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2906E00C5400000000 /* yuv.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611BF1B34E79C0009CDC9 /* bit_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2986CD4CEF00000000 /* bit_reader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C01B34E79C0009CDC9 /* bit_writer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E294C6C6C9F00000000 /* bit_writer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C11B34E79C0009CDC9 /* color_cache.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E290241A02000000000 /* color_cache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C21B34E79C0009CDC9 /* filters.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29CB77973500000000 /* filters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C31B34E79C0009CDC9 /* huffman.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E297DAE426700000000 /* huffman.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C41B34E79C0009CDC9 /* huffman_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29CF5AA6E200000000 /* huffman_encode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C51B34E79C0009CDC9 /* quant_levels.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29D0FB1F2500000000 /* quant_levels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C61B34E79C0009CDC9 /* quant_levels_dec.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29E5F1802800000000 /* quant_levels_dec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C71B34E79C0009CDC9 /* random.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E290EECC5FD00000000 /* random.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C81B34E79C0009CDC9 /* rescaler.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29128BD79500000000 /* rescaler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611C91B34E79C0009CDC9 /* thread.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2957D5B98400000000 /* thread.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CA1B34E79C0009CDC9 /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29F925AE6B00000000 /* utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CB1B34E79C0009CDC9 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E292205D46800000000 /* decode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CC1B34E79C0009CDC9 /* demux.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E295C7F95E900000000 /* demux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CD1B34E79C0009CDC9 /* encode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2965FF169000000000 /* encode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CE1B34E79C0009CDC9 /* format_constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E2908729B4100000000 /* format_constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611CF1B34E79C0009CDC9 /* mux.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E290636F9CA00000000 /* mux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611D01B34E79C0009CDC9 /* mux_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29E4BBA2C400000000 /* mux_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18A611D11B34E79C0009CDC9 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD70E29CD27243300000000 /* types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E7A30F040031619B00000000 /* io.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E290031619B00000000 /* io.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F040241A01B00000000 /* color_cache.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E290241A01B00000000 /* color_cache.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0405A7BD9D00000000 /* cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2905A7BD9D00000000 /* cpu.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0405B0917700000000 /* dec.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2905B0917700000000 /* dec.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0405C2C04F00000000 /* enc.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2905C2C04F00000000 /* enc.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0406B2973300000000 /* vp8.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2906B2973300000000 /* vp8.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0406E00C4F00000000 /* yuv.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2906E00C4F00000000 /* yuv.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F040EECC5F800000000 /* random.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E290EECC5F800000000 /* random.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04128BD79000000000 /* rescaler.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29128BD79000000000 /* rescaler.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0426D1CA7800000000 /* quant.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2926D1CA7800000000 /* quant.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0442E81D8900000000 /* alpha_processing.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2942E81D8900000000 /* alpha_processing.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F044AA6F4AE00000000 /* lossless_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E294AA6F4AE00000000 /* lossless_neon.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F044C6C6C9A00000000 /* bit_writer.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E294C6C6C9A00000000 /* bit_writer.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F044FA1B1AC00000000 /* dec_clip_tables.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E294FA1B1AC00000000 /* dec_clip_tables.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F045213C5A800000000 /* upsampling_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E295213C5A800000000 /* upsampling_neon.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0453EF0BE500000000 /* lossless_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2953EF0BE500000000 /* lossless_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0457D5B97F00000000 /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2957D5B97F00000000 /* thread.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F045B5BDCDF00000000 /* upsampling_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E295B5BDCDF00000000 /* upsampling_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F045C7F95E400000000 /* demux.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E295C7F95E400000000 /* demux.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F047AACC52800000000 /* dec_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E297AACC52800000000 /* dec_neon.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F047DAE426200000000 /* huffman.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E297DAE426200000000 /* huffman.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0483F4DC5F00000000 /* dec_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2983F4DC5F00000000 /* dec_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04844C463100000000 /* lossless.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29844C463100000000 /* lossless.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0486CD4CEA00000000 /* bit_reader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2986CD4CEA00000000 /* bit_reader.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F0487F8688700000000 /* yuv_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E2987F8688700000000 /* yuv_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04A5478A3500000000 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29A5478A3500000000 /* buffer.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04A55E1D5000000000 /* enc_neon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29A55E1D5000000000 /* enc_neon.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04AEA6348700000000 /* enc_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29AEA6348700000000 /* enc_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04B10B40F700000000 /* upsampling.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29B10B40F700000000 /* upsampling.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04B8DD6AAE00000000 /* idec.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29B8DD6AAE00000000 /* idec.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04C9E2D7D300000000 /* alpha.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29C9E2D7D300000000 /* alpha.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04CB77973000000000 /* filters.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29CB77973000000000 /* filters.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04CC680A1300000000 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29CC680A1300000000 /* tree.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04CF5AA6DD00000000 /* huffman_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29CF5AA6DD00000000 /* huffman_encode.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04CFA131E300000000 /* vp8l.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29CFA131E300000000 /* vp8l.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04D0CE2E9100000000 /* webp.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29D0CE2E9100000000 /* webp.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04D0FB1F2000000000 /* quant_levels.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29D0FB1F2000000000 /* quant_levels.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04DBCE082200000000 /* frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29DBCE082200000000 /* frame.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04E5F1802300000000 /* quant_levels_dec.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29E5F1802300000000 /* quant_levels_dec.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04F64C0B8D00000000 /* alpha_processing_sse2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29F64C0B8D00000000 /* alpha_processing_sse2.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+		E7A30F04F925AE6600000000 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 1DD70E29F925AE6600000000 /* utils.c */; settings = {COMPILER_FLAGS = "-Wno-unused-variable"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1DD70E290031619B00000000 /* io.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = io.c; path = libwebp/src/dec/io.c; sourceTree = SOURCE_ROOT; };
+		1DD70E290241A01B00000000 /* color_cache.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = color_cache.c; path = libwebp/src/utils/color_cache.c; sourceTree = SOURCE_ROOT; };
+		1DD70E290241A02000000000 /* color_cache.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = color_cache.h; path = libwebp/src/utils/color_cache.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2905A7BD9D00000000 /* cpu.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = cpu.c; path = libwebp/src/dsp/cpu.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2905B0917700000000 /* dec.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = dec.c; path = libwebp/src/dsp/dec.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2905B71F7B00000000 /* dsp.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = dsp.h; path = libwebp/src/dsp/dsp.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2905C2C04F00000000 /* enc.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = enc.c; path = libwebp/src/dsp/enc.c; sourceTree = SOURCE_ROOT; };
+		1DD70E290636F9CA00000000 /* mux.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = mux.h; path = libwebp/src/webp/mux.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2906B2973300000000 /* vp8.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = vp8.c; path = libwebp/src/dec/vp8.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2906E00C4F00000000 /* yuv.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = yuv.c; path = libwebp/src/dsp/yuv.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2906E00C5400000000 /* yuv.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = yuv.h; path = libwebp/src/dsp/yuv.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2908729B4100000000 /* format_constants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = format_constants.h; path = libwebp/src/webp/format_constants.h; sourceTree = SOURCE_ROOT; };
+		1DD70E290E077C6F00000000 /* libwebp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libwebp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DD70E290EECC5F800000000 /* random.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = random.c; path = libwebp/src/utils/random.c; sourceTree = SOURCE_ROOT; };
+		1DD70E290EECC5FD00000000 /* random.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = random.h; path = libwebp/src/utils/random.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29128BD79000000000 /* rescaler.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = rescaler.c; path = libwebp/src/utils/rescaler.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29128BD79500000000 /* rescaler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = rescaler.h; path = libwebp/src/utils/rescaler.h; sourceTree = SOURCE_ROOT; };
+		1DD70E292205D46800000000 /* decode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = decode.h; path = libwebp/src/webp/decode.h; sourceTree = SOURCE_ROOT; };
+		1DD70E292485E1F500000000 /* vp8li.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = vp8li.h; path = libwebp/src/dec/vp8li.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2926D1CA7800000000 /* quant.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = quant.c; path = libwebp/src/dec/quant.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2942E81D8900000000 /* alpha_processing.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = alpha_processing.c; path = libwebp/src/dsp/alpha_processing.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2948F87B0700000000 /* webpi.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = webpi.h; path = libwebp/src/dec/webpi.h; sourceTree = SOURCE_ROOT; };
+		1DD70E294AA6F4AE00000000 /* lossless_neon.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = lossless_neon.c; path = libwebp/src/dsp/lossless_neon.c; sourceTree = SOURCE_ROOT; };
+		1DD70E294C6C6C9A00000000 /* bit_writer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = bit_writer.c; path = libwebp/src/utils/bit_writer.c; sourceTree = SOURCE_ROOT; };
+		1DD70E294C6C6C9F00000000 /* bit_writer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = bit_writer.h; path = libwebp/src/utils/bit_writer.h; sourceTree = SOURCE_ROOT; };
+		1DD70E294FA1B1AC00000000 /* dec_clip_tables.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = dec_clip_tables.c; path = libwebp/src/dsp/dec_clip_tables.c; sourceTree = SOURCE_ROOT; };
+		1DD70E295213C5A800000000 /* upsampling_neon.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = upsampling_neon.c; path = libwebp/src/dsp/upsampling_neon.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2953EF0BE500000000 /* lossless_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = lossless_sse2.c; path = libwebp/src/dsp/lossless_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2957D5B97F00000000 /* thread.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = thread.c; path = libwebp/src/utils/thread.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2957D5B98400000000 /* thread.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = thread.h; path = libwebp/src/utils/thread.h; sourceTree = SOURCE_ROOT; };
+		1DD70E295B5BDCDF00000000 /* upsampling_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = upsampling_sse2.c; path = libwebp/src/dsp/upsampling_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E295C7F95E400000000 /* demux.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = demux.c; path = libwebp/src/demux/demux.c; sourceTree = SOURCE_ROOT; };
+		1DD70E295C7F95E900000000 /* demux.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = demux.h; path = libwebp/src/webp/demux.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2965FF169000000000 /* encode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = encode.h; path = libwebp/src/webp/encode.h; sourceTree = SOURCE_ROOT; };
+		1DD70E297AACC52800000000 /* dec_neon.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = dec_neon.c; path = libwebp/src/dsp/dec_neon.c; sourceTree = SOURCE_ROOT; };
+		1DD70E297DAE426200000000 /* huffman.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = huffman.c; path = libwebp/src/utils/huffman.c; sourceTree = SOURCE_ROOT; };
+		1DD70E297DAE426700000000 /* huffman.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = huffman.h; path = libwebp/src/utils/huffman.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2983F4DC5F00000000 /* dec_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = dec_sse2.c; path = libwebp/src/dsp/dec_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29844C463100000000 /* lossless.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = lossless.c; path = libwebp/src/dsp/lossless.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29844C463600000000 /* lossless.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = lossless.h; path = libwebp/src/dsp/lossless.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2986CD4CEA00000000 /* bit_reader.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = bit_reader.c; path = libwebp/src/utils/bit_reader.c; sourceTree = SOURCE_ROOT; };
+		1DD70E2986CD4CEF00000000 /* bit_reader.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = bit_reader.h; path = libwebp/src/utils/bit_reader.h; sourceTree = SOURCE_ROOT; };
+		1DD70E2987F8688700000000 /* yuv_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = yuv_sse2.c; path = libwebp/src/dsp/yuv_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E299D4BE1A700000000 /* decode_vp8.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = decode_vp8.h; path = libwebp/src/dec/decode_vp8.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29A5478A3500000000 /* buffer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = buffer.c; path = libwebp/src/dec/buffer.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29A55E1D5000000000 /* enc_neon.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = enc_neon.c; path = libwebp/src/dsp/enc_neon.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29AEA6348700000000 /* enc_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = enc_sse2.c; path = libwebp/src/dsp/enc_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29B10B40F700000000 /* upsampling.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = upsampling.c; path = libwebp/src/dsp/upsampling.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29B8DD6AAE00000000 /* idec.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = idec.c; path = libwebp/src/dec/idec.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29C9E2D7D300000000 /* alpha.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = alpha.c; path = libwebp/src/dec/alpha.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29CB77973000000000 /* filters.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = filters.c; path = libwebp/src/utils/filters.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29CB77973500000000 /* filters.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = filters.h; path = libwebp/src/utils/filters.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29CC680A1300000000 /* tree.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = tree.c; path = libwebp/src/dec/tree.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29CD27243300000000 /* types.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = types.h; path = libwebp/src/webp/types.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29CF5AA6DD00000000 /* huffman_encode.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = huffman_encode.c; path = libwebp/src/utils/huffman_encode.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29CF5AA6E200000000 /* huffman_encode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = huffman_encode.h; path = libwebp/src/utils/huffman_encode.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29CFA126A500000000 /* vp8i.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = vp8i.h; path = libwebp/src/dec/vp8i.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29CFA131E300000000 /* vp8l.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = vp8l.c; path = libwebp/src/dec/vp8l.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29D0CE2E9100000000 /* webp.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = webp.c; path = libwebp/src/dec/webp.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29D0FB1F2000000000 /* quant_levels.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = quant_levels.c; path = libwebp/src/utils/quant_levels.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29D0FB1F2500000000 /* quant_levels.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = quant_levels.h; path = libwebp/src/utils/quant_levels.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29DBCE082200000000 /* frame.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = frame.c; path = libwebp/src/dec/frame.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29E4BBA2C400000000 /* mux_types.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = mux_types.h; path = libwebp/src/webp/mux_types.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29E5F1802300000000 /* quant_levels_dec.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = quant_levels_dec.c; path = libwebp/src/utils/quant_levels_dec.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29E5F1802800000000 /* quant_levels_dec.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = quant_levels_dec.h; path = libwebp/src/utils/quant_levels_dec.h; sourceTree = SOURCE_ROOT; };
+		1DD70E29F64C0B8D00000000 /* alpha_processing_sse2.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = alpha_processing_sse2.c; path = libwebp/src/dsp/alpha_processing_sse2.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29F925AE6600000000 /* utils.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; name = utils.c; path = libwebp/src/utils/utils.c; sourceTree = SOURCE_ROOT; };
+		1DD70E29F925AE6B00000000 /* utils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; name = utils.h; path = libwebp/src/utils/utils.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		B401C9790001840200000000 /* dec */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E29C9E2D7D300000000 /* alpha.c */,
+				1DD70E29A5478A3500000000 /* buffer.c */,
+				1DD70E299D4BE1A700000000 /* decode_vp8.h */,
+				1DD70E29DBCE082200000000 /* frame.c */,
+				1DD70E29B8DD6AAE00000000 /* idec.c */,
+				1DD70E290031619B00000000 /* io.c */,
+				1DD70E2926D1CA7800000000 /* quant.c */,
+				1DD70E29CC680A1300000000 /* tree.c */,
+				1DD70E2906B2973300000000 /* vp8.c */,
+				1DD70E29CFA126A500000000 /* vp8i.h */,
+				1DD70E29CFA131E300000000 /* vp8l.c */,
+				1DD70E292485E1F500000000 /* vp8li.h */,
+				1DD70E29D0CE2E9100000000 /* webp.c */,
+				1DD70E2948F87B0700000000 /* webpi.h */,
+			);
+			name = dec;
+			path = libwebp/src/dec;
+			sourceTree = SOURCE_ROOT;
+		};
+		B401C979000185C100000000 /* dsp */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E2942E81D8900000000 /* alpha_processing.c */,
+				1DD70E29F64C0B8D00000000 /* alpha_processing_sse2.c */,
+				1DD70E2905A7BD9D00000000 /* cpu.c */,
+				1DD70E2905B0917700000000 /* dec.c */,
+				1DD70E294FA1B1AC00000000 /* dec_clip_tables.c */,
+				1DD70E297AACC52800000000 /* dec_neon.c */,
+				1DD70E2983F4DC5F00000000 /* dec_sse2.c */,
+				1DD70E2905B71F7B00000000 /* dsp.h */,
+				1DD70E2905C2C04F00000000 /* enc.c */,
+				1DD70E29A55E1D5000000000 /* enc_neon.c */,
+				1DD70E29AEA6348700000000 /* enc_sse2.c */,
+				1DD70E29844C463100000000 /* lossless.c */,
+				1DD70E29844C463600000000 /* lossless.h */,
+				1DD70E294AA6F4AE00000000 /* lossless_neon.c */,
+				1DD70E2953EF0BE500000000 /* lossless_sse2.c */,
+				1DD70E29B10B40F700000000 /* upsampling.c */,
+				1DD70E295213C5A800000000 /* upsampling_neon.c */,
+				1DD70E295B5BDCDF00000000 /* upsampling_sse2.c */,
+				1DD70E2906E00C4F00000000 /* yuv.c */,
+				1DD70E2906E00C5400000000 /* yuv.h */,
+				1DD70E2987F8688700000000 /* yuv_sse2.c */,
+			);
+			name = dsp;
+			path = libwebp/src/dsp;
+			sourceTree = SOURCE_ROOT;
+		};
+		B401C97900379F9C00000000 /* webp */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E292205D46800000000 /* decode.h */,
+				1DD70E295C7F95E900000000 /* demux.h */,
+				1DD70E2965FF169000000000 /* encode.h */,
+				1DD70E2908729B4100000000 /* format_constants.h */,
+				1DD70E290636F9CA00000000 /* mux.h */,
+				1DD70E29E4BBA2C400000000 /* mux_types.h */,
+				1DD70E29CD27243300000000 /* types.h */,
+			);
+			name = webp;
+			path = libwebp/src/webp;
+			sourceTree = SOURCE_ROOT;
+		};
+		B401C97905B0BFAF00000000 /* demux */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E295C7F95E400000000 /* demux.c */,
+			);
+			name = demux;
+			path = libwebp/src/demux;
+			sourceTree = SOURCE_ROOT;
+		};
+		B401C97906A710B100000000 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E2986CD4CEA00000000 /* bit_reader.c */,
+				1DD70E2986CD4CEF00000000 /* bit_reader.h */,
+				1DD70E294C6C6C9A00000000 /* bit_writer.c */,
+				1DD70E294C6C6C9F00000000 /* bit_writer.h */,
+				1DD70E290241A01B00000000 /* color_cache.c */,
+				1DD70E290241A02000000000 /* color_cache.h */,
+				1DD70E29CB77973000000000 /* filters.c */,
+				1DD70E29CB77973500000000 /* filters.h */,
+				1DD70E297DAE426200000000 /* huffman.c */,
+				1DD70E297DAE426700000000 /* huffman.h */,
+				1DD70E29CF5AA6DD00000000 /* huffman_encode.c */,
+				1DD70E29CF5AA6E200000000 /* huffman_encode.h */,
+				1DD70E29D0FB1F2000000000 /* quant_levels.c */,
+				1DD70E29D0FB1F2500000000 /* quant_levels.h */,
+				1DD70E29E5F1802300000000 /* quant_levels_dec.c */,
+				1DD70E29E5F1802800000000 /* quant_levels_dec.h */,
+				1DD70E290EECC5F800000000 /* random.c */,
+				1DD70E290EECC5FD00000000 /* random.h */,
+				1DD70E29128BD79000000000 /* rescaler.c */,
+				1DD70E29128BD79500000000 /* rescaler.h */,
+				1DD70E2957D5B97F00000000 /* thread.c */,
+				1DD70E2957D5B98400000000 /* thread.h */,
+				1DD70E29F925AE6600000000 /* utils.c */,
+				1DD70E29F925AE6B00000000 /* utils.h */,
+			);
+			name = utils;
+			path = libwebp/src/utils;
+			sourceTree = SOURCE_ROOT;
+		};
+		B401C979C806358400000000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DD70E290E077C6F00000000 /* libwebp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B401C979EAB5339800000000 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B401C9790001840200000000 /* dec */,
+				B401C97905B0BFAF00000000 /* demux */,
+				B401C979000185C100000000 /* dsp */,
+				B401C97906A710B100000000 /* utils */,
+				B401C97900379F9C00000000 /* webp */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		B401C979EFB6AC4600000000 /* mainGroup */ = {
+			isa = PBXGroup;
+			children = (
+				B401C979EAB5339800000000 /* Sources */,
+				B401C979C806358400000000 /* Products */,
+			);
+			name = mainGroup;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		18A611B71B34E77D0009CDC9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18A611B91B34E79C0009CDC9 /* vp8i.h in Headers */,
+				18A611BA1B34E79C0009CDC9 /* vp8li.h in Headers */,
+				18A611BB1B34E79C0009CDC9 /* webpi.h in Headers */,
+				18A611BC1B34E79C0009CDC9 /* dsp.h in Headers */,
+				18A611BD1B34E79C0009CDC9 /* lossless.h in Headers */,
+				18A611BE1B34E79C0009CDC9 /* yuv.h in Headers */,
+				18A611BF1B34E79C0009CDC9 /* bit_reader.h in Headers */,
+				18A611C01B34E79C0009CDC9 /* bit_writer.h in Headers */,
+				18A611C11B34E79C0009CDC9 /* color_cache.h in Headers */,
+				18A611C21B34E79C0009CDC9 /* filters.h in Headers */,
+				18A611C31B34E79C0009CDC9 /* huffman.h in Headers */,
+				18A611C41B34E79C0009CDC9 /* huffman_encode.h in Headers */,
+				18A611C51B34E79C0009CDC9 /* quant_levels.h in Headers */,
+				18A611C61B34E79C0009CDC9 /* quant_levels_dec.h in Headers */,
+				18A611C71B34E79C0009CDC9 /* random.h in Headers */,
+				18A611C81B34E79C0009CDC9 /* rescaler.h in Headers */,
+				18A611C91B34E79C0009CDC9 /* thread.h in Headers */,
+				18A611CA1B34E79C0009CDC9 /* utils.h in Headers */,
+				18A611CB1B34E79C0009CDC9 /* decode.h in Headers */,
+				18A611CC1B34E79C0009CDC9 /* demux.h in Headers */,
+				18A611CD1B34E79C0009CDC9 /* encode.h in Headers */,
+				18A611CE1B34E79C0009CDC9 /* format_constants.h in Headers */,
+				18A611CF1B34E79C0009CDC9 /* mux.h in Headers */,
+				18A611D01B34E79C0009CDC9 /* mux_types.h in Headers */,
+				18A611D11B34E79C0009CDC9 /* types.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E66DC04E09EA77A100000000 /* libwebp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 218C37090000000000000000 /* Build configuration list for PBXNativeTarget "libwebp" */;
+			buildPhases = (
+				1870857F0000000000000000 /* Sources */,
+				18A611B71B34E77D0009CDC9 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libwebp;
+			productName = libwebp;
+			productReference = 1DD70E290E077C6F00000000 /* libwebp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		96C8479309EA77A100000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = 218C37090000000000000001 /* Build configuration list for PBXProject "libwebp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B401C979EFB6AC4600000000 /* mainGroup */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E66DC04E09EA77A100000000 /* libwebp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1870857F0000000000000000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				E7A30F04C9E2D7D300000000 /* alpha.c in Sources */,
+				E7A30F04A5478A3500000000 /* buffer.c in Sources */,
+				E7A30F04DBCE082200000000 /* frame.c in Sources */,
+				E7A30F04B8DD6AAE00000000 /* idec.c in Sources */,
+				E7A30F040031619B00000000 /* io.c in Sources */,
+				E7A30F0426D1CA7800000000 /* quant.c in Sources */,
+				E7A30F04CC680A1300000000 /* tree.c in Sources */,
+				E7A30F0406B2973300000000 /* vp8.c in Sources */,
+				E7A30F04CFA131E300000000 /* vp8l.c in Sources */,
+				E7A30F04D0CE2E9100000000 /* webp.c in Sources */,
+				E7A30F045C7F95E400000000 /* demux.c in Sources */,
+				E7A30F0442E81D8900000000 /* alpha_processing.c in Sources */,
+				E7A30F04F64C0B8D00000000 /* alpha_processing_sse2.c in Sources */,
+				E7A30F0405A7BD9D00000000 /* cpu.c in Sources */,
+				E7A30F0405B0917700000000 /* dec.c in Sources */,
+				E7A30F044FA1B1AC00000000 /* dec_clip_tables.c in Sources */,
+				E7A30F047AACC52800000000 /* dec_neon.c in Sources */,
+				E7A30F0483F4DC5F00000000 /* dec_sse2.c in Sources */,
+				E7A30F0405C2C04F00000000 /* enc.c in Sources */,
+				E7A30F04A55E1D5000000000 /* enc_neon.c in Sources */,
+				E7A30F04AEA6348700000000 /* enc_sse2.c in Sources */,
+				E7A30F04844C463100000000 /* lossless.c in Sources */,
+				E7A30F044AA6F4AE00000000 /* lossless_neon.c in Sources */,
+				E7A30F0453EF0BE500000000 /* lossless_sse2.c in Sources */,
+				E7A30F04B10B40F700000000 /* upsampling.c in Sources */,
+				E7A30F045213C5A800000000 /* upsampling_neon.c in Sources */,
+				E7A30F045B5BDCDF00000000 /* upsampling_sse2.c in Sources */,
+				E7A30F0406E00C4F00000000 /* yuv.c in Sources */,
+				E7A30F0487F8688700000000 /* yuv_sse2.c in Sources */,
+				E7A30F0486CD4CEA00000000 /* bit_reader.c in Sources */,
+				E7A30F044C6C6C9A00000000 /* bit_writer.c in Sources */,
+				E7A30F040241A01B00000000 /* color_cache.c in Sources */,
+				E7A30F04CB77973000000000 /* filters.c in Sources */,
+				E7A30F047DAE426200000000 /* huffman.c in Sources */,
+				E7A30F04CF5AA6DD00000000 /* huffman_encode.c in Sources */,
+				E7A30F04D0FB1F2000000000 /* quant_levels.c in Sources */,
+				E7A30F04E5F1802300000000 /* quant_levels_dec.c in Sources */,
+				E7A30F040EECC5F800000000 /* random.c in Sources */,
+				E7A30F04128BD79000000000 /* rescaler.c in Sources */,
+				E7A30F0457D5B97F00000000 /* thread.c in Sources */,
+				E7A30F04F925AE6600000000 /* utils.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4952437303EDA63300000000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = webp;
+			};
+			name = Debug;
+		};
+		4952437303EDA63300000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/libwebp;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		49524373A439BFE700000000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = webp;
+			};
+			name = Release;
+		};
+		49524373A439BFE700000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include/libwebp;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		218C37090000000000000000 /* Build configuration list for PBXNativeTarget "libwebp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4952437303EDA63300000000 /* Debug */,
+				49524373A439BFE700000000 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		218C37090000000000000001 /* Build configuration list for PBXProject "libwebp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4952437303EDA63300000001 /* Debug */,
+				49524373A439BFE700000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 96C8479309EA77A100000000 /* Project object */;
+}

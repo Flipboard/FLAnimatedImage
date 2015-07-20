@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18644B271B411C8E0028AF87 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B1C1B411C8E0028AF87 /* FLAnimatedImage.m */; };
+		18644B281B411C8E0028AF87 /* FLAnimatedImageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B1F1B411C8E0028AF87 /* FLAnimatedImageData.m */; };
+		18644B291B411C8E0028AF87 /* FLAnimatedImageFrameCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B211B411C8E0028AF87 /* FLAnimatedImageFrameCache.m */; };
+		18644B2A1B411C8E0028AF87 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B241B411C8E0028AF87 /* FLAnimatedImageView.m */; };
+		18644B2B1B411C8E0028AF87 /* FLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B261B411C8E0028AF87 /* FLWeakProxy.m */; };
+		18644B301B411C970028AF87 /* FLAnimatedGIFDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B2D1B411C970028AF87 /* FLAnimatedGIFDataSource.m */; };
+		18644B311B411C970028AF87 /* FLAnimatedImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B2F1B411C970028AF87 /* FLAnimatedImage+GIF.m */; };
+		18644B3D1B4120340028AF87 /* FLAnimatedImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B341B4120340028AF87 /* FLAnimatedImage+WebP.m */; };
+		18644B3E1B4120340028AF87 /* FLAnimatedWebPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B361B4120340028AF87 /* FLAnimatedWebPDataSource.m */; };
+		18644B3F1B4120340028AF87 /* FLAnimatedWebPDemuxer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B381B4120340028AF87 /* FLAnimatedWebPDemuxer.m */; };
+		18644B401B4120340028AF87 /* FLAnimatedWebPFrameInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B3A1B4120340028AF87 /* FLAnimatedWebPFrameInfo.m */; };
+		18644B411B4120340028AF87 /* FLWebPUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 18644B3C1B4120340028AF87 /* FLWebPUtilities.m */; };
+		18A611DA1B34EC5E0009CDC9 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A611D71B34E7C60009CDC9 /* libwebp.a */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -17,8 +30,6 @@
 		8790E1171935ABDA00459BC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8790E1161935ABDA00459BC1 /* Images.xcassets */; };
 		87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59ED1935A7BB00620C16 /* AppDelegate.m */; };
 		87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59EF1935A7BB00620C16 /* RootViewController.m */; };
-		87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */; };
-		87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */; };
 		87CB5A001935A83900620C16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87CB59FE1935A83900620C16 /* InfoPlist.strings */; };
 		87CB5A031935A84900620C16 /* DebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A021935A84900620C16 /* DebugView.m */; };
 		87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A091935A8C600620C16 /* FrameCacheView.m */; };
@@ -28,7 +39,51 @@
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		18A611D61B34E7C60009CDC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1DD70E290E077C6F00000000;
+			remoteInfo = libwebp;
+		};
+		18A611D81B34E7D00009CDC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E66DC04E09EA77A100000000;
+			remoteInfo = libwebp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		18644B1B1B411C8E0028AF87 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImage.h; sourceTree = SOURCE_ROOT; };
+		18644B1C1B411C8E0028AF87 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImage.m; sourceTree = SOURCE_ROOT; };
+		18644B1D1B411C8E0028AF87 /* FLAnimatedImage+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImage+Internal.h"; path = "FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImage+Internal.h"; sourceTree = SOURCE_ROOT; };
+		18644B1E1B411C8E0028AF87 /* FLAnimatedImageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageData.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageData.h; sourceTree = SOURCE_ROOT; };
+		18644B1F1B411C8E0028AF87 /* FLAnimatedImageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageData.m; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageData.m; sourceTree = SOURCE_ROOT; };
+		18644B201B411C8E0028AF87 /* FLAnimatedImageFrameCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageFrameCache.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageFrameCache.h; sourceTree = SOURCE_ROOT; };
+		18644B211B411C8E0028AF87 /* FLAnimatedImageFrameCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageFrameCache.m; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageFrameCache.m; sourceTree = SOURCE_ROOT; };
+		18644B221B411C8E0028AF87 /* FLAnimatedImageFrameDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageFrameDataSource.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageFrameDataSource.h; sourceTree = SOURCE_ROOT; };
+		18644B231B411C8E0028AF87 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageView.h; sourceTree = SOURCE_ROOT; };
+		18644B241B411C8E0028AF87 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLAnimatedImageView.m; sourceTree = SOURCE_ROOT; };
+		18644B251B411C8E0028AF87 /* FLWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLWeakProxy.h; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLWeakProxy.h; sourceTree = SOURCE_ROOT; };
+		18644B261B411C8E0028AF87 /* FLWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLWeakProxy.m; path = FLAnimatedImageDemo/FLAnimatedImage/Core/FLWeakProxy.m; sourceTree = SOURCE_ROOT; };
+		18644B2C1B411C970028AF87 /* FLAnimatedGIFDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedGIFDataSource.h; path = FLAnimatedImageDemo/FLAnimatedImage/GIF/FLAnimatedGIFDataSource.h; sourceTree = SOURCE_ROOT; };
+		18644B2D1B411C970028AF87 /* FLAnimatedGIFDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedGIFDataSource.m; path = FLAnimatedImageDemo/FLAnimatedImage/GIF/FLAnimatedGIFDataSource.m; sourceTree = SOURCE_ROOT; };
+		18644B2E1B411C970028AF87 /* FLAnimatedImage+GIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImage+GIF.h"; path = "FLAnimatedImageDemo/FLAnimatedImage/GIF/FLAnimatedImage+GIF.h"; sourceTree = SOURCE_ROOT; };
+		18644B2F1B411C970028AF87 /* FLAnimatedImage+GIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FLAnimatedImage+GIF.m"; path = "FLAnimatedImageDemo/FLAnimatedImage/GIF/FLAnimatedImage+GIF.m"; sourceTree = SOURCE_ROOT; };
+		18644B331B4120340028AF87 /* FLAnimatedImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImage+WebP.h"; path = "FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedImage+WebP.h"; sourceTree = SOURCE_ROOT; };
+		18644B341B4120340028AF87 /* FLAnimatedImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "FLAnimatedImage+WebP.m"; path = "FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedImage+WebP.m"; sourceTree = SOURCE_ROOT; };
+		18644B351B4120340028AF87 /* FLAnimatedWebPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedWebPDataSource.h; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPDataSource.h; sourceTree = SOURCE_ROOT; };
+		18644B361B4120340028AF87 /* FLAnimatedWebPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedWebPDataSource.m; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPDataSource.m; sourceTree = SOURCE_ROOT; };
+		18644B371B4120340028AF87 /* FLAnimatedWebPDemuxer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedWebPDemuxer.h; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPDemuxer.h; sourceTree = SOURCE_ROOT; };
+		18644B381B4120340028AF87 /* FLAnimatedWebPDemuxer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedWebPDemuxer.m; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPDemuxer.m; sourceTree = SOURCE_ROOT; };
+		18644B391B4120340028AF87 /* FLAnimatedWebPFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedWebPFrameInfo.h; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPFrameInfo.h; sourceTree = SOURCE_ROOT; };
+		18644B3A1B4120340028AF87 /* FLAnimatedWebPFrameInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedWebPFrameInfo.m; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPFrameInfo.m; sourceTree = SOURCE_ROOT; };
+		18644B3B1B4120340028AF87 /* FLWebPUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLWebPUtilities.h; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLWebPUtilities.h; sourceTree = SOURCE_ROOT; };
+		18644B3C1B4120340028AF87 /* FLWebPUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLWebPUtilities.m; path = FLAnimatedImageDemo/FLAnimatedImage/WebP/FLWebPUtilities.m; sourceTree = SOURCE_ROOT; };
+		18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = libwebp.xcodeproj; sourceTree = "<group>"; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -42,10 +97,6 @@
 		87CB59ED1935A7BB00620C16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = FLAnimatedImageDemo/AppDelegate.m; sourceTree = "<group>"; };
 		87CB59EE1935A7BB00620C16 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = FLAnimatedImageDemo/RootViewController.h; sourceTree = "<group>"; };
 		87CB59EF1935A7BB00620C16 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = FLAnimatedImageDemo/RootViewController.m; sourceTree = "<group>"; };
-		87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = SOURCE_ROOT; };
-		87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = SOURCE_ROOT; };
-		87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = SOURCE_ROOT; };
-		87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = SOURCE_ROOT; };
 		87CB59FF1935A83900620C16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = FLAnimatedImageDemo/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		87CB5A011935A84900620C16 /* DebugView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugView.h; path = FLAnimatedImageDemo/DebugView.h; sourceTree = "<group>"; };
 		87CB5A021935A84900620C16 /* DebugView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugView.m; path = FLAnimatedImageDemo/DebugView.m; sourceTree = "<group>"; };
@@ -67,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A611DA1B34EC5E0009CDC9 /* libwebp.a in Frameworks */,
 				872EBE72178B825500B7531B /* Foundation.framework in Frameworks */,
 				872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */,
 				872EBE70178B825500B7531B /* UIKit.framework in Frameworks */,
@@ -79,9 +131,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18644B151B41182A0028AF87 /* WebP */ = {
+			isa = PBXGroup;
+			children = (
+				18644B331B4120340028AF87 /* FLAnimatedImage+WebP.h */,
+				18644B341B4120340028AF87 /* FLAnimatedImage+WebP.m */,
+				18644B351B4120340028AF87 /* FLAnimatedWebPDataSource.h */,
+				18644B361B4120340028AF87 /* FLAnimatedWebPDataSource.m */,
+				18644B371B4120340028AF87 /* FLAnimatedWebPDemuxer.h */,
+				18644B381B4120340028AF87 /* FLAnimatedWebPDemuxer.m */,
+				18644B391B4120340028AF87 /* FLAnimatedWebPFrameInfo.h */,
+				18644B3A1B4120340028AF87 /* FLAnimatedWebPFrameInfo.m */,
+				18644B3B1B4120340028AF87 /* FLWebPUtilities.h */,
+				18644B3C1B4120340028AF87 /* FLWebPUtilities.m */,
+			);
+			name = WebP;
+			sourceTree = "<group>";
+		};
+		18644B161B41183A0028AF87 /* GIF */ = {
+			isa = PBXGroup;
+			children = (
+				18644B2C1B411C970028AF87 /* FLAnimatedGIFDataSource.h */,
+				18644B2D1B411C970028AF87 /* FLAnimatedGIFDataSource.m */,
+				18644B2E1B411C970028AF87 /* FLAnimatedImage+GIF.h */,
+				18644B2F1B411C970028AF87 /* FLAnimatedImage+GIF.m */,
+			);
+			name = GIF;
+			sourceTree = "<group>";
+		};
+		18644B171B4118880028AF87 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				18644B1B1B411C8E0028AF87 /* FLAnimatedImage.h */,
+				18644B1C1B411C8E0028AF87 /* FLAnimatedImage.m */,
+				18644B1D1B411C8E0028AF87 /* FLAnimatedImage+Internal.h */,
+				18644B1E1B411C8E0028AF87 /* FLAnimatedImageData.h */,
+				18644B1F1B411C8E0028AF87 /* FLAnimatedImageData.m */,
+				18644B201B411C8E0028AF87 /* FLAnimatedImageFrameCache.h */,
+				18644B211B411C8E0028AF87 /* FLAnimatedImageFrameCache.m */,
+				18644B221B411C8E0028AF87 /* FLAnimatedImageFrameDataSource.h */,
+				18644B231B411C8E0028AF87 /* FLAnimatedImageView.h */,
+				18644B241B411C8E0028AF87 /* FLAnimatedImageView.m */,
+				18644B251B411C8E0028AF87 /* FLWeakProxy.h */,
+				18644B261B411C8E0028AF87 /* FLWeakProxy.m */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		18A611D31B34E7C60009CDC9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18A611D71B34E7C60009CDC9 /* libwebp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		872EBE63178B825500B7531B = {
 			isa = PBXGroup;
 			children = (
+				18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */,
 				872EBE75178B825500B7531B /* FLAnimatedImageDemo */,
 				872EBE6E178B825500B7531B /* Frameworks */,
 				872EBE6D178B825500B7531B /* Products */,
@@ -148,10 +256,9 @@
 		8791BCB2191B2A8000A846A5 /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
-				87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */,
-				87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */,
-				87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */,
-				87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */,
+				18644B171B4118880028AF87 /* Core */,
+				18644B161B41183A0028AF87 /* GIF */,
+				18644B151B41182A0028AF87 /* WebP */,
 			);
 			name = FLAnimatedImage;
 			path = AnimatedImageDemo/FLAnimatedImage;
@@ -180,6 +287,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				18A611D91B34E7D00009CDC9 /* PBXTargetDependency */,
 			);
 			name = FLAnimatedImageDemo;
 			productName = AnimatedImageDemo;
@@ -206,12 +314,28 @@
 			mainGroup = 872EBE63178B825500B7531B;
 			productRefGroup = 872EBE6D178B825500B7531B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 18A611D31B34E7C60009CDC9 /* Products */;
+					ProjectRef = 18A611D21B34E7C60009CDC9 /* libwebp.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				872EBE6B178B825500B7531B /* FLAnimatedImageDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		18A611D71B34E7C60009CDC9 /* libwebp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libwebp.a;
+			remoteRef = 18A611D61B34E7C60009CDC9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		872EBE6A178B825500B7531B /* Resources */ = {
@@ -232,19 +356,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */,
+				18644B3F1B4120340028AF87 /* FLAnimatedWebPDemuxer.m in Sources */,
+				18644B2A1B411C8E0028AF87 /* FLAnimatedImageView.m in Sources */,
+				18644B3D1B4120340028AF87 /* FLAnimatedImage+WebP.m in Sources */,
+				18644B281B411C8E0028AF87 /* FLAnimatedImageData.m in Sources */,
+				18644B2B1B411C8E0028AF87 /* FLWeakProxy.m in Sources */,
 				87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */,
 				87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */,
+				18644B411B4120340028AF87 /* FLWebPUtilities.m in Sources */,
+				18644B291B411C8E0028AF87 /* FLAnimatedImageFrameCache.m in Sources */,
 				87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */,
-				87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */,
+				18644B311B411C970028AF87 /* FLAnimatedImage+GIF.m in Sources */,
 				87CB5A031935A84900620C16 /* DebugView.m in Sources */,
+				18644B3E1B4120340028AF87 /* FLAnimatedWebPDataSource.m in Sources */,
 				87CB5A121935A8C600620C16 /* GraphView.m in Sources */,
-				87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */,
+				18644B401B4120340028AF87 /* FLAnimatedWebPFrameInfo.m in Sources */,
+				18644B301B411C970028AF87 /* FLAnimatedGIFDataSource.m in Sources */,
+				18644B271B411C8E0028AF87 /* FLAnimatedImage.m in Sources */,
 				87CB5A131935A8C600620C16 /* main.m in Sources */,
 				87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18A611D91B34E7D00009CDC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libwebp;
+			targetProxy = 18A611D81B34E7D00009CDC9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		87CB59FE1935A83900620C16 /* InfoPlist.strings */ = {
@@ -283,6 +425,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(TARGET_BUILD_DIR)/usr/local/include",
+					"$(DSTROOT)/usr/local/include",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -308,6 +456,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(TARGET_BUILD_DIR)/usr/local/include",
+					"$(DSTROOT)/usr/local/include",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
