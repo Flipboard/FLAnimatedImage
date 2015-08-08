@@ -194,7 +194,8 @@ static NSHashTable *allAnimatedImagesWeak;
         _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
 
         // Note: We could leverage `CGImageSourceCreateWithURL` too to add a second initializer `-initWithAnimatedGIFContentsOfURL:`.
-        _imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+        _imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data,
+                                                   (__bridge CFDictionaryRef)@{(NSString *)kCGImageSourceShouldCache: @NO});
         // Early return on failure!
         if (!_imageSource) {
             FLLogError(@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
