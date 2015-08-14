@@ -241,9 +241,10 @@
     }
     
     NSNumber *delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
+    // If we don't have a frame delay (e.g. corrupt frame), don't update the view but skip the playhead to the next frame (in else-block).
     if (delayTimeNumber) {
         NSTimeInterval delayTime = [delayTimeNumber floatValue];
-        // If we have a nil image, don't update the view nor playhead.
+        // If we have a nil image (e.g. waiting for frame), don't update the view nor playhead.
         UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
         if (image) {
             FLLogVerbose(@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
@@ -281,7 +282,6 @@
 #endif
         }
     } else {
-        // If there's no delay time simply advance to the next frame.
         self.currentFrameIndex++;
     }
 }
