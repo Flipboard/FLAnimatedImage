@@ -74,5 +74,6 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [getGIF](https://itunes.apple.com/app/id964784701)
 - [Giffage](http://giffage.com)
 - [Flipboard](https://flipboard.com)
+- [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
