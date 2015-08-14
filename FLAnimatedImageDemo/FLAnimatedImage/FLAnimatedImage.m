@@ -224,7 +224,7 @@ static NSHashTable *allAnimatedImagesWeak;
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
-        NSInteger skippedFrameCount = 0;
+        NSUInteger skippedFrameCount = 0;
         NSMutableDictionary *delayTimesForIndexesMutable = [NSMutableDictionary dictionaryWithCapacity:imageCount];
         for (size_t i = 0; i < imageCount; i++) {
             CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
