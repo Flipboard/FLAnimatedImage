@@ -1,3 +1,9 @@
+= 
+
+  * Improve resilience against GIFs with corrupted frames (Tim Johnson)
+
+  * Turn on -Wundef warning flag (Tim Johnson)
+
 = 1.0.8 (2015-01-16)
 
   * Fix occasional crash during memory warning (Chris Marcellino)
