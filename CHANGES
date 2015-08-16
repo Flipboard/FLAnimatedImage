@@ -1,5 +1,7 @@
 = 
 
+  * Support Carthage (@cybertk)
+
   * Improve resilience against GIFs with corrupted frames (Tim Johnson)
 
   * Turn on -Wundef warning flag (Tim Johnson)
