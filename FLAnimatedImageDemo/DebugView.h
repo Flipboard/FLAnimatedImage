@@ -8,7 +8,6 @@
 
 
 #import "FLAnimatedImage.h"
-#import "FLAnimatedImageView.h"
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, DebugViewStyle) {
