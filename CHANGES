@@ -1,6 +1,6 @@
 = 
 
-  * Support Carthage (@cybertk)
+  * Support Carthage (Quanlong He)
 
   * Improve resilience against GIFs with corrupted frames (Tim Johnson)
 
