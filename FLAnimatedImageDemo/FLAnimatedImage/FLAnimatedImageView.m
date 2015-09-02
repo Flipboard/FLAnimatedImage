@@ -107,6 +107,18 @@
     }
 }
 
+- (void)setHidden:(BOOL)hidden
+{
+    [super setHidden:hidden];
+
+    [self updateShouldAnimate];
+    if (self.shouldAnimate) {
+        [self startAnimating];
+    } else {
+        [self stopAnimating];
+    }
+}
+
 
 #pragma mark Auto Layout
 
@@ -224,10 +236,10 @@
 #pragma mark Animation
 
 // Don't repeatedly check our window & superview in `-displayDidRefresh:` for performance reasons.
-// Just update our cached value whenever the animated image, window or superview is changed.
+// Just update our cached value whenever the animated image, window, superview, or hidden state is changed.
 - (void)updateShouldAnimate
 {
-    self.shouldAnimate = self.animatedImage && self.window && self.superview;
+    self.shouldAnimate = self.animatedImage && self.window && self.superview && !self.hidden;
 }
 
 
