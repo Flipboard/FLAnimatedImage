@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import <ImageIO/ImageIO.h>
 
 // Allow user classes conveniently just importing one header.
 #import "FLAnimatedImageView.h"
@@ -64,11 +65,16 @@
 // Pass either a `UIImage` or an `FLAnimatedImage` and get back its size
 + (CGSize)sizeForImage:(id)image;
 
-// On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
-- (instancetype)initWithAnimatedGIFData:(NSData *)data NS_DESIGNATED_INITIALIZER;
-+ (instancetype)animatedImageWithGIFData:(NSData *)data;
++ (BOOL) isGIF:(CGImageSourceRef)imageSource;
++ (BOOL) isAnimatedGIF:(CGImageSourceRef)imageSource;
 
-@property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
+// On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
+- (instancetype)initWithAnimatedGIFSource:(CGImageSourceRef)imageSource NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAnimatedGIFData:(NSData *)data;
+- (instancetype)initWithAnimatedGIFURL:(NSURL *)url;
+
++ (instancetype)animatedImageWithGIFData:(NSData *)data;
++ (instancetype)animatedImageWithGIFURL:(NSURL *)url;
 
 #if defined(DEBUG) && DEBUG
 // Only intended to report internal state for debugging

@@ -161,6 +161,16 @@ static NSHashTable *allAnimatedImagesWeak;
 }
 
 
++ (BOOL)isGIF:(CGImageSourceRef)imageSource
+{
+  return UTTypeConformsTo(CGImageSourceGetType(imageSource), kUTTypeGIF);
+}
+
++ (BOOL)isAnimatedGIF:(CGImageSourceRef)imageSource
+{
+  return [self isGIF:imageSource] && CGImageSourceGetCount(imageSource) > 1;
+}
+
 - (instancetype)init
 {
     FLAnimatedImage *animatedImage = [self initWithAnimatedGIFData:nil];
@@ -168,6 +178,23 @@ static NSHashTable *allAnimatedImagesWeak;
         FLLogError(@"Use `-initWithAnimatedGIFData:` and supply the animated GIF data as an argument to initialize an object of type `FLAnimatedImage`.");
     }
     return animatedImage;
+}
+
+
+- (instancetype)initWithAnimatedGIFURL:(NSURL *)url
+{
+    CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)url, NULL);
+    // Early return on failure!
+    if (!imageSource) {
+        FLLogError(@"Failed to `CGImageSourceCreateWithURL` for animated GIF URL %@", url);
+        return nil;
+    }
+  
+    self = [self initWithAnimatedGIFSource:imageSource];
+  
+    CFRelease(imageSource);
+  
+    return self;
 }
 
 
@@ -179,36 +206,43 @@ static NSHashTable *allAnimatedImagesWeak;
         FLLogError(@"No animated GIF data supplied.");
         return nil;
     }
-    
+  
+    CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+    // Early return on failure!
+    if (!imageSource) {
+        FLLogError(@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
+        return nil;
+    }
+  
+    self = [self initWithAnimatedGIFSource:imageSource];
+  
+    CFRelease(imageSource);
+  
+    return self;
+}
+
+
+- (instancetype)initWithAnimatedGIFSource:(CGImageSourceRef)imageSource
+{
+    // Early return if not GIF!
+    CFStringRef imageSourceContainerType = CGImageSourceGetType(imageSource);
+    BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
+    if (!isGIFData) {
+        FLLogError(@"Supplied data is of type %@ and doesn't seem to be GIF data", imageSourceContainerType);
+        return nil;
+    }
+
     self = [super init];
     if (self) {
         // Do one-time initializations of `readonly` properties directly to ivar to prevent implicit actions and avoid need for private `readwrite` property overrides.
-        
-        // Keep a strong reference to `data` and expose it read-only publicly.
-        // However, we will use the `_imageSource` as handler to the image data throughout our life cycle.
-        _data = data;
-        
+      
+        _imageSource = (CGImageSourceRef)CFRetain(imageSource);
+      
         // Initialize internal data structures
         _cachedFramesForIndexes = [[NSMutableDictionary alloc] init];
         _cachedFrameIndexes = [[NSMutableIndexSet alloc] init];
         _requestedFrameIndexes = [[NSMutableIndexSet alloc] init];
 
-        // Note: We could leverage `CGImageSourceCreateWithURL` too to add a second initializer `-initWithAnimatedGIFContentsOfURL:`.
-        _imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
-        // Early return on failure!
-        if (!_imageSource) {
-            FLLogError(@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
-            return nil;
-        }
-        
-        // Early return if not GIF!
-        CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
-        BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
-        if (!isGIFData) {
-            FLLogError(@"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
-            return nil;
-        }
-        
         // Get `LoopCount`
         // Note: 0 means repeating the animation indefinitely.
         // Image properties example:
@@ -342,6 +376,13 @@ static NSHashTable *allAnimatedImagesWeak;
 + (instancetype)animatedImageWithGIFData:(NSData *)data
 {
     FLAnimatedImage *animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:data];
+    return animatedImage;
+}
+
+
++ (instancetype)animatedImageWithGIFURL:(NSURL *)url
+{
+    FLAnimatedImage *animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFURL:url];
     return animatedImage;
 }
 
