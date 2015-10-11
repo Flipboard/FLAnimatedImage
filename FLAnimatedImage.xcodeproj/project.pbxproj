@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92C9BC2C1B199E3B00D79B06 /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C9BC281B199E3B00D79B06 /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		92C9BC2D1B199E3B00D79B06 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9BC291B199E3B00D79B06 /* FLAnimatedImage.m */; };
-		92C9BC2E1B199E3B00D79B06 /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C9BC2A1B199E3B00D79B06 /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		92C9BC2F1B199E3B00D79B06 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C9BC2B1B199E3B00D79B06 /* FLAnimatedImageView.m */; };
+		0C22DAEC1BCABF4F006E1D3B /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C22DAED1BCABF4F006E1D3B /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */; settings = {ASSET_TAGS = (); }; };
+		0C22DAEE1BCABF4F006E1D3B /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0C22DAEF1BCABF4F006E1D3B /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		0C22DAEB1BCABF4F006E1D3B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92C9BC0C1B199DC500D79B06 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FLAnimatedImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		92C9BC101B199DC500D79B06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = FLAnimatedImageDemo/FLAnimatedImage/Info.plist; sourceTree = "<group>"; };
-		92C9BC281B199E3B00D79B06 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = SOURCE_ROOT; };
-		92C9BC291B199E3B00D79B06 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = SOURCE_ROOT; };
-		92C9BC2A1B199E3B00D79B06 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = SOURCE_ROOT; };
-		92C9BC2B1B199E3B00D79B06 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,10 +33,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C22DAE61BCABF4F006E1D3B /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */,
+				0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */,
+				0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */,
+				0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */,
+				0C22DAEB1BCABF4F006E1D3B /* Info.plist */,
+			);
+			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
 		92C9BC021B199DC500D79B06 = {
 			isa = PBXGroup;
 			children = (
-				92C9BC0E1B199DC500D79B06 /* FLAnimatedImage */,
+				0C22DAE61BCABF4F006E1D3B /* FLAnimatedImage */,
 				92C9BC0D1B199DC500D79B06 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,26 +61,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		92C9BC0E1B199DC500D79B06 /* FLAnimatedImage */ = {
-			isa = PBXGroup;
-			children = (
-				92C9BC281B199E3B00D79B06 /* FLAnimatedImage.h */,
-				92C9BC291B199E3B00D79B06 /* FLAnimatedImage.m */,
-				92C9BC2A1B199E3B00D79B06 /* FLAnimatedImageView.h */,
-				92C9BC2B1B199E3B00D79B06 /* FLAnimatedImageView.m */,
-				92C9BC0F1B199DC500D79B06 /* Supporting Files */,
-			);
-			path = FLAnimatedImage;
-			sourceTree = "<group>";
-		};
-		92C9BC0F1B199DC500D79B06 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				92C9BC101B199DC500D79B06 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -76,8 +68,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C9BC2E1B199E3B00D79B06 /* FLAnimatedImageView.h in Headers */,
-				92C9BC2C1B199E3B00D79B06 /* FLAnimatedImage.h in Headers */,
+				0C22DAEE1BCABF4F006E1D3B /* FLAnimatedImageView.h in Headers */,
+				0C22DAEC1BCABF4F006E1D3B /* FLAnimatedImage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +100,7 @@
 		92C9BC031B199DC500D79B06 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = com.flipboard;
 				TargetAttributes = {
 					92C9BC0B1B199DC500D79B06 = {
@@ -148,8 +140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C9BC2D1B199E3B00D79B06 /* FLAnimatedImage.m in Sources */,
-				92C9BC2F1B199E3B00D79B06 /* FLAnimatedImageView.m in Sources */,
+				0C22DAED1BCABF4F006E1D3B /* FLAnimatedImage.m in Sources */,
+				0C22DAEF1BCABF4F006E1D3B /* FLAnimatedImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +170,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -193,7 +186,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -234,7 +227,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -252,9 +245,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/FLAnimatedImageDemo/FLAnimatedImage/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/FLAnimatedImage/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -268,9 +262,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/FLAnimatedImageDemo/FLAnimatedImage/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/FLAnimatedImage/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
