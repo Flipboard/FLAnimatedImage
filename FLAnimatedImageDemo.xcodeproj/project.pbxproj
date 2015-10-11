@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -17,8 +18,6 @@
 		8790E1171935ABDA00459BC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8790E1161935ABDA00459BC1 /* Images.xcassets */; };
 		87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59ED1935A7BB00620C16 /* AppDelegate.m */; };
 		87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59EF1935A7BB00620C16 /* RootViewController.m */; };
-		87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */; };
-		87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */; };
 		87CB5A001935A83900620C16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87CB59FE1935A83900620C16 /* InfoPlist.strings */; };
 		87CB5A031935A84900620C16 /* DebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A021935A84900620C16 /* DebugView.m */; };
 		87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A091935A8C600620C16 /* FrameCacheView.m */; };
@@ -29,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
+		0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -42,10 +43,6 @@
 		87CB59ED1935A7BB00620C16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = FLAnimatedImageDemo/AppDelegate.m; sourceTree = "<group>"; };
 		87CB59EE1935A7BB00620C16 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = FLAnimatedImageDemo/RootViewController.h; sourceTree = "<group>"; };
 		87CB59EF1935A7BB00620C16 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = FLAnimatedImageDemo/RootViewController.m; sourceTree = "<group>"; };
-		87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.h; sourceTree = SOURCE_ROOT; };
-		87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImage.m; sourceTree = SOURCE_ROOT; };
-		87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.h; sourceTree = SOURCE_ROOT; };
-		87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImageDemo/FLAnimatedImage/FLAnimatedImageView.m; sourceTree = SOURCE_ROOT; };
 		87CB59FF1935A83900620C16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = FLAnimatedImageDemo/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		87CB5A011935A84900620C16 /* DebugView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugView.h; path = FLAnimatedImageDemo/DebugView.h; sourceTree = "<group>"; };
 		87CB5A021935A84900620C16 /* DebugView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugView.m; path = FLAnimatedImageDemo/DebugView.m; sourceTree = "<group>"; };
@@ -67,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */,
 				872EBE72178B825500B7531B /* Foundation.framework in Frameworks */,
 				872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */,
 				872EBE70178B825500B7531B /* UIKit.framework in Frameworks */,
@@ -99,6 +97,8 @@
 		872EBE6E178B825500B7531B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */,
+				0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */,
 				872EBE71178B825500B7531B /* Foundation.framework */,
 				872EBE73178B825500B7531B /* CoreGraphics.framework */,
 				872EBE6F178B825500B7531B /* UIKit.framework */,
@@ -116,7 +116,6 @@
 				87CB59ED1935A7BB00620C16 /* AppDelegate.m */,
 				87CB59EE1935A7BB00620C16 /* RootViewController.h */,
 				87CB59EF1935A7BB00620C16 /* RootViewController.m */,
-				8791BCB2191B2A8000A846A5 /* FLAnimatedImage */,
 				8791BCBF191B2AAE00A846A5 /* test-gifs */,
 				8790E1161935ABDA00459BC1 /* Images.xcassets */,
 				872EBE76178B825500B7531B /* Supporting Files */,
@@ -143,18 +142,6 @@
 				87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8791BCB2191B2A8000A846A5 /* FLAnimatedImage */ = {
-			isa = PBXGroup;
-			children = (
-				87CB59F21935A7CF00620C16 /* FLAnimatedImage.h */,
-				87CB59F31935A7CF00620C16 /* FLAnimatedImage.m */,
-				87CB59F41935A7CF00620C16 /* FLAnimatedImageView.h */,
-				87CB59F51935A7CF00620C16 /* FLAnimatedImageView.m */,
-			);
-			name = FLAnimatedImage;
-			path = AnimatedImageDemo/FLAnimatedImage;
 			sourceTree = "<group>";
 		};
 		8791BCBF191B2AAE00A846A5 /* test-gifs */ = {
@@ -193,7 +180,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FL;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Flipboard;
 			};
 			buildConfigurationList = 872EBE67178B825500B7531B /* Build configuration list for PBXProject "FLAnimatedImageDemo" */;
@@ -235,10 +222,8 @@
 				87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */,
 				87CB59F11935A7BB00620C16 /* RootViewController.m in Sources */,
 				87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */,
-				87CB59F71935A7CF00620C16 /* FLAnimatedImageView.m in Sources */,
 				87CB5A031935A84900620C16 /* DebugView.m in Sources */,
 				87CB5A121935A8C600620C16 /* GraphView.m in Sources */,
-				87CB59F61935A7CF00620C16 /* FLAnimatedImage.m in Sources */,
 				87CB5A131935A8C600620C16 /* main.m in Sources */,
 				87CB5A111935A8C600620C16 /* FrameCacheView.m in Sources */,
 			);
@@ -272,6 +257,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -283,7 +269,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -308,7 +294,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,9 +310,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
+				USER_HEADER_SEARCH_PATHS = "FLAnimatedImage/**";
 				WARNING_CFLAGS = "-Wundef";
 				WRAPPER_EXTENSION = app;
 			};
@@ -340,9 +327,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
+				USER_HEADER_SEARCH_PATHS = "FLAnimatedImage/**";
 				WARNING_CFLAGS = "-Wundef";
 				WRAPPER_EXTENSION = app;
 			};
