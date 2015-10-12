@@ -67,6 +67,7 @@
 // On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
 - (instancetype)initWithAnimatedGIFData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 + (instancetype)animatedImageWithGIFData:(NSData *)data;
++ (instancetype)animatedImageWithGIFData:(NSData *)data loopCount:(NSUInteger)loopCount;
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
