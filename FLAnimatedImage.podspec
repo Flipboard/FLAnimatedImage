@@ -18,8 +18,17 @@ Pod::Spec.new do |spec|
   spec.author           = { "Raphael Schaad" => "raphael.schaad@gmail.com" }
   spec.social_media_url = "https://twitter.com/raphaelschaad"
   spec.platform         = :ios, "6.0"
-  spec.source           = { :git => "https://github.com/Flipboard/FLAnimatedImage.git", :tag => "1.0.8" }
-  spec.source_files     = "FLAnimatedImageDemo/FLAnimatedImage", "FLAnimatedImageDemo/FLAnimatedImage/**/*.{h,m}"
-  spec.frameworks       = "QuartzCore", "ImageIO", "MobileCoreServices", "CoreGraphics"
+  spec.source           = { :git => "https://github.com/reTXT/FLAnimatedImage.git", :tag => "1.0.8" }
   spec.requires_arc     = true
+  spec.default_subspec  = 'Core'
+
+  spec.subspec 'Core' do |ss|
+    ss.source_files     = "FLAnimatedImageDemo/FLAnimatedImage", "FLAnimatedImageDemo/FLAnimatedImage/**/*.{h,m}"
+    ss.frameworks       = "QuartzCore", "ImageIO", "MobileCoreServices", "CoreGraphics"
+  end
+
+  spec.subspec 'Framework' do |ss|
+    ss.dependency 'FLAnimatedImage/Core'
+    ss.dependency 'CocoaLumberjack'
+  end
 end
