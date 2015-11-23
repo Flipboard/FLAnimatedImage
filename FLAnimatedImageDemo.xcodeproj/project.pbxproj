@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		212AAEB41AE2C3DD00D0508E /* test.gif in Resources */ = {isa = PBXBuildFile; fileRef = 212AAEB31AE2C3DD00D0508E /* test.gif */; };
+		212AAEB61AE2CDC700D0508E /* FLAnimatedImageViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 212AAEB51AE2CDC700D0508E /* FLAnimatedImageViewTests.m */; };
+		2140C8B81AE2BEF400EA93C1 /* FLAnimatedImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2140C8B71AE2BEF400EA93C1 /* FLAnimatedImageTests.m */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -26,9 +29,27 @@
 		87CB5A131935A8C600620C16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0C1935A8C600620C16 /* main.m */; };
 		87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0E1935A8C600620C16 /* PlayheadView.m */; };
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
+		B4FDCD2F287AC439D0F75A71 /* libPods-FLAnimatedImageDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A1E6E70670902BC13F0D68 /* libPods-FLAnimatedImageDemoTests.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2140C8B21AE2BA8E00EA93C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 872EBE64178B825500B7531B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 872EBE6B178B825500B7531B;
+			remoteInfo = FLAnimatedImageDemo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		212AAEB31AE2C3DD00D0508E /* test.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test.gif; sourceTree = "<group>"; };
+		212AAEB51AE2CDC700D0508E /* FLAnimatedImageViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageViewTests.m; sourceTree = "<group>"; };
+		2140C8AC1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FLAnimatedImageDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2140C8AF1AE2BA8E00EA93C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2140C8B71AE2BEF400EA93C1 /* FLAnimatedImageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageTests.m; sourceTree = "<group>"; };
+		6D487C0F691AA2B018A00EC7 /* Pods-FLAnimatedImageDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnimatedImageDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLAnimatedImageDemoTests/Pods-FLAnimatedImageDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		73A1E6E70670902BC13F0D68 /* libPods-FLAnimatedImageDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FLAnimatedImageDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -60,9 +81,18 @@
 		87CB5A0F1935A8C600620C16 /* RSPlayPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSPlayPauseButton.h; path = FLAnimatedImageDemo/RSPlayPauseButton.h; sourceTree = "<group>"; };
 		87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSPlayPauseButton.m; path = FLAnimatedImageDemo/RSPlayPauseButton.m; sourceTree = "<group>"; };
 		87CB5A171935A93F00620C16 /* FLAnimatedImageDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImageDemo-Prefix.pch"; path = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch"; sourceTree = "<group>"; };
+		D5F1B5C7532E71F32F60F78C /* Pods-FLAnimatedImageDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnimatedImageDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLAnimatedImageDemoTests/Pods-FLAnimatedImageDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2140C8A91AE2BA8E00EA93C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4FDCD2F287AC439D0F75A71 /* libPods-FLAnimatedImageDemoTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		872EBE69178B825500B7531B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,12 +109,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2140C8AD1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				2140C8AE1AE2BA8E00EA93C1 /* Supporting Files */,
+				2140C8B71AE2BEF400EA93C1 /* FLAnimatedImageTests.m */,
+				212AAEB51AE2CDC700D0508E /* FLAnimatedImageViewTests.m */,
+			);
+			path = FLAnimatedImageDemoTests;
+			sourceTree = "<group>";
+		};
+		2140C8AE1AE2BA8E00EA93C1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				212AAEB31AE2C3DD00D0508E /* test.gif */,
+				2140C8AF1AE2BA8E00EA93C1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		872EBE63178B825500B7531B = {
 			isa = PBXGroup;
 			children = (
 				872EBE75178B825500B7531B /* FLAnimatedImageDemo */,
+				2140C8AD1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests */,
 				872EBE6E178B825500B7531B /* Frameworks */,
 				872EBE6D178B825500B7531B /* Products */,
+				BC7CBFB3AEDEDDCC96A4DFD2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */,
+				2140C8AC1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +157,7 @@
 				872EBEBC178B8FA000B7531B /* QuartzCore.framework */,
 				872EBEB2178B89DF00B7531B /* ImageIO.framework */,
 				872EBEBA178B8F9000B7531B /* MobileCoreServices.framework */,
+				73A1E6E70670902BC13F0D68 /* libPods-FLAnimatedImageDemoTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,9 +219,38 @@
 			path = "AnimatedImageDemo/animated-gifs";
 			sourceTree = SOURCE_ROOT;
 		};
+		BC7CBFB3AEDEDDCC96A4DFD2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6D487C0F691AA2B018A00EC7 /* Pods-FLAnimatedImageDemoTests.debug.xcconfig */,
+				D5F1B5C7532E71F32F60F78C /* Pods-FLAnimatedImageDemoTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2140C8AB1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2140C8B61AE2BA8F00EA93C1 /* Build configuration list for PBXNativeTarget "FLAnimatedImageDemoTests" */;
+			buildPhases = (
+				4C1786CAA0F640E71E4C2576 /* Check Pods Manifest.lock */,
+				2140C8A81AE2BA8E00EA93C1 /* Sources */,
+				2140C8A91AE2BA8E00EA93C1 /* Frameworks */,
+				2140C8AA1AE2BA8E00EA93C1 /* Resources */,
+				7D4B00BDAA4EFF42BE35BA7B /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2140C8B31AE2BA8E00EA93C1 /* PBXTargetDependency */,
+			);
+			name = FLAnimatedImageDemoTests;
+			productName = FLAnimatedImageDemoTests;
+			productReference = 2140C8AC1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		872EBE6B178B825500B7531B /* FLAnimatedImageDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 872EBEA7178B825500B7531B /* Build configuration list for PBXNativeTarget "FLAnimatedImageDemo" */;
@@ -195,6 +277,12 @@
 				CLASSPREFIX = FL;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Flipboard;
+				TargetAttributes = {
+					2140C8AB1AE2BA8E00EA93C1 = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = 872EBE6B178B825500B7531B;
+					};
+				};
 			};
 			buildConfigurationList = 872EBE67178B825500B7531B /* Build configuration list for PBXProject "FLAnimatedImageDemo" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -209,11 +297,20 @@
 			projectRoot = "";
 			targets = (
 				872EBE6B178B825500B7531B /* FLAnimatedImageDemo */,
+				2140C8AB1AE2BA8E00EA93C1 /* FLAnimatedImageDemoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2140C8AA1AE2BA8E00EA93C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				212AAEB41AE2C3DD00D0508E /* test.gif in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		872EBE6A178B825500B7531B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,7 +323,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4C1786CAA0F640E71E4C2576 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7D4B00BDAA4EFF42BE35BA7B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLAnimatedImageDemoTests/Pods-FLAnimatedImageDemoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		2140C8A81AE2BA8E00EA93C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2140C8B81AE2BEF400EA93C1 /* FLAnimatedImageTests.m in Sources */,
+				212AAEB61AE2CDC700D0508E /* FLAnimatedImageViewTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		872EBE68178B825500B7531B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -246,6 +385,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2140C8B31AE2BA8E00EA93C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 872EBE6B178B825500B7531B /* FLAnimatedImageDemo */;
+			targetProxy = 2140C8B21AE2BA8E00EA93C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		87CB59FE1935A83900620C16 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -258,6 +405,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2140C8B41AE2BA8F00EA93C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D487C0F691AA2B018A00EC7 /* Pods-FLAnimatedImageDemoTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = FLAnimatedImageDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FLAnimatedImageDemo.app/FLAnimatedImageDemo";
+			};
+			name = Debug;
+		};
+		2140C8B51AE2BA8F00EA93C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5F1B5C7532E71F32F60F78C /* Pods-FLAnimatedImageDemoTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = FLAnimatedImageDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FLAnimatedImageDemo.app/FLAnimatedImageDemo";
+			};
+			name = Release;
+		};
 		872EBEA5178B825500B7531B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -274,6 +489,8 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -305,6 +522,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -351,6 +570,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2140C8B61AE2BA8F00EA93C1 /* Build configuration list for PBXNativeTarget "FLAnimatedImageDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2140C8B41AE2BA8F00EA93C1 /* Debug */,
+				2140C8B51AE2BA8F00EA93C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		872EBE67178B825500B7531B /* Build configuration list for PBXProject "FLAnimatedImageDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

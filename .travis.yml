@@ -1,0 +1,8 @@
+language: objective-c
+before_install:
+  - export LANG=en_US.UTF-8
+  - gem install cocoapods xcpretty slather --no-ri --no-rdoc --no-ri --no-rdoc
+xcode_workspace: FLAnimatedImageDemo.xcworkspace
+xcode_scheme: FLAnimatedImageDemo
+xcode_sdk: iphonesimulator
+after_success: slather
