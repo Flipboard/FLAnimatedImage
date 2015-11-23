@@ -71,7 +71,7 @@
     
     FLAnimatedImage * __block animatedImage2 = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *url2 = [NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"];
+        NSURL *url2 = [NSURL URLWithString:@"https://cloud.githubusercontent.com/assets/1567433/10417835/1c97e436-7052-11e5-8fb5-69373072a5a0.gif"];
         NSData *data2 = [NSData dataWithContentsOfURL:url2];
         animatedImage2 = [FLAnimatedImage animatedImageWithGIFData:data2];
         
@@ -100,7 +100,7 @@
     
     FLAnimatedImage * __block animatedImage3 = nil;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
+        NSURL *url3 = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
         NSData *data3 = [NSData dataWithContentsOfURL:url3];
         animatedImage3 = [FLAnimatedImage animatedImageWithGIFData:data3];
         
