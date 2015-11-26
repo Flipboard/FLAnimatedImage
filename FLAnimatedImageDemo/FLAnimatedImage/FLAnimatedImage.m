@@ -221,13 +221,16 @@ static NSHashTable *allAnimatedImagesWeak;
         // }
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
         id loopCountObj = [[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount];
-        // An animation with no-loopcount will show every frame once.
+        // search 'loopcount' in http://www.lcdf.org/gifsicle/man.html
+        // Set the loop count to one less than the number of times you want the animation to run. 
+        // An animation with --no-loopcount will show every frame once; --loopcount=1 will loop once, thus showing every frame twice; and so forth.
+        // Note that --loopcount=0 is equivalent to --loopcount=forever, not --no-loopcount. 
+
         if (loopCountObj == nil) {
             _loopCount = 1;
         } else {
             _loopCount = [loopCountObj unsignedIntegerValue];
             if (_loopCount > 0) {
-                // loopcount = 1 will loop once, thus showing every frame twice
                 _loopCount += 1;
             }
         }
