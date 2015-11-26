@@ -225,7 +225,6 @@ static NSHashTable *allAnimatedImagesWeak;
         // Set the loop count to one less than the number of times you want the animation to run. 
         // An animation with --no-loopcount will show every frame once; --loopcount=1 will loop once, thus showing every frame twice; and so forth.
         // Note that --loopcount=0 is equivalent to --loopcount=forever, not --no-loopcount. 
-
         if (loopCountObj == nil) {
             _loopCount = 1;
         } else {
