@@ -26,6 +26,8 @@
 @property (nonatomic, strong) FLAnimatedImage *animatedImage;
 @property (nonatomic, copy) void(^loopCompletionBlock)(NSUInteger loopCountRemaining);
 
+- (void) setAnimatedOrStillImage:(id)image;
+
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;
 

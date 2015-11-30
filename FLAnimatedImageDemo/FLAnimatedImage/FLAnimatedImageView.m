@@ -33,6 +33,16 @@
 #pragma mark - Accessors
 #pragma mark Public
 
+- (void) setAnimatedOrStillImage:(id)image
+{
+    if ([image isKindOfClass:FLAnimatedImage.class]) {
+        [self setAnimatedImage:image];
+    }
+    else {
+        [self setImage:image];
+    }
+}
+
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage
 {
     if (![_animatedImage isEqual:animatedImage]) {
