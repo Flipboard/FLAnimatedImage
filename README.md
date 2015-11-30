@@ -81,5 +81,6 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [Giffage](http://giffage.com)
 - [Flipboard](https://flipboard.com)
 - [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
+- [Slack](https://slack.com/)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
