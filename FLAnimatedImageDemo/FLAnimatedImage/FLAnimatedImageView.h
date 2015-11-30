@@ -24,6 +24,7 @@
 // Setting `[UIImageView.image]` to a non-`nil` value clears out existing `animatedImage`.
 // And vice versa, setting `animatedImage` will initially populate the `[UIImageView.image]` to its `posterImage` and then start animating and hold `currentFrame`.
 @property (nonatomic, strong) FLAnimatedImage *animatedImage;
+@property (nonatomic, copy) void(^loopCompletionBlock)(NSUInteger loopCountRemaining);
 
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;

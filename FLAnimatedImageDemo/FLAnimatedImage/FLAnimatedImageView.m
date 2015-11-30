@@ -263,6 +263,10 @@
                 if (self.currentFrameIndex >= self.animatedImage.frameCount) {
                     // If we've looped the number of times that this animated image describes, stop looping.
                     self.loopCountdown--;
+                    if (self.loopCompletionBlock) {
+                        self.loopCompletionBlock(self.loopCountdown);
+                    }
+                    
                     if (self.loopCountdown == 0) {
                         [self stopAnimating];
                         return;
