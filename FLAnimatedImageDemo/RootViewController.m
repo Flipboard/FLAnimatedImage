@@ -208,6 +208,9 @@
     return _debugView3;
 }
 
+/// Even though NSURLCache *may* cache the results for remote images, it doesn't guarantee it.
+/// Cache control headers or internal parts of NSURLCache's implementation may cause these images to become uncache.
+/// Here we enfore strict disk caching so we're sure the images stay around.
 - (void)loadAnimatedImageWithURL:(NSURL *const)url completion:(void (^)(FLAnimatedImage *animatedImage))completion
 {
     NSString *const filename = url.lastPathComponent;
