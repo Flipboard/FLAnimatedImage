@@ -2,7 +2,15 @@
 
   * Support Carthage (Quanlong He @cybertk, Alexander Grebenyuk @kean)
 
+  * Add loop completion block (Kevin Delannoy @delannoyk)
+
   * Improve resilience against GIFs with corrupted frames (Tim Johnsen @timonus)
+
+  * Disable image source decoded image caching (Aditya KD @caughtinflux)
+
+  * Update sample project to support iOS 9 TLS (Alexander Grebenyuk @kean)
+
+  * Update sample project to cache remote GIFs (Tim Johnsen @timonus)
 
   * Turn on -Wundef warning flag (Tim Johnsen @timonus)
 
