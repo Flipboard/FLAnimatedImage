@@ -2,9 +2,9 @@
 
   * Support Carthage (Quanlong He @cybertk)
 
-  * Improve resilience against GIFs with corrupted frames (Tim Johnson @tijoinc)
+  * Improve resilience against GIFs with corrupted frames (Tim Johnson @timonus)
 
-  * Turn on -Wundef warning flag (Tim Johnson @tijoinc)
+  * Turn on -Wundef warning flag (Tim Johnson @timonus)
 
 = 1.0.8 (2015-01-16)
 
