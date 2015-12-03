@@ -8,7 +8,7 @@
 
 
 #import "FrameCacheView.h"
-#import "FLAnimatedImage.h"
+#import <FLAnimatedImage/FLAnimatedImage.h>
 
 
 @implementation FrameCacheView

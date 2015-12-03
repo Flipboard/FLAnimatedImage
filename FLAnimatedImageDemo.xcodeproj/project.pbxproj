@@ -313,7 +313,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = "FLAnimatedImage/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wundef";
 				WRAPPER_EXTENSION = app;
 			};
@@ -330,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = "FLAnimatedImage/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = "-Wundef";
 				WRAPPER_EXTENSION = app;
 			};
