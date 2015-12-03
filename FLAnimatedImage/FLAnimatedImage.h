@@ -66,6 +66,21 @@
 
 @end
 
+typedef NS_ENUM(NSUInteger, FLLogLevel) {
+    FLLogLevelError,
+    FLLogLevelWarn,
+    FLLogLevelInfo,
+    FLLogLevelDebug,
+    FLLogLevelVerbose
+};
+
+@interface FLAnimatedImage (Logging)
+
++ (void)setLogBlock:(void (^)(NSString *logString, FLLogLevel logLevel))logBlock;
++ (void)logString:(NSString *)logString withLevel:(FLLogLevel)level;
+
+@end
+
 
 @interface FLWeakProxy : NSProxy
 
@@ -85,17 +100,3 @@
 
 @end
 #endif
-
-
-#if FLDebugLoggingEnabled && DEBUG
-    // CocoaLumberjack is disabled or not available, but we want to fallback to regular logging (debug builds only).
-    #define FLLog(...) NSLog(__VA_ARGS__)
-#else
-    // No logging at all.
-    #define FLLog(...) ((void)0)
-#endif
-#define FLLogError(...)   FLLog(__VA_ARGS__)
-#define FLLogWarn(...)    FLLog(__VA_ARGS__)
-#define FLLogInfo(...)    FLLog(__VA_ARGS__)
-#define FLLogDebug(...)   FLLog(__VA_ARGS__)
-#define FLLogVerbose(...) FLLog(__VA_ARGS__)
