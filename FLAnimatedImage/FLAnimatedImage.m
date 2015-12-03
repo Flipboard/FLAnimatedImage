@@ -19,22 +19,6 @@
 
 #define MEGABYTE (1024 * 1024)
 
-#if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
-    #if defined(DEBUG) && DEBUG
-        #if defined(LOG_LEVEL_DEBUG) // CocoaLumberjack 1.x
-            int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
-        #else // CocoaLumberjack 2.x
-            int flAnimatedImageLogLevel = DDLogFlagDebug;
-        #endif
-    #else
-        #if defined(LOG_LEVEL_WARN) // CocoaLumberjack 1.x
-            int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
-        #else // CocoaLumberjack 2.x
-            int flAnimatedImageLogLevel = DDLogFlagWarning;
-        #endif
-    #endif
-#endif
-
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
