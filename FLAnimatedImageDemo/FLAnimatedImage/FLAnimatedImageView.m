@@ -239,7 +239,7 @@
 // Just update our cached value whenever the animated image, window, superview, or hidden state is changed.
 - (void)updateShouldAnimate
 {
-    self.shouldAnimate = self.animatedImage && self.window && self.superview && !self.hidden;
+    self.shouldAnimate = self.animatedImage && self.window && self.superview && ![self isHidden];
 }
 
 
