@@ -69,25 +69,19 @@
     [self.view addSubview:self.imageView2];
     self.imageView2.frame = CGRectMake(0.0, 577.0, 379.0, 447.0);
     
-    FLAnimatedImage * __block animatedImage2 = nil;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *url2 = [NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"];
-        NSData *data2 = [NSData dataWithContentsOfURL:url2];
-        animatedImage2 = [FLAnimatedImage animatedImageWithGIFData:data2];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView2.animatedImage = animatedImage2;
-            
-            // Set up debug UI for image 2
+    NSURL *url2 = [NSURL URLWithString:@"https://cloud.githubusercontent.com/assets/1567433/10417835/1c97e436-7052-11e5-8fb5-69373072a5a0.gif"];
+    [self loadAnimatedImageWithURL:url2 completion:^(FLAnimatedImage *animatedImage) {
+        self.imageView2.animatedImage = animatedImage;
+
+        // Set up debug UI for image 2
 #if defined(DEBUG) && DEBUG
-            self.imageView2.debug_delegate = self.debugView2;
-            animatedImage2.debug_delegate = self.debugView2;
+        self.imageView2.debug_delegate = self.debugView2;
+        animatedImage.debug_delegate = self.debugView2;
 #endif
-            self.debugView2.imageView = self.imageView2;
-            self.debugView2.image = animatedImage2;
-            self.imageView2.userInteractionEnabled = YES;
-        });
-    });
+        self.debugView2.imageView = self.imageView2;
+        self.debugView2.image = animatedImage;
+        self.imageView2.userInteractionEnabled = YES;
+    }];
     
     // 3
     if (!self.imageView3) {
@@ -98,25 +92,19 @@
     [self.view addSubview:self.imageView3];
     self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
     
-    FLAnimatedImage * __block animatedImage3 = nil;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURL *url3 = [NSURL URLWithString:@"http://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
-        NSData *data3 = [NSData dataWithContentsOfURL:url3];
-        animatedImage3 = [FLAnimatedImage animatedImageWithGIFData:data3];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView3.animatedImage = animatedImage3;
-            
-            // Set up debug UI for image 3
+    NSURL *url3 = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
+    [self loadAnimatedImageWithURL:url3 completion:^(FLAnimatedImage *animatedImage) {
+        self.imageView3.animatedImage = animatedImage;
+
+        // Set up debug UI for image 3
 #if defined(DEBUG) && DEBUG
-            self.imageView3.debug_delegate = self.debugView3;
-            animatedImage3.debug_delegate = self.debugView3;
+        self.imageView3.debug_delegate = self.debugView3;
+        animatedImage.debug_delegate = self.debugView3;
 #endif
-            self.debugView3.imageView = self.imageView3;
-            self.debugView3.image = animatedImage3;
-            self.imageView3.userInteractionEnabled = YES;
-        });
-    });
+        self.debugView3.imageView = self.imageView3;
+        self.debugView3.image = animatedImage;
+        self.imageView3.userInteractionEnabled = YES;
+    }];
     
     // ... that's it!
     
@@ -218,6 +206,37 @@
     _debugView3.frame = self.imageView3.bounds;
     
     return _debugView3;
+}
+
+/// Even though NSURLCache *may* cache the results for remote images, it doesn't guarantee it.
+/// Cache control headers or internal parts of NSURLCache's implementation may cause these images to become uncache.
+/// Here we enfore strict disk caching so we're sure the images stay around.
+- (void)loadAnimatedImageWithURL:(NSURL *const)url completion:(void (^)(FLAnimatedImage *animatedImage))completion
+{
+    NSString *const filename = url.lastPathComponent;
+    NSString *const diskPath = [NSHomeDirectory() stringByAppendingPathComponent:filename];
+    
+    NSData * __block animatedImageData = [[NSFileManager defaultManager] contentsAtPath:diskPath];
+    FLAnimatedImage * __block animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:animatedImageData];
+    
+    if (animatedImage) {
+        if (completion) {
+            completion(animatedImage);
+        }
+    } else {
+        [[[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            animatedImageData = data;
+            animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:animatedImageData];
+            if (animatedImage) {
+                if (completion) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(animatedImage);
+                    });
+                }
+                [data writeToFile:diskPath atomically:YES];
+            }
+        }] resume];
+    }
 }
 
 
