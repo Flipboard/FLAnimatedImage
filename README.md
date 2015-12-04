@@ -61,7 +61,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 - Integration into network libraries and image caches
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
 - Smarter buffering
-- Bring demo app to iOS 6 and iPhone
+- Bring demo app to iPhone
 
 This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
