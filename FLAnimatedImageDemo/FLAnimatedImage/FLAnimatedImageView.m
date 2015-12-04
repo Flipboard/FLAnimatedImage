@@ -107,6 +107,18 @@
     }
 }
 
+- (void)setAlpha:(CGFloat)alpha
+{
+    [super setAlpha:alpha];
+
+    [self updateShouldAnimate];
+    if (self.shouldAnimate) {
+        [self startAnimating];
+    } else {
+        [self stopAnimating];
+    }
+}
+
 - (void)setHidden:(BOOL)hidden
 {
     [super setHidden:hidden];
@@ -239,7 +251,8 @@
 // Just update our cached value whenever the animated image, window, superview, or hidden state is changed.
 - (void)updateShouldAnimate
 {
-    self.shouldAnimate = self.animatedImage && self.window && self.superview && ![self isHidden];
+    BOOL isVisible = self.window && self.superview && ![self isHidden] && self.alpha > 0.0;
+    self.shouldAnimate = self.animatedImage && isVisible;
 }
 
 
