@@ -309,8 +309,8 @@ static NSHashTable *allAnimatedImagesWeak;
         CGFloat animatedImageFrameSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height / MEGABYTE;
         _frameCacheSizeOptimal = floor(kFLAnimatedImageIdealMemoryFootprint / animatedImageFrameSize);
         
-        // In any case, cap the optimal cache size at the frame count.
-        _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, self.frameCount);
+        // Cap the optimal cache size. "5 frames ought to be enough for anybody" http://bit.ly/1M1gCvs.
+        _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, FLAnimatedImageFrameCacheSizeDefault);
         
         // There also must be at least one.
         _frameCacheSizeOptimal = MAX(_frameCacheSizeOptimal, 1);
