@@ -384,7 +384,7 @@ static NSHashTable *allAnimatedImagesWeak;
     if ([self.cachedFrameIndexes count] < self.frameCount) {
         // If we have frames that should be cached but aren't and aren't requested yet, request them.
         // Exclude existing cached frames, frames already requested, and specially cached poster image.
-        NSMutableIndexSet *frameIndexesToAddToCacheMutable = [[self frameIndexesToCache] mutableCopy];
+        NSMutableIndexSet *frameIndexesToAddToCacheMutable = [self frameIndexesToCache];
         [frameIndexesToAddToCacheMutable removeIndexes:self.cachedFrameIndexes];
         [frameIndexesToAddToCacheMutable removeIndexes:self.requestedFrameIndexes];
         [frameIndexesToAddToCacheMutable removeIndex:self.posterImageFrameIndex];
@@ -513,33 +513,31 @@ static NSHashTable *allAnimatedImagesWeak;
 
 #pragma mark Frame Caching
 
-- (NSIndexSet *)frameIndexesToCache
+- (NSMutableIndexSet *)frameIndexesToCache
 {
-    NSIndexSet *indexesToCache = nil;
+    NSMutableIndexSet *indexesToCache = nil;
     // Quick check to avoid building the index set if the number of frames to cache equals the total frame count.
     if (self.frameCacheSizeCurrent == self.frameCount) {
-        indexesToCache = self.allFramesIndexSet;
+        indexesToCache = [self.allFramesIndexSet mutableCopy];
     } else {
-        NSMutableIndexSet *indexesToCacheMutable = [[NSMutableIndexSet alloc] init];
+        indexesToCache = [[NSMutableIndexSet alloc] init];
         
         // Add indexes to the set in two separate blocks- the first starting from the requested frame index, up to the limit or the end.
         // The second, if needed, the remaining number of frames beginning at index zero.
         NSUInteger firstLength = MIN(self.frameCacheSizeCurrent, self.frameCount - self.requestedFrameIndex);
         NSRange firstRange = NSMakeRange(self.requestedFrameIndex, firstLength);
-        [indexesToCacheMutable addIndexesInRange:firstRange];
+        [indexesToCache addIndexesInRange:firstRange];
         NSUInteger secondLength = self.frameCacheSizeCurrent - firstLength;
         if (secondLength > 0) {
             NSRange secondRange = NSMakeRange(0, secondLength);
-            [indexesToCacheMutable addIndexesInRange:secondRange];
+            [indexesToCache addIndexesInRange:secondRange];
         }
         // Double check our math, before we add the poster image index which may increase it by one.
-        if ([indexesToCacheMutable count] != self.frameCacheSizeCurrent) {
+        if ([indexesToCache count] != self.frameCacheSizeCurrent) {
             FLLogWarn(@"Number of frames to cache doesn't equal expected cache size.");
         }
         
-        [indexesToCacheMutable addIndex:self.posterImageFrameIndex];
-        
-        indexesToCache = [indexesToCacheMutable copy];
+        [indexesToCache addIndex:self.posterImageFrameIndex];
     }
     
     return indexesToCache;
