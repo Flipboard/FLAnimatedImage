@@ -19,22 +19,6 @@
 
 #define MEGABYTE (1024 * 1024)
 
-#if FLLumberjackIntegrationEnabled && defined(FLLumberjackAvailable)
-    #if defined(DEBUG) && DEBUG
-        #if defined(LOG_LEVEL_DEBUG) // CocoaLumberjack 1.x
-            int flAnimatedImageLogLevel = LOG_LEVEL_DEBUG;
-        #else // CocoaLumberjack 2.x
-            int flAnimatedImageLogLevel = DDLogFlagDebug;
-        #endif
-    #else
-        #if defined(LOG_LEVEL_WARN) // CocoaLumberjack 1.x
-            int flAnimatedImageLogLevel = LOG_LEVEL_WARN;
-        #else // CocoaLumberjack 2.x
-            int flAnimatedImageLogLevel = DDLogFlagWarning;
-        #endif
-    #endif
-#endif
-
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
@@ -165,7 +149,7 @@ static NSHashTable *allAnimatedImagesWeak;
 {
     FLAnimatedImage *animatedImage = [self initWithAnimatedGIFData:nil];
     if (!animatedImage) {
-        FLLogError(@"Use `-initWithAnimatedGIFData:` and supply the animated GIF data as an argument to initialize an object of type `FLAnimatedImage`.");
+        [FLAnimatedImage logString:@"Use `-initWithAnimatedGIFData:` and supply the animated GIF data as an argument to initialize an object of type `FLAnimatedImage`." withLevel:FLLogLevelError];
     }
     return animatedImage;
 }
@@ -176,7 +160,7 @@ static NSHashTable *allAnimatedImagesWeak;
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
     if (!hasData) {
-        FLLogError(@"No animated GIF data supplied.");
+        [FLAnimatedImage logString:@"No animated GIF data supplied." withLevel:FLLogLevelError];
         return nil;
     }
     
@@ -198,7 +182,7 @@ static NSHashTable *allAnimatedImagesWeak;
                                                    (__bridge CFDictionaryRef)@{(NSString *)kCGImageSourceShouldCache: @NO});
         // Early return on failure!
         if (!_imageSource) {
-            FLLogError(@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
+            [FLAnimatedImage logString:[NSString stringWithFormat:@"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data] withLevel:FLLogLevelError];
             return nil;
         }
         
@@ -206,7 +190,7 @@ static NSHashTable *allAnimatedImagesWeak;
         CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
         BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
         if (!isGIFData) {
-            FLLogError(@"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
+            [FLAnimatedImage logString:[NSString stringWithFormat:@"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data] withLevel:FLLogLevelError];
             return nil;
         }
         
@@ -270,10 +254,10 @@ static NSHashTable *allAnimatedImagesWeak;
                     const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
                     if (!delayTime) {
                         if (i == 0) {
-                            FLLogInfo(@"Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
+                            [FLAnimatedImage logString:[NSString stringWithFormat:@"Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties] withLevel:FLLogLevelInfo];
                             delayTime = @(kDelayTimeIntervalDefault);
                         } else {
-                            FLLogInfo(@"Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
+                            [FLAnimatedImage logString:[NSString stringWithFormat:@"Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties] withLevel:FLLogLevelInfo];
                             delayTime = delayTimesForIndexesMutable[@(i - 1)];
                         }
                     }
@@ -282,29 +266,29 @@ static NSHashTable *allAnimatedImagesWeak;
                     const NSTimeInterval kDelayTimeIntervalMinimum = 0.02;
                     // To support the minimum even when rounding errors occur, use an epsilon when comparing. We downcast to float because that's what we get for delayTime from ImageIO.
                     if ([delayTime floatValue] < ((float)kDelayTimeIntervalMinimum - FLT_EPSILON)) {
-                        FLLogInfo(@"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum);
+                        [FLAnimatedImage logString:[NSString stringWithFormat:@"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kDelayTimeIntervalMinimum] withLevel:FLLogLevelInfo];
                         delayTime = @(kDelayTimeIntervalDefault);
                     }
                     delayTimesForIndexesMutable[@(i)] = delayTime;
                 } else {
                     skippedFrameCount++;
-                    FLLogInfo(@"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
+                    [FLAnimatedImage logString:[NSString stringWithFormat:@"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef] withLevel:FLLogLevelInfo];
                 }
                 CFRelease(frameImageRef);
             } else {
                 skippedFrameCount++;
-                FLLogInfo(@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
+                [FLAnimatedImage logString:[NSString stringWithFormat:@"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource] withLevel:FLLogLevelInfo];
             }
         }
         _delayTimesForIndexes = [delayTimesForIndexesMutable copy];
         _frameCount = imageCount;
         
         if (self.frameCount == 0) {
-            FLLogInfo(@"Failed to create any valid frames for GIF with properties %@", imageProperties);
+            [FLAnimatedImage logString:[NSString stringWithFormat:@"Failed to create any valid frames for GIF with properties %@", imageProperties] withLevel:FLLogLevelInfo];
             return nil;
         } else if (self.frameCount == 1) {
             // Warn when we only have a single frame but return a valid GIF.
-            FLLogInfo(@"Created valid GIF but with only a single frame. Image properties: %@", imageProperties);
+            [FLAnimatedImage logString:[NSString stringWithFormat:@"Created valid GIF but with only a single frame. Image properties: %@", imageProperties] withLevel:FLLogLevelInfo];
         } else {
             // We have multiple frames, rock on!
         }
@@ -368,7 +352,7 @@ static NSHashTable *allAnimatedImagesWeak;
     // Early return if the requested index is beyond bounds.
     // Note: We're comparing an index with a count and need to bail on greater than or equal to.
     if (index >= self.frameCount) {
-        FLLogWarn(@"Skipping requested frame %lu beyond bounds (total frame count: %lu) for animated image: %@", (unsigned long)index, (unsigned long)self.frameCount, self);
+        [FLAnimatedImage logString:[NSString stringWithFormat:@"Skipping requested frame %lu beyond bounds (total frame count: %lu) for animated image: %@", (unsigned long)index, (unsigned long)self.frameCount, self] withLevel:FLLogLevelWarn];
         return nil;
     }
     
@@ -414,7 +398,7 @@ static NSHashTable *allAnimatedImagesWeak;
     NSRange firstRange = NSMakeRange(self.requestedFrameIndex, self.frameCount - self.requestedFrameIndex);
     NSRange secondRange = NSMakeRange(0, self.requestedFrameIndex);
     if (firstRange.length + secondRange.length != self.frameCount) {
-        FLLogWarn(@"Two-part frame cache range doesn't equal full range.");
+        [FLAnimatedImage logString:@"Two-part frame cache range doesn't equal full range." withLevel:FLLogLevelWarn];
     }
     
     // Add to the requested list before we actually kick them off, so they don't get into the queue twice.
@@ -445,7 +429,7 @@ static NSHashTable *allAnimatedImagesWeak;
                     slowdownDuration = predrawDuration * predrawingSlowdownFactor - predrawDuration;
                     [NSThread sleepForTimeInterval:slowdownDuration];
                 }
-                FLLogVerbose(@"Predrew frame %lu in %f ms for animated image: %@", (unsigned long)i, (predrawDuration + slowdownDuration) * 1000, self);
+                [FLAnimatedImage logString:[NSString stringWithFormat:@"Predrew frame %lu in %f ms for animated image: %@", (unsigned long)i, (predrawDuration + slowdownDuration) * 1000, self] withLevel:FLLogLevelVerbose];
 #endif
                 // The results get returned one by one as soon as they're ready (and not in batch).
                 // The benefits of having the first frames as quick as possible outweigh building up a buffer to cope with potential hiccups when the CPU suddenly gets busy.
@@ -487,7 +471,7 @@ static NSHashTable *allAnimatedImagesWeak;
         imageSize = animatedImage.size;
     } else {
         // Bear trap to capture bad images; we have seen crashers cropping up on iOS 7.
-        FLLogError(@"`image` isn't of expected types `UIImage` or `FLAnimatedImage`: %@", image);
+        [FLAnimatedImage logString:[NSString stringWithFormat:@"`image` isn't of expected types `UIImage` or `FLAnimatedImage`: %@", image] withLevel:FLLogLevelError];
     }
     
     return imageSize;
@@ -534,7 +518,7 @@ static NSHashTable *allAnimatedImagesWeak;
         }
         // Double check our math, before we add the poster image index which may increase it by one.
         if ([indexesToCacheMutable count] != self.frameCacheSizeCurrent) {
-            FLLogWarn(@"Number of frames to cache doesn't equal expected cache size.");
+            [FLAnimatedImage logString:@"Number of frames to cache doesn't equal expected cache size." withLevel:FLLogLevelWarn];
         }
         
         [indexesToCacheMutable addIndex:self.posterImageFrameIndex];
@@ -576,7 +560,7 @@ static NSHashTable *allAnimatedImagesWeak;
 - (void)growFrameCacheSizeAfterMemoryWarning:(NSNumber *)frameCacheSize
 {
     self.frameCacheSizeMaxInternal = [frameCacheSize unsignedIntegerValue];
-    FLLogDebug(@"Grew frame cache size max to %lu after memory warning for animated image: %@", (unsigned long)self.frameCacheSizeMaxInternal, self);
+    [FLAnimatedImage logString:[NSString stringWithFormat:@"Grew frame cache size max to %lu after memory warning for animated image: %@", (unsigned long)self.frameCacheSizeMaxInternal, self] withLevel:FLLogLevelDebug];
     
     // Schedule resetting the frame cache size max completely after a while.
     const NSTimeInterval kResetDelay = 3.0;
@@ -587,7 +571,7 @@ static NSHashTable *allAnimatedImagesWeak;
 - (void)resetFrameCacheSizeMaxInternal
 {
     self.frameCacheSizeMaxInternal = FLAnimatedImageFrameCacheSizeNoLimit;
-    FLLogDebug(@"Reset frame cache size max (current frame cache size: %lu) for animated image: %@", (unsigned long)self.frameCacheSizeCurrent, self);
+    [FLAnimatedImage logString:[NSString stringWithFormat:@"Reset frame cache size max (current frame cache size: %lu) for animated image: %@", (unsigned long)self.frameCacheSizeCurrent, self] withLevel:FLLogLevelDebug];
 }
 
 
@@ -602,7 +586,7 @@ static NSHashTable *allAnimatedImagesWeak;
     [NSObject cancelPreviousPerformRequestsWithTarget:self.weakProxy selector:@selector(resetFrameCacheSizeMaxInternal) object:nil];
     
     // Go down to the minimum and by that implicitly immediately purge from the cache if needed to not get jettisoned by the system and start producing frames on-demand.
-    FLLogDebug(@"Attempt setting frame cache size max to %lu (previous was %lu) after memory warning #%lu for animated image: %@", (unsigned long)FLAnimatedImageFrameCacheSizeLowMemory, (unsigned long)self.frameCacheSizeMaxInternal, (unsigned long)self.memoryWarningCount, self);
+    [FLAnimatedImage logString:[NSString stringWithFormat:@"Attempt setting frame cache size max to %lu (previous was %lu) after memory warning #%lu for animated image: %@", (unsigned long)FLAnimatedImageFrameCacheSizeLowMemory, (unsigned long)self.frameCacheSizeMaxInternal, (unsigned long)self.memoryWarningCount, self] withLevel:FLLogLevelDebug];
     self.frameCacheSizeMaxInternal = FLAnimatedImageFrameCacheSizeLowMemory;
     
     // Schedule growing larger again after a while, but cap our attempts to prevent a periodic sawtooth wave (ramps upward and then sharply drops) of memory usage.
@@ -639,7 +623,7 @@ static NSHashTable *allAnimatedImagesWeak;
     CGColorSpaceRef colorSpaceDeviceRGBRef = CGColorSpaceCreateDeviceRGB();
     // Early return on failure!
     if (!colorSpaceDeviceRGBRef) {
-        FLLogError(@"Failed to `CGColorSpaceCreateDeviceRGB` for image %@", imageToPredraw);
+        [FLAnimatedImage logString:[NSString stringWithFormat:@"Failed to `CGColorSpaceCreateDeviceRGB` for image %@", imageToPredraw] withLevel:FLLogLevelError];
         return imageToPredraw;
     }
     
@@ -679,7 +663,7 @@ static NSHashTable *allAnimatedImagesWeak;
     CGColorSpaceRelease(colorSpaceDeviceRGBRef);
     // Early return on failure!
     if (!bitmapContextRef) {
-        FLLogError(@"Failed to `CGBitmapContextCreate` with color space %@ and parameters (width: %zu height: %zu bitsPerComponent: %zu bytesPerRow: %zu) for image %@", colorSpaceDeviceRGBRef, width, height, bitsPerComponent, bytesPerRow, imageToPredraw);
+        [FLAnimatedImage logString:[NSString stringWithFormat:@"Failed to `CGBitmapContextCreate` with color space %@ and parameters (width: %zu height: %zu bitsPerComponent: %zu bytesPerRow: %zu) for image %@", colorSpaceDeviceRGBRef, width, height, bitsPerComponent, bytesPerRow, imageToPredraw] withLevel:FLLogLevelError];
         return imageToPredraw;
     }
     
@@ -692,7 +676,7 @@ static NSHashTable *allAnimatedImagesWeak;
     
     // Early return on failure!
     if (!predrawnImage) {
-        FLLogError(@"Failed to `imageWithCGImage:scale:orientation:` with image ref %@ created with color space %@ and bitmap context %@ and properties and properties (scale: %f orientation: %ld) for image %@", predrawnImageRef, colorSpaceDeviceRGBRef, bitmapContextRef, imageToPredraw.scale, (long)imageToPredraw.imageOrientation, imageToPredraw);
+        [FLAnimatedImage logString:[NSString stringWithFormat:@"Failed to `imageWithCGImage:scale:orientation:` with image ref %@ created with color space %@ and bitmap context %@ and properties and properties (scale: %f orientation: %ld) for image %@", predrawnImageRef, colorSpaceDeviceRGBRef, bitmapContextRef, imageToPredraw.scale, (long)imageToPredraw.imageOrientation, imageToPredraw] withLevel:FLLogLevelError];
         return imageToPredraw;
     }
     
@@ -712,6 +696,26 @@ static NSHashTable *allAnimatedImagesWeak;
     return description;
 }
 
+
+@end
+
+#pragma mark - Logging
+
+@implementation FLAnimatedImage (Logging)
+
+static void (^_logBlock)(NSString *logString, FLLogLevel logLevel) = nil;
+
++ (void)setLogBlock:(void (^)(NSString *logString, FLLogLevel logLevel))logBlock
+{
+    _logBlock = logBlock;
+}
+
++ (void)logString:(NSString *)logString withLevel:(FLLogLevel)level
+{
+    if (_logBlock) {
+        _logBlock(logString, level);
+    }
+}
 
 @end
 
