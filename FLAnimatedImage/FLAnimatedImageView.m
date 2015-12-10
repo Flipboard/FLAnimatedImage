@@ -22,7 +22,7 @@
 @property (nonatomic, assign) NSTimeInterval accumulator;
 @property (nonatomic, strong) CADisplayLink *displayLink;
 
-@property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image, window or superview has changed.
+@property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image or visibility (window, superview, hidden, alpha) has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
 
 @end
@@ -99,6 +99,30 @@
 {
     [super didMoveToWindow];
     
+    [self updateShouldAnimate];
+    if (self.shouldAnimate) {
+        [self startAnimating];
+    } else {
+        [self stopAnimating];
+    }
+}
+
+- (void)setAlpha:(CGFloat)alpha
+{
+    [super setAlpha:alpha];
+
+    [self updateShouldAnimate];
+    if (self.shouldAnimate) {
+        [self startAnimating];
+    } else {
+        [self stopAnimating];
+    }
+}
+
+- (void)setHidden:(BOOL)hidden
+{
+    [super setHidden:hidden];
+
     [self updateShouldAnimate];
     if (self.shouldAnimate) {
         [self startAnimating];
@@ -224,10 +248,11 @@
 #pragma mark Animation
 
 // Don't repeatedly check our window & superview in `-displayDidRefresh:` for performance reasons.
-// Just update our cached value whenever the animated image, window or superview is changed.
+// Just update our cached value whenever the animated image or visibility (window, superview, hidden, alpha) is changed.
 - (void)updateShouldAnimate
 {
-    self.shouldAnimate = self.animatedImage && self.window && self.superview;
+    BOOL isVisible = self.window && self.superview && ![self isHidden] && self.alpha > 0.0;
+    self.shouldAnimate = self.animatedImage && isVisible;
 }
 
 
