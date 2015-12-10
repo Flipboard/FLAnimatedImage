@@ -1,5 +1,9 @@
 =
 
+  * Decouple FLAnimatedImage from any particular logging solution (Tim Johnsen @timonus)
+
+= 1.0.9 (2015-12-01)
+
   * Support Carthage (Quanlong He @cybertk, Alexander Grebenyuk @kean)
 
   * Add loop completion block (Kevin Delannoy @delannoyk)
