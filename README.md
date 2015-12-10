@@ -32,7 +32,7 @@ To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimat
 pod 'FLAnimatedImage', '~> 1.0'
 ```
 
-If using [Carthage](https://github.com/Carthage/Carthage), add following line into your `Carfile`
+If using [Carthage](https://github.com/Carthage/Carthage), add following line into your `Cartfile`
 
 ```
 github "Flipboard/FLAnimatedImage"
