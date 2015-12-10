@@ -12,6 +12,14 @@
 #import <QuartzCore/QuartzCore.h>
 
 
+#if defined(DEBUG) && DEBUG
+@protocol FLAnimatedImageViewDebugDelegate <NSObject>
+@optional
+- (void)debug_animatedImageView:(FLAnimatedImageView *)animatedImageView waitingForFrame:(NSUInteger)index duration:(NSTimeInterval)duration;
+@end
+#endif
+
+
 @interface FLAnimatedImageView ()
 
 // Override of public `readonly` properties as private `readwrite`
@@ -24,6 +32,10 @@
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image or visibility (window, superview, hidden, alpha) has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
+
+#if defined(DEBUG) && DEBUG
+@property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;
+#endif
 
 @end
 

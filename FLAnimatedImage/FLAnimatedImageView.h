@@ -29,20 +29,4 @@
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;
 
-#if defined(DEBUG) && DEBUG
-// Only intended to report internal state for debugging
-@property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;
-#endif
-
 @end
-
-
-#if defined(DEBUG) && DEBUG
-@protocol FLAnimatedImageViewDebugDelegate <NSObject>
-
-@optional
-
-- (void)debug_animatedImageView:(FLAnimatedImageView *)animatedImageView waitingForFrame:(NSUInteger)index duration:(NSTimeInterval)duration;
-
-@end
-#endif

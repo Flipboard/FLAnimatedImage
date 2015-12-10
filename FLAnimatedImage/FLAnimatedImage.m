@@ -37,6 +37,16 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 };
 
 
+#if defined(DEBUG) && DEBUG
+@protocol FLAnimatedImageDebugDelegate <NSObject>
+@optional
+- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache;
+- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index;
+- (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(FLAnimatedImage *)animatedImage;
+@end
+#endif
+
+
 @interface FLAnimatedImage ()
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeOptimal; // The optimal number of frames to cache based on image size & number of frames; never changes
@@ -55,6 +65,10 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 // We are lying about the actual type here to gain static type checking and eliminate casts.
 // The actual type of the object is `FLWeakProxy`.
 @property (nonatomic, strong, readonly) FLAnimatedImage *weakProxy;
+
+#if defined(DEBUG) && DEBUG
+@property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
+#endif
 
 @end
 

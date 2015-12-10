@@ -12,10 +12,6 @@
 // Allow user classes conveniently just importing one header.
 #import "FLAnimatedImageView.h"
 
-#if defined(DEBUG) && DEBUG
-@protocol FLAnimatedImageDebugDelegate;
-#endif
-
 
 #ifndef NS_DESIGNATED_INITIALIZER
     #if __has_attribute(objc_designated_initializer)
@@ -58,11 +54,6 @@
 
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
-#if defined(DEBUG) && DEBUG
-// Only intended to report internal state for debugging
-@property (nonatomic, weak) id<FLAnimatedImageDebugDelegate> debug_delegate;
-#endif
-
 @end
 
 typedef NS_ENUM(NSUInteger, FLLogLevel) {
@@ -86,16 +77,3 @@ typedef NS_ENUM(NSUInteger, FLLogLevel) {
 + (instancetype)weakProxyForObject:(id)targetObject;
 
 @end
-
-
-#if defined(DEBUG) && DEBUG
-@protocol FLAnimatedImageDebugDelegate <NSObject>
-
-@optional
-
-- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didUpdateCachedFrames:(NSIndexSet *)indexesOfFramesInCache;
-- (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index;
-- (CGFloat)debug_animatedImagePredrawingSlowdownFactor:(FLAnimatedImage *)animatedImage;
-
-@end
-#endif
