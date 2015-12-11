@@ -21,7 +21,6 @@
     #endif
 #endif
 
-extern const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum;
 
 //
 //  An `FLAnimatedImage`'s job is to deliver frames in a highly performant way and works in conjunction with `FLAnimatedImageView`.

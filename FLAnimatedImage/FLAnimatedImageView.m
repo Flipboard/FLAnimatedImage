@@ -193,8 +193,8 @@
 
 - (NSTimeInterval)frameDelayGreatestCommonDivisor
 {
-    // Presision is set to half of the `kFLAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
-    const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kFLAnimatedImageDelayTimeIntervalMinimum;
+    // Presision is set to 10ms in order to minimize frame dropping.
+    const NSTimeInterval kGreatestCommonDivisorPrecision = 10 / 1000.0;
 
     NSArray *delays = self.animatedImage.delayTimesForIndexes.allValues;
 
