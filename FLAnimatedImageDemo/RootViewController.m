@@ -29,6 +29,27 @@
 
 @end
 
+// Internal properties on FLAnimatedImage and FLAnimatedImageView, only availabe in debug and used exclusively for the sample project.
+#if defined(DEBUG) && DEBUG
+
+@interface FLAnimatedImage (Private)
+@property (nonatomic, weak) id debug_delegate;
+@end
+
+@implementation FLAnimatedImage (Private)
+@dynamic debug_delegate;
+@end
+
+@interface FLAnimatedImageView (Private)
+@property (nonatomic, weak) id debug_delegate;
+@end
+
+@implementation FLAnimatedImageView (Private)
+@dynamic debug_delegate;
+@end
+
+#endif
+
 
 @implementation RootViewController
 
