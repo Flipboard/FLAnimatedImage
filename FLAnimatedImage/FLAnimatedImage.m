@@ -20,7 +20,7 @@
 #define MEGABYTE (1024 * 1024)
 
 // This is how the fastest browsers do it as per 2012: http://nullsleep.tumblr.com/post/16524517190/animated-gif-minimum-frame-delay-browser-compatibility
-const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum = 0.2;
+const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum = 0.02;
 
 // An animated image's data size (dimensions * frameCount) category; its value is the max allowed memory (in MB).
 // E.g.: A 100x200px GIF with 30 frames is ~2.3MB in our pixel format and would fall into the `FLAnimatedImageDataSizeCategoryAll` category.
