@@ -191,6 +191,45 @@
 
 #pragma mark Animating Images
 
+- (NSTimeInterval)frameDelayGreatestCommonDivisor
+{
+    // Presision is set to half of the `kFLAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
+    const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kFLAnimatedImageDelayTimeIntervalMinimum;
+
+    NSArray *delays = self.animatedImage.delayTimesForIndexes.allValues;
+
+    // Scales the frame delays by `kGreatestCommonDivisorPrecision`
+    // then converts it to an UInteger for in order to calculate the GCD.
+    NSUInteger scaledGCD = lrint([delays.firstObject floatValue] * kGreatestCommonDivisorPrecision);
+    for (NSNumber *value in delays) {
+        scaledGCD = gcd(lrint([value floatValue] * kGreatestCommonDivisorPrecision), scaledGCD);
+    }
+
+    // Reverse to scale to get the value back into seconds.
+    return scaledGCD / kGreatestCommonDivisorPrecision;
+}
+
+
+static NSUInteger gcd(NSUInteger a, NSUInteger b)
+{
+    // http://en.wikipedia.org/wiki/Greatest_common_divisor
+    if (a < b) {
+        return gcd(b, a);
+    } else if (a == b) {
+        return b;
+    }
+
+    while (true) {
+        NSUInteger remainder = a % b;
+        if (remainder == 0) {
+            return b;
+        }
+        a = b;
+        b = remainder;
+    }
+}
+
+
 - (void)startAnimating
 {
     if (self.animatedImage) {
@@ -212,10 +251,13 @@
                 mode = NSRunLoopCommonModes;
             }
             [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
-            
-            // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
-            // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
         }
+
+        // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
+        // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
+        const NSTimeInterval kDisplayRefreshRate = 60.0; // 60Hz
+        self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kDisplayRefreshRate, 1);
+
         self.displayLink.paused = NO;
     } else {
         [super startAnimating];
@@ -291,7 +333,7 @@
                 self.needsDisplayWhenImageBecomesAvailable = NO;
             }
             
-            self.accumulator += displayLink.duration;
+            self.accumulator += displayLink.duration * displayLink.frameInterval;
             
             // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
             while (self.accumulator >= delayTime) {
@@ -318,7 +360,7 @@
             [FLAnimatedImage logString:[NSString stringWithFormat:@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage] withLevel:FLLogLevelDebug];
 #if defined(DEBUG) && DEBUG
             if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
-                [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration];
+                [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)self.displayLink.duration * displayLink.frameInterval];
             }
 #endif
         }
