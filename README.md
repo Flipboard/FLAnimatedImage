@@ -32,6 +32,12 @@ To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimat
 pod 'FLAnimatedImage', '~> 1.0'
 ```
 
+If using [Carthage](https://github.com/Carthage/Carthage), add following line into your `Cartfile`
+
+```
+github "Flipboard/FLAnimatedImage"
+```
+
 In your code, `#import "FLAnimatedImage.h"`, create an image from an animated GIF, and setup the image view to display it:
 
 ```objective-c
@@ -46,7 +52,22 @@ It's flexible to integrate in your custom image loading stack and backwards comp
 
 It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreServices`, and `CoreGraphics`.
 
-It has fine-grained logging. By default, it uses NSLog. However, if your project uses [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack), it automatically can detect that and use CocoaLumberjack to send logs to the configured output.
+It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` that's invoked when logging occurs with various log levels via the `+setLogBlock:` method. For example:
+
+```objective-c
+// Set up FLAnimatedImage logging.
+[FLAnimatedImage setLogBlock:^(NSString *logString, FLLogLevel logLevel) {
+    // Using NSLog
+    NSLog(@"%@", logString);
+    
+    // ...or CocoaLumberjackLogger only logging warnings and errors
+    if (logLevel == FLLogLevelError) {
+        DDLogError(@"%@", logString);
+    } else if (logLevel == FLLogLevelWarn) {
+        DDLogWarn(@"%@", logString);
+    }
+}];
+```
 
 Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of using it for any app on the App Store.
 
@@ -55,7 +76,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 - Integration into network libraries and image caches
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
 - Smarter buffering
-- Bring demo app to iOS 6 and iPhone
+- Bring demo app to iPhone
 
 This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
@@ -64,12 +85,17 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 ## Select apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
 - [Medium](https://medium.com)
+- [Facebook](https://facebook.com)
+- [Pinterest](https://pinterest.com)
 - [LiveBooth](http://www.liveboothapp.com)
 - [Design Shots](https://itunes.apple.com/app/id792517951)
 - [lWlVl Festival](http://lwlvl.com)
 - [Close-up](http://closeu.pe)
 - [Zip Code Finder](https://itunes.apple.com/app/id893031254)
 - [getGIF](https://itunes.apple.com/app/id964784701)
+- [Giffage](http://giffage.com)
 - [Flipboard](https://flipboard.com)
+- [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
+- [Slack](https://slack.com/)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
