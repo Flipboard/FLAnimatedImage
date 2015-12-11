@@ -191,20 +191,22 @@
 
 #pragma mark Animating Images
 
-- (NSUInteger)calculateOptimalFrameInterval:(NSArray *)delays
+- (NSTimeInterval)frameDelayGreatestCommonDivisor
 {
-    const NSTimeInterval precision = 100.0;   // 10 millisecond precision
-    const NSTimeInterval refreshRate = 60.0;  // 60Hz
+    // Presision is set to half of the `kFLAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
+    const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kFLAnimatedImageDelayTimeIntervalMinimum;
 
-    NSUInteger scaledGCD = lrint([delays.firstObject floatValue] * precision);
+    NSArray *delays = self.animatedImage.delayTimesForIndexes.allValues;
+
+    // Scales the frame delays by `kGreatestCommonDivisorPrecision`
+    // then converts it to an UInteger for in order to calculate the GCD.
+    NSUInteger scaledGCD = lrint([delays.firstObject floatValue] * kGreatestCommonDivisorPrecision);
     for (NSNumber *value in delays) {
-        scaledGCD = gcd(lrint([value floatValue] * precision), scaledGCD);
+        scaledGCD = gcd(lrint([value floatValue] * kGreatestCommonDivisorPrecision), scaledGCD);
     }
 
-    NSTimeInterval unscaledGCD = scaledGCD / precision;
-    NSUInteger frameInterval = MAX(unscaledGCD * refreshRate, 1);
-
-    return frameInterval;
+    // Reverse to scale to get the value back into seconds.
+    return scaledGCD / kGreatestCommonDivisorPrecision;
 }
 
 
@@ -252,8 +254,9 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         }
 
         // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
-        // Setting it to 2 divides the frame rate by 2 and hence calls back at every other frame.
-        self.displayLink.frameInterval = [self calculateOptimalFrameInterval:self.animatedImage.delayTimesForIndexes.allValues];
+        // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
+        const NSTimeInterval kDisplayRefreshRate = 60.0; // 60Hz
+        self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kDisplayRefreshRate, 1);
 
         self.displayLink.paused = NO;
     } else {
@@ -315,7 +318,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         [FLAnimatedImage logString:[NSString stringWithFormat:@"Trying to animate image when we shouldn't: %@", self] withLevel:FLLogLevelWarn];
         return;
     }
-
+    
     NSNumber *delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
     // If we don't have a frame delay (e.g. corrupt frame), don't update the view but skip the playhead to the next frame (in else-block).
     if (delayTimeNumber) {
