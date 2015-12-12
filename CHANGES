@@ -1,5 +1,7 @@
 =
 
+  * Optimize performance by reducing CADisplayLink callbacks (Eric Jensen @ejensen)
+
   * Make FLAnimatedImage automatically pause when hidden (Daniel Amitay @danielamitay)
 
   * Decouple FLAnimatedImage from any particular logging solution (Tim Johnsen @timonus)
