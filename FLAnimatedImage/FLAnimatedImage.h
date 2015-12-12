@@ -58,6 +58,7 @@ extern const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum;
 @end
 
 typedef NS_ENUM(NSUInteger, FLLogLevel) {
+    FLLogLevelNone = 0,
     FLLogLevelError,
     FLLogLevelWarn,
     FLLogLevelInfo,
@@ -67,11 +68,12 @@ typedef NS_ENUM(NSUInteger, FLLogLevel) {
 
 @interface FLAnimatedImage (Logging)
 
-+ (void)setLogBlock:(void (^)(NSString *logString, FLLogLevel logLevel))logBlock;
-+ (void)logString:(NSString *)logString withLevel:(FLLogLevel)level;
++ (void)setLogBlock:(void (^)(NSString *logString, FLLogLevel logLevel))logBlock logLevel:(FLLogLevel)logLevel;
++ (void)logStringFromBlock:(NSString *(^)(void))stringBlock withLevel:(FLLogLevel)level;
 
 @end
 
+#define FLLog(logLevel, format, ...) [FLAnimatedImage logStringFromBlock:^NSString *{ return [NSString stringWithFormat:(format), ## __VA_ARGS__]; } withLevel:(logLevel)]
 
 @interface FLWeakProxy : NSProxy
 

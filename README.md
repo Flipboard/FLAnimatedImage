@@ -52,7 +52,7 @@ It's flexible to integrate in your custom image loading stack and backwards comp
 
 It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreServices`, and `CoreGraphics`.
 
-It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` that's invoked when logging occurs with various log levels via the `+setLogBlock:` method. For example:
+It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` that's invoked when logging occurs with various log levels via the `+setLogBlock:logLevel:` method. For example:
 
 ```objective-c
 // Set up FLAnimatedImage logging.
@@ -66,7 +66,7 @@ It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` t
     } else if (logLevel == FLLogLevelWarn) {
         DDLogWarn(@"%@", logString);
     }
-}];
+} logLevel:FLLogLevelWarn];
 ```
 
 Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of using it for any app on the App Store.

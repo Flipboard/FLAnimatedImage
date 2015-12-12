@@ -315,7 +315,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     // If for some reason a wild call makes it through when we shouldn't be animating, bail.
     // Early return!
     if (!self.shouldAnimate) {
-        [FLAnimatedImage logString:[NSString stringWithFormat:@"Trying to animate image when we shouldn't: %@", self] withLevel:FLLogLevelWarn];
+        FLLog(FLLogLevelWarn, @"Trying to animate image when we shouldn't: %@", self);
         return;
     }
     
@@ -326,7 +326,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         // If we have a nil image (e.g. waiting for frame), don't update the view nor playhead.
         UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
         if (image) {
-            [FLAnimatedImage logString:[NSString stringWithFormat:@"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage] withLevel:FLLogLevelVerbose];
+            FLLog(FLLogLevelVerbose, @"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
             self.currentFrame = image;
             if (self.needsDisplayWhenImageBecomesAvailable) {
                 [self.layer setNeedsDisplay];
@@ -357,7 +357,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
                 self.needsDisplayWhenImageBecomesAvailable = YES;
             }
         } else {
-            [FLAnimatedImage logString:[NSString stringWithFormat:@"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage] withLevel:FLLogLevelDebug];
+            FLLog(FLLogLevelDebug, @"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
 #if defined(DEBUG) && DEBUG
             if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
                 [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)displayLink.duration * displayLink.frameInterval];
