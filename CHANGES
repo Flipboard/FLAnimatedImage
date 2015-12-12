@@ -1,4 +1,4 @@
-=
+= 1.0.10 (2015-12-11)
 
   * Optimize performance by reducing CADisplayLink callbacks (Eric Jensen @ejensen)
 
