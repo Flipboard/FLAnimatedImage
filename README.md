@@ -98,5 +98,6 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
 - [Slack](https://slack.com/)
 - [Telegram](https://telegram.org/)
+- [HashPhotos](https://itunes.apple.com/app/id685784609)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
