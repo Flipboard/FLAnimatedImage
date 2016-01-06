@@ -78,8 +78,13 @@
     
     NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
     NSData *data1 = [NSData dataWithContentsOfURL:url1];
+    
+    self.imageView1.image = [UIImage imageWithCGImage:[[UIImage imageWithData:data1] CGImage] scale:1.0 orientation:UIImageOrientationDown];
+    
     FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data1];
-    self.imageView1.animatedImage = animatedImage1;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.imageView1.animatedImage = animatedImage1;
+    });
     
     // 2
     if (!self.imageView2) {
