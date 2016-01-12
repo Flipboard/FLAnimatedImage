@@ -41,7 +41,7 @@ github "Flipboard/FLAnimatedImage"
 In your code, `#import "FLAnimatedImage.h"`, create an image from an animated GIF, and setup the image view to display it:
 
 ```objective-c
-FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"]]];
+FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"]]];
 FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
 imageView.animatedImage = image;
 imageView.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
@@ -80,7 +80,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 
 This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
-Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) for further help.
+Feel free to reach out to [@timonus](https://twitter.com/timonus) for further help.
 
 ## Select apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
@@ -101,4 +101,4 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [HashPhotos](https://itunes.apple.com/app/id685784609)
 - [Ello](https://ello.co/)
 
-Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
+Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/timonus)
