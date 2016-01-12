@@ -99,5 +99,6 @@ Feel free to reach out to [@RaphaelSchaad](https://twitter.com/raphaelschaad) fo
 - [Slack](https://slack.com/)
 - [Telegram](https://telegram.org/)
 - [HashPhotos](https://itunes.apple.com/app/id685784609)
+- [Ello](https://ello.co/)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/raphaelschaad)
