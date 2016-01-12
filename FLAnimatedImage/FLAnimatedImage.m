@@ -228,70 +228,72 @@ static NSHashTable *allAnimatedImagesWeak;
         NSUInteger skippedFrameCount = 0;
         NSMutableDictionary *delayTimesForIndexesMutable = [NSMutableDictionary dictionaryWithCapacity:imageCount];
         for (size_t i = 0; i < imageCount; i++) {
-            CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
-            if (frameImageRef) {
-                UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
-                // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
-                if (frameImage) {
-                    // Set poster image
-                    if (!self.posterImage) {
-                        _posterImage = frameImage;
-                        // Set its size to proxy our size.
-                        _size = _posterImage.size;
-                        // Remember index of poster image so we never purge it; also add it to the cache.
-                        _posterImageFrameIndex = i;
-                        [self.cachedFramesForIndexes setObject:self.posterImage forKey:@(self.posterImageFrameIndex)];
-                        [self.cachedFrameIndexes addIndex:self.posterImageFrameIndex];
-                    }
-                    
-                    // Get `DelayTime`
-                    // Note: It's not in (1/100) of a second like still falsely described in the documentation as per iOS 8 (rdar://19507384) but in seconds stored as `kCFNumberFloat32Type`.
-                    // Frame properties example:
-                    // {
-                    //     ColorModel = RGB;
-                    //     Depth = 8;
-                    //     PixelHeight = 960;
-                    //     PixelWidth = 640;
-                    //     "{GIF}" = {
-                    //         DelayTime = "0.4";
-                    //         UnclampedDelayTime = "0.4";
-                    //     };
-                    // }
-                    
-                    NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
-                    NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
-                    
-                    // Try to use the unclamped delay time; fall back to the normal delay time.
-                    NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
-                    if (!delayTime) {
-                        delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
-                    }
-                    // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
-                    const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
-                    if (!delayTime) {
-                        if (i == 0) {
-                            FLLog(FLLogLevelInfo, @"Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
-                            delayTime = @(kDelayTimeIntervalDefault);
-                        } else {
-                            FLLog(FLLogLevelInfo, @"Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
-                            delayTime = delayTimesForIndexesMutable[@(i - 1)];
+            @autoreleasepool {
+                CGImageRef frameImageRef = CGImageSourceCreateImageAtIndex(_imageSource, i, NULL);
+                if (frameImageRef) {
+                    UIImage *frameImage = [UIImage imageWithCGImage:frameImageRef];
+                    // Check for valid `frameImage` before parsing its properties as frames can be corrupted (and `frameImage` even `nil` when `frameImageRef` was valid).
+                    if (frameImage) {
+                        // Set poster image
+                        if (!self.posterImage) {
+                            _posterImage = frameImage;
+                            // Set its size to proxy our size.
+                            _size = _posterImage.size;
+                            // Remember index of poster image so we never purge it; also add it to the cache.
+                            _posterImageFrameIndex = i;
+                            [self.cachedFramesForIndexes setObject:self.posterImage forKey:@(self.posterImageFrameIndex)];
+                            [self.cachedFrameIndexes addIndex:self.posterImageFrameIndex];
                         }
+                        
+                        // Get `DelayTime`
+                        // Note: It's not in (1/100) of a second like still falsely described in the documentation as per iOS 8 (rdar://19507384) but in seconds stored as `kCFNumberFloat32Type`.
+                        // Frame properties example:
+                        // {
+                        //     ColorModel = RGB;
+                        //     Depth = 8;
+                        //     PixelHeight = 960;
+                        //     PixelWidth = 640;
+                        //     "{GIF}" = {
+                        //         DelayTime = "0.4";
+                        //         UnclampedDelayTime = "0.4";
+                        //     };
+                        // }
+                        
+                        NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
+                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
+                        
+                        // Try to use the unclamped delay time; fall back to the normal delay time.
+                        NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
+                        if (!delayTime) {
+                            delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                        }
+                        // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
+                        const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
+                        if (!delayTime) {
+                            if (i == 0) {
+                                FLLog(FLLogLevelInfo, @"Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
+                                delayTime = @(kDelayTimeIntervalDefault);
+                            } else {
+                                FLLog(FLLogLevelInfo, @"Falling back to preceding delay time for frame %zu %@ because none found in GIF properties %@", i, frameImage, frameProperties);
+                                delayTime = delayTimesForIndexesMutable[@(i - 1)];
+                            }
+                        }
+                        // Support frame delays as low as `kFLAnimatedImageDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
+                        // To support the minimum even when rounding errors occur, use an epsilon when comparing. We downcast to float because that's what we get for delayTime from ImageIO.
+                        if ([delayTime floatValue] < ((float)kFLAnimatedImageDelayTimeIntervalMinimum - FLT_EPSILON)) {
+                            FLLog(FLLogLevelInfo, @"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kFLAnimatedImageDelayTimeIntervalMinimum);
+                            delayTime = @(kDelayTimeIntervalDefault);
+                        }
+                        delayTimesForIndexesMutable[@(i)] = delayTime;
+                    } else {
+                        skippedFrameCount++;
+                        FLLog(FLLogLevelInfo, @"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
                     }
-                    // Support frame delays as low as `kFLAnimatedImageDelayTimeIntervalMinimum`, with anything below being rounded up to `kDelayTimeIntervalDefault` for legacy compatibility.
-                    // To support the minimum even when rounding errors occur, use an epsilon when comparing. We downcast to float because that's what we get for delayTime from ImageIO.
-                    if ([delayTime floatValue] < ((float)kFLAnimatedImageDelayTimeIntervalMinimum - FLT_EPSILON)) {
-                        FLLog(FLLogLevelInfo, @"Rounding frame %zu's `delayTime` from %f up to default %f (minimum supported: %f).", i, [delayTime floatValue], kDelayTimeIntervalDefault, kFLAnimatedImageDelayTimeIntervalMinimum);
-                        delayTime = @(kDelayTimeIntervalDefault);
-                    }
-                    delayTimesForIndexesMutable[@(i)] = delayTime;
+                    CFRelease(frameImageRef);
                 } else {
                     skippedFrameCount++;
-                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
+                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
                 }
-                CFRelease(frameImageRef);
-            } else {
-                skippedFrameCount++;
-                FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
             }
         }
         _delayTimesForIndexes = [delayTimesForIndexesMutable copy];
