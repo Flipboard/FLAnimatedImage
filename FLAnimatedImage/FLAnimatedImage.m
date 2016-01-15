@@ -52,6 +52,7 @@ typedef NS_ENUM(NSUInteger, FLAnimatedImageFrameCacheSize) {
 @interface FLAnimatedImage ()
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeOptimal; // The optimal number of frames to cache based on image size & number of frames; never changes
+@property (nonatomic, assign, readonly, getter=isPredrawingEnabled) BOOL predrawingEnabled; // Enables predrawing of images to improve performance.
 @property (nonatomic, assign) NSUInteger frameCacheSizeMaxInternal; // Allow to cap the cache size e.g. when memory warnings occur; 0 means no specific limit (default)
 @property (nonatomic, assign) NSUInteger requestedFrameIndex; // Most recently requested frame index
 @property (nonatomic, assign, readonly) NSUInteger posterImageFrameIndex; // Index of non-purgable poster image; never changes
@@ -173,6 +174,11 @@ static NSHashTable *allAnimatedImagesWeak;
 
 - (instancetype)initWithAnimatedGIFData:(NSData *)data
 {
+    return [self initWithAnimatedGIFData:data optimalFrameCacheSize:0 predrawingEnabled:YES];
+}
+
+- (instancetype)initWithAnimatedGIFData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled
+{
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
     if (!hasData) {
@@ -187,6 +193,7 @@ static NSHashTable *allAnimatedImagesWeak;
         // Keep a strong reference to `data` and expose it read-only publicly.
         // However, we will use the `_imageSource` as handler to the image data throughout our life cycle.
         _data = data;
+        _predrawingEnabled = isPredrawingEnabled;
         
         // Initialize internal data structures
         _cachedFramesForIndexes = [[NSMutableDictionary alloc] init];
@@ -309,17 +316,23 @@ static NSHashTable *allAnimatedImagesWeak;
             // We have multiple frames, rock on!
         }
         
-        // Calculate the optimal frame cache size: try choosing a larger buffer window depending on the predicted image size.
-        // It's only dependent on the image size & number of frames and never changes.
-        CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * (self.frameCount - skippedFrameCount) / MEGABYTE;
-        if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
-            _frameCacheSizeOptimal = self.frameCount;
-        } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault) {
-            // This value doesn't depend on device memory much because if we're not keeping all frames in memory we will always be decoding 1 frame up ahead per 1 frame that gets played and at this point we might as well just keep a small buffer just large enough to keep from running out of frames.
-            _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeDefault;
+        // If no value is provided, select a default based on the GIF.
+        if (optimalFrameCacheSize == 0) {
+            // Calculate the optimal frame cache size: try choosing a larger buffer window depending on the predicted image size.
+            // It's only dependent on the image size & number of frames and never changes.
+            CGFloat animatedImageDataSize = CGImageGetBytesPerRow(self.posterImage.CGImage) * self.size.height * (self.frameCount - skippedFrameCount) / MEGABYTE;
+            if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
+                _frameCacheSizeOptimal = self.frameCount;
+            } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault) {
+                // This value doesn't depend on device memory much because if we're not keeping all frames in memory we will always be decoding 1 frame up ahead per 1 frame that gets played and at this point we might as well just keep a small buffer just large enough to keep from running out of frames.
+                _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeDefault;
+            } else {
+                // The predicted size exceeds the limits to build up a cache and we go into low memory mode from the beginning.
+                _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
+            }
         } else {
-            // The predicted size exceeds the limits to build up a cache and we go into low memory mode from the beginning.
-            _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeLowMemory;
+            // Use the provided value.
+            _frameCacheSizeOptimal = optimalFrameCacheSize;
         }
         // In any case, cap the optimal cache size at the frame count.
         _frameCacheSizeOptimal = MIN(_frameCacheSizeOptimal, self.frameCount);
@@ -436,7 +449,7 @@ static NSHashTable *allAnimatedImagesWeak;
 #if defined(DEBUG) && DEBUG
                 CFTimeInterval predrawBeginTime = CACurrentMediaTime();
 #endif
-                UIImage *image = [weakSelf predrawnImageAtIndex:i];
+                UIImage *image = [weakSelf imageAtIndex:i];
 #if defined(DEBUG) && DEBUG
                 CFTimeInterval predrawDuration = CACurrentMediaTime() - predrawBeginTime;
                 CFTimeInterval slowdownDuration = 0.0;
@@ -497,7 +510,7 @@ static NSHashTable *allAnimatedImagesWeak;
 #pragma mark - Private Methods
 #pragma mark Frame Loading
 
-- (UIImage *)predrawnImageAtIndex:(NSUInteger)index
+- (UIImage *)imageAtIndex:(NSUInteger)index
 {
     // It's very important to use the cached `_imageSource` since the random access to a frame with `CGImageSourceCreateImageAtIndex` turns from an O(1) into an O(n) operation when re-initializing the image source every time.
     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(_imageSource, index, NULL);
@@ -505,7 +518,9 @@ static NSHashTable *allAnimatedImagesWeak;
     CFRelease(imageRef);
     
     // Loading in the image object is only half the work, the displaying image view would still have to synchronosly wait and decode the image, so we go ahead and do that here on the background thread.
-    image = [[self class] predrawnImageFromImage:image];
+    if (self.isPredrawingEnabled) {
+        image = [[self class] predrawnImageFromImage:image];
+    }
     
     return image;
 }
