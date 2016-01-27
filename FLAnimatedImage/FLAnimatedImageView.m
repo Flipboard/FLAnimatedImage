@@ -41,6 +41,7 @@
 
 
 @implementation FLAnimatedImageView
+@synthesize runLoopMode = _runLoopMode;
 
 #pragma mark - Accessors
 #pragma mark Public
@@ -242,15 +243,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
             FLWeakProxy *weakProxy = [FLWeakProxy weakProxyForObject:self];
             self.displayLink = [CADisplayLink displayLinkWithTarget:weakProxy selector:@selector(displayDidRefresh:)];
             
-            NSString *mode = NSDefaultRunLoopMode;
-            // Enable playback during scrolling by allowing timer events (i.e. animation) with `NSRunLoopCommonModes`.
-            // But too keep scrolling smooth, only do this for hardware with more than one core and otherwise keep it at the default `NSDefaultRunLoopMode`.
-            // The only devices with single-core chips (supporting iOS 6+) are iPhone 3GS/4 and iPod Touch 4th gen.
-            // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
-            if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
-                mode = NSRunLoopCommonModes;
-            }
-            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:mode];
+            [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:self.runLoopMode];
         }
 
         // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
@@ -264,6 +257,26 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
+- (void)setRunLoopMode:(NSString *)runLoopMode
+{
+    if (![@[NSDefaultRunLoopMode, NSRunLoopCommonModes] containsObject:runLoopMode]) {
+        [NSException raise:@"Invalid argument: Only NSDefaultRunLoopMode and NSRunLoopCommonModes are expected!" format:@""];
+    }
+    
+    _runLoopMode = [runLoopMode copy];
+}
+
+- (NSString *)runLoopMode
+{
+    NSString *mode = NSDefaultRunLoopMode;
+    
+    // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
+    if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
+        mode = NSRunLoopCommonModes;
+    }
+    
+    return _runLoopMode ? : mode;
+}
 
 - (void)stopAnimating
 {
