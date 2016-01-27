@@ -43,6 +43,18 @@
 @implementation FLAnimatedImageView
 @synthesize runLoopMode = _runLoopMode;
 
+#pragma mark - Initializers
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.runLoopMode = [[self class] defaultRunLoopMode];
+    }
+    return self;
+}
+
+
 #pragma mark - Accessors
 #pragma mark Public
 
@@ -260,22 +272,11 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
 - (void)setRunLoopMode:(NSString *)runLoopMode
 {
     if (![@[NSDefaultRunLoopMode, NSRunLoopCommonModes] containsObject:runLoopMode]) {
-        [NSException raise:@"Invalid argument: Only NSDefaultRunLoopMode and NSRunLoopCommonModes are expected!" format:@""];
+        NSAssert(NO, @"Invalid run loop mode: %@", runLoopMode);
+        _runLoopMode = [[self class] defaultRunLoopMode];
+    } else {
+        _runLoopMode = runLoopMode;
     }
-    
-    _runLoopMode = [runLoopMode copy];
-}
-
-- (NSString *)runLoopMode
-{
-    NSString *mode = NSDefaultRunLoopMode;
-    
-    // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
-    if ([NSProcessInfo processInfo].activeProcessorCount > 1) {
-        mode = NSRunLoopCommonModes;
-    }
-    
-    return _runLoopMode ? : mode;
 }
 
 - (void)stopAnimating
@@ -380,6 +381,12 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     } else {
         self.currentFrameIndex++;
     }
+}
+
++ (NSString *)defaultRunLoopMode
+{
+    // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
+    return [NSProcessInfo processInfo].activeProcessorCount > 1 ? NSRunLoopCommonModes : NSDefaultRunLoopMode;
 }
 
 
