@@ -49,9 +49,23 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.runLoopMode = [[self class] defaultRunLoopMode];
+        [self commonInit];
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit
+{
+    self.runLoopMode = [[self class] defaultRunLoopMode];
 }
 
 
