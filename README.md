@@ -100,5 +100,6 @@ Feel free to reach out to [@timonus](https://twitter.com/timonus) for further he
 - [Telegram](https://telegram.org/)
 - [HashPhotos](https://itunes.apple.com/app/id685784609)
 - [Ello](https://ello.co/)
+- [Dumpert](http://dumpert.nl)
 
 Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/timonus)
