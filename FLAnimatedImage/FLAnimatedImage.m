@@ -514,6 +514,12 @@ static NSHashTable *allAnimatedImagesWeak;
 {
     // It's very important to use the cached `_imageSource` since the random access to a frame with `CGImageSourceCreateImageAtIndex` turns from an O(1) into an O(n) operation when re-initializing the image source every time.
     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(_imageSource, index, NULL);
+
+    // Early return for nil
+    if (!imageRef) {
+        return nil;
+    }
+
     UIImage *image = [UIImage imageWithCGImage:imageRef];
     CFRelease(imageRef);
     
