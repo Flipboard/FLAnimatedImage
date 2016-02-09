@@ -1,0 +1,14 @@
+PODS:
+  - FLAnimatedImage (1.0.10)
+
+DEPENDENCIES:
+  - FLAnimatedImage (from `../`)
+
+EXTERNAL SOURCES:
+  FLAnimatedImage:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FLAnimatedImage: d843599c5bbbe8cf92644e2391ec0d9e72ce4563
+
+COCOAPODS: 0.39.0
