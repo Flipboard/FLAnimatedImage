@@ -1,3 +1,11 @@
+= 1.0.11 (2016-02-17)
+
+  * Allow for run loop mode customization (Ignacio Romero Zurbuchen @dzenbot)
+
+  * Add initialization flags that allow for reduced memory consumption (Tim Johnsen @timonus)
+
+  * Crash fix (Alec Geatches @mopsled)
+
 = 1.0.10 (2015-12-11)
 
   * Optimize performance by reducing CADisplayLink callbacks (Eric Jensen @ejensen)
