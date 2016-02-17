@@ -72,7 +72,7 @@ It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` t
 Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of using it for any app on the App Store.
 
 ## To Do
-- Support other animated image formats such as APNG or WebP
+- Support other animated image formats such as APNG or WebP (WebP support implemented [here](https://github.com/Flipboard/FLAnimatedImage/pull/86))
 - Integration into network libraries and image caches
 - Investigate whether `FLAnimatedImage` should become a `UIImage` subclass
 - Smarter buffering
