@@ -80,8 +80,6 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 
 This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
-Feel free to reach out to [@timonus](https://twitter.com/timonus) for further help.
-
 ## Select apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
 - [Medium](https://medium.com)
@@ -102,4 +100,4 @@ Feel free to reach out to [@timonus](https://twitter.com/timonus) for further he
 - [Ello](https://ello.co/)
 - [Dumpert](http://dumpert.nl)
 
-Using FLAnimatedImage in your app? [Let me know!](https://twitter.com/timonus)
+If you're using FLAnimatedImage in your app please open a PR to add it to this list!
