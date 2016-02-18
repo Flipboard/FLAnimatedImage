@@ -25,7 +25,23 @@
 		87CB5A131935A8C600620C16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0C1935A8C600620C16 /* main.m */; };
 		87CB5A141935A8C600620C16 /* PlayheadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A0E1935A8C600620C16 /* PlayheadView.m */; };
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
+		B7D828351C7524DC004D60DA /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D828341C7524DC004D60DA /* FLAnimatedImage.framework */; };
+		B7D828361C7524DC004D60DA /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7D828341C7524DC004D60DA /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B7D828371C7524DC004D60DA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B7D828361C7524DC004D60DA /* FLAnimatedImage.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
@@ -57,6 +73,7 @@
 		87CB5A0F1935A8C600620C16 /* RSPlayPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSPlayPauseButton.h; path = FLAnimatedImageDemo/RSPlayPauseButton.h; sourceTree = "<group>"; };
 		87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSPlayPauseButton.m; path = FLAnimatedImageDemo/RSPlayPauseButton.m; sourceTree = "<group>"; };
 		87CB5A171935A93F00620C16 /* FLAnimatedImageDemo-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FLAnimatedImageDemo-Prefix.pch"; path = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch"; sourceTree = "<group>"; };
+		B7D828341C7524DC004D60DA /* FLAnimatedImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "/Users/zenglekidd/Library/Developer/Xcode/DerivedData/FLAnimatedImage-bekujibksyilrubmjsirveabffrz/Build/Products/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +86,7 @@
 				872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */,
 				872EBE70178B825500B7531B /* UIKit.framework in Frameworks */,
 				872EBEBD178B8FA000B7531B /* QuartzCore.framework in Frameworks */,
+				B7D828351C7524DC004D60DA /* FLAnimatedImage.framework in Frameworks */,
 				872EBEB3178B89DF00B7531B /* ImageIO.framework in Frameworks */,
 				872EBEBB178B8F9000B7531B /* MobileCoreServices.framework in Frameworks */,
 			);
@@ -80,6 +98,7 @@
 		872EBE63178B825500B7531B = {
 			isa = PBXGroup;
 			children = (
+				B7D828341C7524DC004D60DA /* FLAnimatedImage.framework */,
 				872EBE75178B825500B7531B /* FLAnimatedImageDemo */,
 				872EBE6E178B825500B7531B /* Frameworks */,
 				872EBE6D178B825500B7531B /* Products */,
@@ -163,6 +182,7 @@
 				872EBE68178B825500B7531B /* Sources */,
 				872EBE69178B825500B7531B /* Frameworks */,
 				872EBE6A178B825500B7531B /* Resources */,
+				B7D828371C7524DC004D60DA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -310,6 +330,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -327,6 +348,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
