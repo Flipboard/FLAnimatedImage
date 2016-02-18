@@ -27,6 +27,19 @@
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B7D828371C7524DC004D60DA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
 		0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
@@ -163,6 +176,7 @@
 				872EBE68178B825500B7531B /* Sources */,
 				872EBE69178B825500B7531B /* Frameworks */,
 				872EBE6A178B825500B7531B /* Resources */,
+				B7D828371C7524DC004D60DA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -310,6 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -327,6 +342,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;

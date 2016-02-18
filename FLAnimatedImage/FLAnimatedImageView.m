@@ -293,6 +293,13 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
+- (NSString *)runLoopMode {
+    if (_runLoopMode) {
+        return _runLoopMode;
+    }
+    return NSDefaultRunLoopMode;
+}
+
 - (void)stopAnimating
 {
     if (self.animatedImage) {
