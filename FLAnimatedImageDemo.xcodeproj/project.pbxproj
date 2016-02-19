@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */; };
+		229D6DFF1C77D121000C59E6 /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229D6DFE1C77D10D000C59E6 /* FLAnimatedImage.framework */; };
+		229D6E001C77D121000C59E6 /* FLAnimatedImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 229D6DFE1C77D10D000C59E6 /* FLAnimatedImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -27,9 +28,39 @@
 		87CB5A151935A8C600620C16 /* RSPlayPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB5A101935A8C600620C16 /* RSPlayPauseButton.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		229D6DFD1C77D10D000C59E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 229D6DF91C77D10D000C59E6 /* FLAnimatedImage.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 92C9BC0C1B199DC500D79B06;
+			remoteInfo = FLAnimatedImage;
+		};
+		229D6E011C77D121000C59E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 229D6DF91C77D10D000C59E6 /* FLAnimatedImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 92C9BC0B1B199DC500D79B06;
+			remoteInfo = FLAnimatedImage;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		229D6E031C77D121000C59E6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				229D6E001C77D121000C59E6 /* FLAnimatedImage.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
-		0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
+		229D6DF91C77D10D000C59E6 /* FLAnimatedImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = FLAnimatedImage.xcodeproj; sourceTree = "<group>"; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -64,11 +95,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */,
 				872EBE72178B825500B7531B /* Foundation.framework in Frameworks */,
 				872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */,
 				872EBE70178B825500B7531B /* UIKit.framework in Frameworks */,
 				872EBEBD178B8FA000B7531B /* QuartzCore.framework in Frameworks */,
+				229D6DFF1C77D121000C59E6 /* FLAnimatedImage.framework in Frameworks */,
 				872EBEB3178B89DF00B7531B /* ImageIO.framework in Frameworks */,
 				872EBEBB178B8F9000B7531B /* MobileCoreServices.framework in Frameworks */,
 			);
@@ -77,10 +108,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		229D6DFA1C77D10D000C59E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				229D6DFE1C77D10D000C59E6 /* FLAnimatedImage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		872EBE63178B825500B7531B = {
 			isa = PBXGroup;
 			children = (
 				872EBE75178B825500B7531B /* FLAnimatedImageDemo */,
+				229D6DF91C77D10D000C59E6 /* FLAnimatedImage.xcodeproj */,
 				872EBE6E178B825500B7531B /* Frameworks */,
 				872EBE6D178B825500B7531B /* Products */,
 			);
@@ -97,8 +137,6 @@
 		872EBE6E178B825500B7531B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */,
-				0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */,
 				872EBE71178B825500B7531B /* Foundation.framework */,
 				872EBE73178B825500B7531B /* CoreGraphics.framework */,
 				872EBE6F178B825500B7531B /* UIKit.framework */,
@@ -163,10 +201,12 @@
 				872EBE68178B825500B7531B /* Sources */,
 				872EBE69178B825500B7531B /* Frameworks */,
 				872EBE6A178B825500B7531B /* Resources */,
+				229D6E031C77D121000C59E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				229D6E021C77D121000C59E6 /* PBXTargetDependency */,
 			);
 			name = FLAnimatedImageDemo;
 			productName = AnimatedImageDemo;
@@ -193,12 +233,28 @@
 			mainGroup = 872EBE63178B825500B7531B;
 			productRefGroup = 872EBE6D178B825500B7531B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 229D6DFA1C77D10D000C59E6 /* Products */;
+					ProjectRef = 229D6DF91C77D10D000C59E6 /* FLAnimatedImage.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				872EBE6B178B825500B7531B /* FLAnimatedImageDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		229D6DFE1C77D10D000C59E6 /* FLAnimatedImage.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = FLAnimatedImage.framework;
+			remoteRef = 229D6DFD1C77D10D000C59E6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		872EBE6A178B825500B7531B /* Resources */ = {
@@ -230,6 +286,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		229D6E021C77D121000C59E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FLAnimatedImage;
+			targetProxy = 229D6E011C77D121000C59E6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		87CB59FE1935A83900620C16 /* InfoPlist.strings */ = {
@@ -310,6 +374,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -327,6 +392,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FLAnimatedImageDemo/FLAnimatedImageDemo-Prefix.pch";
 				INFOPLIST_FILE = "FLAnimatedImageDemo/FLAnimatedImageDemo-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.flipboard.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = FLAnimatedImageDemo;
 				TARGETED_DEVICE_FAMILY = 2;
