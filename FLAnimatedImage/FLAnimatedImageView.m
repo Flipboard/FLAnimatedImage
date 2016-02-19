@@ -45,6 +45,27 @@
 
 #pragma mark - Initializers
 
+// -initWithImage: isn't documented as a designated initializer of UIImageView, but it actually seems to be.
+// Using -initWithImage: doesn't call any of the other designated initializers.
+- (instancetype)initWithImage:(UIImage *)image
+{
+    self = [super initWithImage:image];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
+// -initWithImage:highlightedImage: also isn't documented as a designated initializer of UIImageView, but it doesn't call any other designated initializers.
+- (instancetype)initWithImage:(UIImage *)image highlightedImage:(UIImage *)highlightedImage
+{
+    self = [super initWithImage:image highlightedImage:highlightedImage];
+    if (self) {
+        [self commonInit];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
