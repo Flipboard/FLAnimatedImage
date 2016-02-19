@@ -1,3 +1,9 @@
+= 1.0.12 (2016-02-19)
+
+  * Fix crash triggered by using certain FLAnimatedImageView initializers (Tim Johnsen @timonus)
+
+  * Fix crash when running demo project on device (Tim Johnsen @timonus)
+
 = 1.0.11 (2016-02-17)
 
   * Allow for run loop mode customization (Ignacio Romero Zurbuchen @dzenbot)
