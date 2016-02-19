@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */; };
 		870D79D51936EBFC009D1BCE /* rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = 870D79D41936EBFC009D1BCE /* rock.gif */; };
 		872EBE70178B825500B7531B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE6F178B825500B7531B /* UIKit.framework */; };
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
@@ -28,8 +27,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
-		0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAnimatedImage.framework; path = "build/Debug-iphoneos/FLAnimatedImage.framework"; sourceTree = "<group>"; };
 		870D79D41936EBFC009D1BCE /* rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = rock.gif; path = "FLAnimatedImageDemo/test-gifs/rock.gif"; sourceTree = SOURCE_ROOT; };
 		872EBE6C178B825500B7531B /* FLAnimatedImageDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnimatedImageDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872EBE6F178B825500B7531B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -64,7 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C76B3711BCAC32C00A589BB /* FLAnimatedImage.framework in Frameworks */,
 				872EBE72178B825500B7531B /* Foundation.framework in Frameworks */,
 				872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */,
 				872EBE70178B825500B7531B /* UIKit.framework in Frameworks */,
@@ -97,8 +93,6 @@
 		872EBE6E178B825500B7531B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0C76B3701BCAC32C00A589BB /* FLAnimatedImage.framework */,
-				0C22DAF41BCAC106006E1D3B /* FLAnimatedImage.framework */,
 				872EBE71178B825500B7531B /* Foundation.framework */,
 				872EBE73178B825500B7531B /* CoreGraphics.framework */,
 				872EBE6F178B825500B7531B /* UIKit.framework */,
