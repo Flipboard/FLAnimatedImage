@@ -360,6 +360,47 @@ static NSHashTable *allAnimatedImagesWeak;
 }
 
 
+- (instancetype)initWithAnimatedGIFWithName:(NSString *)name
+{
+    return [self initWithAnimatedGIFWithName:name optimalFrameCacheSize:0 predrawingEnabled:YES];
+}
+
+
+- (instancetype)initWithAnimatedGIFWithName:(NSString *)name optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled
+{
+    CGFloat scale = [UIScreen mainScreen].scale;
+    
+    NSString *path;
+    NSData *data;
+    
+    if (scale > 2.0) {
+        path = [[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"@3x"] ofType:@"gif"];
+        data = [NSData dataWithContentsOfFile:path];
+    }
+    if (scale > 1.0 && !data) {
+        path = [[NSBundle mainBundle] pathForResource:[name stringByAppendingString:@"@2x"] ofType:@"gif"];
+        data = [NSData dataWithContentsOfFile:path];
+    }
+    if (!data) {
+        path = [[NSBundle mainBundle] pathForResource:name ofType:@"gif"];
+        data = [NSData dataWithContentsOfFile:path];
+    }
+
+    if (data) {
+        return [self initWithAnimatedGIFData:data optimalFrameCacheSize:optimalFrameCacheSize predrawingEnabled:isPredrawingEnabled];
+    }
+    
+    return nil;
+}
+
+
++ (instancetype)animatedImageWithGIFNamed:(NSString *)name
+{
+    FLAnimatedImage *animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFWithName:name];
+    return animatedImage;
+}
+
+
 - (void)dealloc
 {
     if (_weakProxy) {

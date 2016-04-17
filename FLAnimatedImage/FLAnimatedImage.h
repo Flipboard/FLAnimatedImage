@@ -55,6 +55,10 @@ extern const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum;
 - (instancetype)initWithAnimatedGIFData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled NS_DESIGNATED_INITIALIZER;
 + (instancetype)animatedImageWithGIFData:(NSData *)data;
 
+- (instancetype)initWithAnimatedGIFWithName:(NSString *)name;
+- (instancetype)initWithAnimatedGIFWithName:(NSString *)name optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled;
++ (instancetype)animatedImageWithGIFNamed:(NSString *)name;
+
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
 @end
