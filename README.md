@@ -100,4 +100,7 @@ This has successfully shipped to many people as is, but please do come with your
 - [Ello](https://ello.co/)
 - [Dumpert](http://dumpert.nl)
 
+## Plugins
+- [NativeScript plugin by Brad Martin](https://github.com/bradmartin/nativescript-gif)
+
 If you're using FLAnimatedImage in your app please open a PR to add it to this list!
