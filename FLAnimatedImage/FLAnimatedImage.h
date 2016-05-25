@@ -40,7 +40,7 @@ extern const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum;
 
 @property (nonatomic, assign, readonly) NSUInteger frameCacheSizeCurrent; // Current size of intelligently chosen buffer window; can range in the interval [1..frameCount]
 @property (nonatomic, assign) NSUInteger frameCacheSizeMax; // Allow to cap the cache size; 0 means no specific limit (default)
-
+@property (nonatomic, assign, readonly) CFStringRef imageSourceContainerType;
 // Intended to be called from main thread synchronously; will return immediately.
 // If the result isn't cached, will return `nil`; the caller should then pause playback, not increment frame counter and keep polling.
 // After an initial loading time, depending on `frameCacheSize`, frames should be available immediately from the cache.
@@ -51,10 +51,13 @@ extern const NSTimeInterval kFLAnimatedImageDelayTimeIntervalMinimum;
 
 // On success, the initializers return an `FLAnimatedImage` with all fields initialized, on failure they return `nil` and an error will be logged.
 - (instancetype)initWithAnimatedGIFData:(NSData *)data;
+// Don't know whether to combine with the method above and name it "initWithAnimatedData"
+- (instancetype)initWithAnimatedPNGData:(NSData *)data;
 // Pass 0 for optimalFrameCacheSize to get the default, predrawing is enabled by default.
-- (instancetype)initWithAnimatedGIFData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAnimatedImageData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled NS_DESIGNATED_INITIALIZER;
 + (instancetype)animatedImageWithGIFData:(NSData *)data;
-
+// Don't know whether to combine with the method above and name it "animatedImageWithData"
++ (instancetype)animatedImageWithPNGData:(NSData *)data;
 @property (nonatomic, strong, readonly) NSData *data; // The data the receiver was initialized with; read-only
 
 @end
