@@ -11,6 +11,21 @@
 #import "FLAnimatedImage.h"
 #import <QuartzCore/QuartzCore.h>
 
+static inline
+NSTimeInterval DurationOfDisplayLink(CADisplayLink *displayLink)
+{
+	static BOOL greaterThanIOS9 = NO;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		greaterThanIOS9 = [[[UIDevice currentDevice] systemVersion] integerValue] > 9;
+	});
+
+	if (greaterThanIOS9) {
+		return displayLink.duration;
+	}
+	return displayLink.duration * displayLink.frameInterval;
+}
+
 
 #if defined(DEBUG) && DEBUG
 @protocol FLAnimatedImageViewDebugDelegate <NSObject>
@@ -382,7 +397,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
                 self.needsDisplayWhenImageBecomesAvailable = NO;
             }
             
-            self.accumulator += displayLink.duration * displayLink.frameInterval;
+            self.accumulator += DurationOfDisplayLink(displayLink);
             
             // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
             while (self.accumulator >= delayTime) {
