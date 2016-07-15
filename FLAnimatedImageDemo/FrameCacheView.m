@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 Flipboard. All rights reserved.
 //
 
-
 #import "FrameCacheView.h"
-#import <FLAnimatedImage/FLAnimatedImage.h>
+#import "FLAnimatedImage.h"
 
 
 @implementation FrameCacheView

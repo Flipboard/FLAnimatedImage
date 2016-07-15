@@ -24,13 +24,33 @@
 // Setting `[UIImageView.image]` to a non-`nil` value clears out existing `animatedImage`.
 // And vice versa, setting `animatedImage` will initially populate the `[UIImageView.image]` to its `posterImage` and then start animating and hold `currentFrame`.
 @property (nonatomic, strong) FLAnimatedImage *animatedImage;
-@property (nonatomic, copy) void(^loopCompletionBlock)(NSUInteger loopCountRemaining);
 
 @property (nonatomic, strong, readonly) UIImage *currentFrame;
 @property (nonatomic, assign, readonly) NSUInteger currentFrameIndex;
+
+// Use these for user driven actions instead of startAnimating and stopAnimating
+// The latter are affected by the view moving windows and such
+- (void)play;
+- (void)pause;
 
 // The animation runloop mode. Enables playback during scrolling by allowing timer events (i.e. animation) with NSRunLoopCommonModes.
 // To keep scrolling smooth on single-core devices such as iPhone 3GS/4 and iPod Touch 4th gen, the default run loop mode is NSDefaultRunLoopMode. Otherwise, the default is NSDefaultRunLoopMode.
 @property (nonatomic, copy) NSString *runLoopMode;
 
+#if defined(DEBUG) && DEBUG
+// Only intended to report internal state for debugging
+@property (nonatomic, weak) id<FLAnimatedImageViewDebugDelegate> debug_delegate;
+#endif
+
 @end
+
+
+#if defined(DEBUG) && DEBUG
+@protocol FLAnimatedImageViewDebugDelegate <NSObject>
+
+@optional
+
+- (void)debug_animatedImageView:(FLAnimatedImageView *)animatedImageView waitingForFrame:(NSUInteger)index duration:(NSTimeInterval)duration;
+
+@end
+#endif

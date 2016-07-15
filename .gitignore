@@ -1,5 +1,5 @@
 # Global .gitignore
-# Files such as .DS_Store on OS X should be excluded system-wide: $ git config --global core.excludesfile "~/.gitignore_global_osx"
+.DS_Store
 
 # Xcode
 build/*
@@ -22,4 +22,4 @@ profile
 # you should judge for yourself, the pros and cons are mentioned at:
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control?
 #
-# Pods/
+Pods/

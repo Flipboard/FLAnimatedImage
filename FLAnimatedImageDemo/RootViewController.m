@@ -8,11 +8,12 @@
 
 
 #import "RootViewController.h"
-#import <FLAnimatedImage/FLAnimatedImage.h>
+#import "FLAnimatedImage.h"
+#import "FLAnimatedImage+MultiFormat.h"
 #import "DebugView.h"
 
 
-@interface RootViewController ()
+@interface RootViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *subtitleLabel;
@@ -21,11 +22,17 @@
 @property (nonatomic, strong) FLAnimatedImageView *imageView1;
 @property (nonatomic, strong) FLAnimatedImageView *imageView2;
 @property (nonatomic, strong) FLAnimatedImageView *imageView3;
+@property (nonatomic, strong) FLAnimatedImageView *imageView4;
+@property (nonatomic, strong) FLAnimatedImageView *imageView5;
 
 // Views for the debug overlay UI
 @property (nonatomic, strong) DebugView *debugView1;
 @property (nonatomic, strong) DebugView *debugView2;
 @property (nonatomic, strong) DebugView *debugView3;
+@property (nonatomic, strong) DebugView *debugView4;
+@property (nonatomic, strong) DebugView *debugView5;
+
+@property (nonatomic, strong) UIScrollView *contentView;
 
 @end
 
@@ -55,94 +62,162 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
-    self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
-    
-    self.titleLabel.frame = CGRectMake(18.0, 27.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
-    self.subtitleLabel.frame = CGRectMake(20.0, 74.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
-    self.memoryWarningButton.frame = CGRectMake(544.0, 69.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
-    
-    
-    
-    // Setup the three `FLAnimatedImageView`s and load GIFs into them:
-    
-    // 1
-    if (!self.imageView1) {
-        self.imageView1 = [[FLAnimatedImageView alloc] init];
-        self.imageView1.contentMode = UIViewContentModeScaleAspectFill;
-        self.imageView1.clipsToBounds = YES;
-    }
-    [self.view addSubview:self.imageView1];
-    self.imageView1.frame = CGRectMake(0.0, 120.0, self.view.bounds.size.width, 447.0);
-    
-    NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
-    NSData *data1 = [NSData dataWithContentsOfURL:url1];
-    FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithGIFData:data1];
-    self.imageView1.animatedImage = animatedImage1;
-    
-    // 2
-    if (!self.imageView2) {
-        self.imageView2 = [[FLAnimatedImageView alloc] init];
-        self.imageView2.contentMode = UIViewContentModeScaleAspectFill;
-        self.imageView2.clipsToBounds = YES;
-    }
-    [self.view addSubview:self.imageView2];
-    self.imageView2.frame = CGRectMake(0.0, 577.0, 379.0, 447.0);
-    
-    NSURL *url2 = [NSURL URLWithString:@"https://cloud.githubusercontent.com/assets/1567433/10417835/1c97e436-7052-11e5-8fb5-69373072a5a0.gif"];
-    [self loadAnimatedImageWithURL:url2 completion:^(FLAnimatedImage *animatedImage) {
-        self.imageView2.animatedImage = animatedImage;
+	[super viewWillAppear:animated];
 
-        // Set up debug UI for image 2
-#if defined(DEBUG) && DEBUG
-        self.imageView2.debug_delegate = self.debugView2;
-        animatedImage.debug_delegate = self.debugView2;
-#endif
-        self.debugView2.imageView = self.imageView2;
-        self.debugView2.image = animatedImage;
-        self.imageView2.userInteractionEnabled = YES;
-    }];
-    
-    // 3
-    if (!self.imageView3) {
-        self.imageView3 = [[FLAnimatedImageView alloc] init];
-        self.imageView3.contentMode = UIViewContentModeScaleAspectFill;
-        self.imageView3.clipsToBounds = YES;
-    }
-    [self.view addSubview:self.imageView3];
-    self.imageView3.frame = CGRectMake(389.0, 577.0, 379.0, 447.0);
-    
-    NSURL *url3 = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
-    [self loadAnimatedImageWithURL:url3 completion:^(FLAnimatedImage *animatedImage) {
-        self.imageView3.animatedImage = animatedImage;
+	self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
 
-        // Set up debug UI for image 3
+	UIView *bkgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 90)];
+	bkgView.backgroundColor = self.view.backgroundColor;
+	[self.view addSubview:bkgView];
+
+	self.titleLabel.frame = CGRectMake(18.0, 17.0, self.titleLabel.bounds.size.width, self.titleLabel.bounds.size.height);
+	self.subtitleLabel.frame = CGRectMake(20.0, 60.0, self.subtitleLabel.bounds.size.width, self.subtitleLabel.bounds.size.height);
+	self.memoryWarningButton.frame = CGRectMake(544.0, 55.0, self.memoryWarningButton.bounds.size.width, self.memoryWarningButton.bounds.size.height);
+
+
+	[self.view sendSubviewToBack:self.contentView];
+
+
+	// Setup the three `FLAnimatedImageView`s and load GIFs into them:
+
+	// 1
+	if (!self.imageView1) {
+		self.imageView1 = [[FLAnimatedImageView alloc] init];
+		self.imageView1.contentMode = UIViewContentModeScaleAspectFill;
+		self.imageView1.clipsToBounds = YES;
+	}
+	[self.contentView addSubview:self.imageView1];
+	self.imageView1.frame = CGRectMake(0.0, 90.0, self.view.bounds.size.width, 447.0);
+
+	NSURL *url1 = [[NSBundle mainBundle] URLForResource:@"rock" withExtension:@"gif"];
+	NSData *data1 = [NSData dataWithContentsOfURL:url1];
+	FLAnimatedImage *animatedImage1 = [FLAnimatedImage animatedImageWithData:data1];
+	self.imageView1.animatedImage = animatedImage1;
+
+	// 2
+	if (!self.imageView2) {
+		self.imageView2 = [[FLAnimatedImageView alloc] init];
+		self.imageView2.contentMode = UIViewContentModeScaleAspectFill;
+		self.imageView2.clipsToBounds = YES;
+	}
+	[self.contentView addSubview:self.imageView2];
+	self.imageView2.frame = CGRectMake(0.0, 547.0, 379.0, 447.0);
+
+	NSURL *url2 = [NSURL URLWithString:@"https://cloud.githubusercontent.com/assets/1567433/10417835/1c97e436-7052-11e5-8fb5-69373072a5a0.gif"];
+	[self loadAnimatedImageWithURL:url2 completion:^(FLAnimatedImage *animatedImage) {
+		self.imageView2.animatedImage = animatedImage;
+
+		// Set up debug UI for image 2
 #if defined(DEBUG) && DEBUG
-        self.imageView3.debug_delegate = self.debugView3;
-        animatedImage.debug_delegate = self.debugView3;
+		self.imageView2.debug_delegate = self.debugView2;
+		animatedImage.debug_delegate = self.debugView2;
 #endif
-        self.debugView3.imageView = self.imageView3;
-        self.debugView3.image = animatedImage;
-        self.imageView3.userInteractionEnabled = YES;
-    }];
-    
-    // ... that's it!
-    
-    
-    
-    // Setting the delegates is for the debug UI in this demo only and is usually not needed.
+		self.debugView2.imageView = self.imageView2;
+		self.debugView2.image = animatedImage;
+		self.imageView2.userInteractionEnabled = YES;
+	}];
+
+	// 3
+	if (!self.imageView3) {
+		self.imageView3 = [[FLAnimatedImageView alloc] init];
+		self.imageView3.contentMode = UIViewContentModeScaleAspectFill;
+		self.imageView3.clipsToBounds = YES;
+	}
+	[self.contentView addSubview:self.imageView3];
+	self.imageView3.frame = CGRectMake(389.0, 547.0, 379.0, 447.0);
+
+	NSURL *url3 = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"];
+	[self loadAnimatedImageWithURL:url3 completion:^(FLAnimatedImage *animatedImage) {
+		self.imageView3.animatedImage = animatedImage;
+
+		// Set up debug UI for image 3
 #if defined(DEBUG) && DEBUG
-    self.imageView1.debug_delegate = self.debugView1;
-    animatedImage1.debug_delegate = self.debugView1;
+		self.imageView3.debug_delegate = self.debugView3;
+		animatedImage.debug_delegate = self.debugView3;
 #endif
-    self.debugView1.imageView = self.imageView1;
-    self.debugView1.image = animatedImage1;
-    self.imageView1.userInteractionEnabled = YES;
+		self.debugView3.imageView = self.imageView3;
+		self.debugView3.image = animatedImage;
+		self.imageView3.userInteractionEnabled = YES;
+	}];
+
+	// 4
+	if (!self.imageView4) {
+		self.imageView4 = [[FLAnimatedImageView alloc] init];
+		self.imageView4.contentMode = UIViewContentModeScaleAspectFill;
+		self.imageView4.clipsToBounds = YES;
+	}
+
+	[self.contentView addSubview:self.imageView4];
+	self.imageView4.frame = CGRectMake(0.0, 1004, 379.0, 447.0);
+
+	// https://github.com/Flipboard/FLAnimatedImage/issues/149
+	NSURL *url4 = [[NSBundle mainBundle] URLForResource:@"multi_frames" withExtension:@"gif"];
+	NSData *data4 = [NSData dataWithContentsOfURL:url4];
+	FLAnimatedImage *animatedImage4 = [FLAnimatedImage animatedImageWithData:data4];
+	self.imageView4.animatedImage = animatedImage4;
+
+	// Set up debug UI for image 4
+#if defined(DEBUG) && DEBUG
+	self.imageView4.debug_delegate = self.debugView4;
+	animatedImage4.debug_delegate = self.debugView4;
+#endif
+	self.debugView4.imageView = self.imageView4;
+	self.debugView4.image = animatedImage4;
+	self.imageView4.userInteractionEnabled = YES;
+
+	// 5
+	if (!self.imageView5) {
+		self.imageView5 = [[FLAnimatedImageView alloc] init];
+		self.imageView5.contentMode = UIViewContentModeScaleAspectFill;
+		self.imageView5.clipsToBounds = YES;
+	}
+	[self.contentView addSubview:self.imageView5];
+	self.imageView5.frame = CGRectMake(389.0, 1004, 379.0, 447.0);
+
+	// https://www.gstatic.com/webp/animated/1.webp
+	NSURL *url5 = [[NSBundle mainBundle] URLForResource:@"magic_cube" withExtension:@"webp"];
+	NSData *data5 = [NSData dataWithContentsOfURL:url5];
+	FLAnimatedImage *animatedImage5 = [FLAnimatedImage animatedImageWithData:data5];
+	self.imageView5.animatedImage = animatedImage5;
+
+	// Set up debug UI for image 5
+#if defined(DEBUG) && DEBUG
+	self.imageView5.debug_delegate = self.debugView5;
+	animatedImage5.debug_delegate = self.debugView5;
+#endif
+	self.debugView5.imageView = self.imageView5;
+	self.debugView5.image = animatedImage5;
+	self.imageView5.userInteractionEnabled = YES;
+
+
+
+	// ... that's it!
+
+
+
+	// Setting the delegates is for the debug UI in this demo only and is usually not needed.
+#if defined(DEBUG) && DEBUG
+	self.imageView1.debug_delegate = self.debugView1;
+	animatedImage1.debug_delegate = self.debugView1;
+#endif
+	self.debugView1.imageView = self.imageView1;
+	self.debugView1.image = animatedImage1;
+	self.imageView1.userInteractionEnabled = YES;
 }
 
-
 #pragma mark -
+
+- (UIScrollView *)contentView
+{
+	if ( !_contentView ) {
+		_contentView = [[UIScrollView alloc] init];
+		_contentView.frame = self.view.bounds;
+		_contentView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+		_contentView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), 1500);
+		[self.view addSubview:_contentView];
+	}
+	return _contentView;
+}
 
 - (UILabel *)titleLabel
 {
@@ -229,6 +304,30 @@
     return _debugView3;
 }
 
+- (DebugView *)debugView4
+{
+	if (!_debugView4) {
+		_debugView4 = [[DebugView alloc] init];
+		_debugView4.style = DebugViewStyleCondensed;
+	}
+	[self.imageView4 addSubview:_debugView4];
+	_debugView4.frame = self.imageView4.bounds;
+
+	return _debugView4;
+}
+
+- (DebugView *)debugView5
+{
+	if (!_debugView5) {
+		_debugView5 = [[DebugView alloc] init];
+		_debugView5.style = DebugViewStyleCondensed;
+	}
+	[self.imageView5 addSubview:_debugView5];
+	_debugView5.frame = self.imageView5.bounds;
+
+	return _debugView5;
+}
+
 /// Even though NSURLCache *may* cache the results for remote images, it doesn't guarantee it.
 /// Cache control headers or internal parts of NSURLCache's implementation may cause these images to become uncache.
 /// Here we enfore strict disk caching so we're sure the images stay around.
@@ -238,7 +337,7 @@
     NSString *const diskPath = [NSHomeDirectory() stringByAppendingPathComponent:filename];
     
     NSData * __block animatedImageData = [[NSFileManager defaultManager] contentsAtPath:diskPath];
-    FLAnimatedImage * __block animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:animatedImageData];
+	FLAnimatedImage * __block animatedImage = [FLAnimatedImage animatedImageWithData:animatedImageData];
     
     if (animatedImage) {
         if (completion) {
@@ -247,7 +346,7 @@
     } else {
         [[[NSURLSession sharedSession] dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             animatedImageData = data;
-            animatedImage = [[FLAnimatedImage alloc] initWithAnimatedGIFData:animatedImageData];
+			animatedImage = [FLAnimatedImage animatedImageWithData:animatedImageData];
             if (animatedImage) {
                 if (completion) {
                     dispatch_async(dispatch_get_main_queue(), ^{

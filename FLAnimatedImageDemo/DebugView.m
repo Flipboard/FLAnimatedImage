@@ -133,8 +133,6 @@
 {
     self.frameCacheView.framesInCache = indexesOfFramesInCache;
 }
-#endif
-
 
 - (void)debug_animatedImage:(FLAnimatedImage *)animatedImage didRequestCachedFrame:(NSUInteger)index
 {
@@ -166,6 +164,8 @@
 {
     self.currentFrameDelay += duration;
 }
+
+#endif
 
 
 @end
