@@ -90,6 +90,7 @@
 @end
 #endif
 
+#import "FLAnimatedImage+GIF.h"
 
 // Try to detect and import CocoaLumberjack in all scenarious (library versions, way of including it, CocoaPods versions, etc.).
 #if FLLumberjackIntegrationEnabled
