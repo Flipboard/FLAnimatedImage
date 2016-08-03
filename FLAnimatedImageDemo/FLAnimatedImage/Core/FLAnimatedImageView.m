@@ -17,15 +17,6 @@
 static inline
 NSTimeInterval DurationOfDisplayLink(CADisplayLink *displayLink)
 {
-	static BOOL greaterThanIOS9 = NO;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		greaterThanIOS9 = [[[UIDevice currentDevice] systemVersion] integerValue] > 9;
-	});
-
-	if (greaterThanIOS9) {
-		return displayLink.duration;
-	}
 	return displayLink.duration * displayLink.frameInterval;
 }
 
