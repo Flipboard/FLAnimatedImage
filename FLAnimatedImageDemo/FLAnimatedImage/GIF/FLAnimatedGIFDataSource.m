@@ -21,6 +21,7 @@
 {
     // Use old school ivar instead of property for retained non-object types (CF type, dispatch "object") to avoid ARC confusion: http://stackoverflow.com/questions/9684972/strong-property-with-attribute-nsobject-for-a-cf-type-doesnt-retain/9690656#9690656
     CGImageSourceRef _imageSource;
+    BOOL _skipPredrawn;
 }
 
 - (instancetype)initWithImageSource:(CGImageSourceRef)imageSource
@@ -29,6 +30,8 @@
         NSAssert(imageSource != NULL, @"imageSource must not be NULL");
         CFRetain(imageSource);
         _imageSource = imageSource;
+      // skip predrawn for old device due to performance pressure
+      _skipPredrawn = [[NSProcessInfo processInfo] processorCount] == 1;
     }
 
     return self;
@@ -50,8 +53,10 @@
     UIImage *image = [UIImage imageWithCGImage:imageRef];
     CFRelease(imageRef);
 
-    // Loading in the image object is only half the work, the displaying image view would still have to synchronously wait and decode the image, so we go ahead and do that here on the background thread.
-    image = [[self class] predrawnImageFromImage:image];
+    if (!_skipPredrawn) {
+      // Loading in the image object is only half the work, the displaying image view would still have to synchronously wait and decode the image, so we go ahead and do that here on the background thread.
+      image = [[self class] predrawnImageFromImage:image];
+    }
 
     return image;
 }
