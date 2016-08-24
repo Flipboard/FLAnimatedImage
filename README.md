@@ -99,5 +99,6 @@ This has successfully shipped to many people as is, but please do come with your
 - [HashPhotos](https://itunes.apple.com/app/id685784609)
 - [Ello](https://ello.co/)
 - [Dumpert](http://dumpert.nl)
+- [Tagpic](https://itunes.apple.com/app/id1130235178)
 
 If you're using FLAnimatedImage in your app please open a PR to add it to this list!
