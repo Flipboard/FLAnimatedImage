@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 #import "FLAnimatedImageFrameDataSource.h"
-#import "webp/demux.h"
 
 @class FLAnimatedWebPDemuxer;
 

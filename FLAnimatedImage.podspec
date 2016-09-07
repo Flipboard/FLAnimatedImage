@@ -29,6 +29,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec "WebP" do |subspec|
     subspec.source_files = 'FLAnimatedImageDemo/FLAnimatedImage/WebP/*.{h,m}'
+    subspec.private_header_files = 'FLAnimatedImageDemo/FLAnimatedImage/WebP/FLAnimatedWebPDemuxer.h'
     subspec.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) FL_WEBP=1' }
     subspec.dependency "libwebp", '0.5.0'
     subspec.dependency 'FLAnimatedImage/Core'

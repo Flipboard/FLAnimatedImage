@@ -6,6 +6,8 @@
 //  Copyright (c) 2014-2015 Facebook. All rights reserved.
 //
 
+#import "webp/demux.h"
+
 #import "FLAnimatedWebPDataSource.h"
 #import "webp/decode.h"
 #import "FLAnimatedWebPDemuxer.h"
