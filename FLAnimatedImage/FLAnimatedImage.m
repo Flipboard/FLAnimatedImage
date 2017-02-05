@@ -324,7 +324,8 @@ static NSHashTable *allAnimatedImagesWeak;
             CGFloat animatedImageDataSize = animatedImageDataSizePerFrame * (self.frameCount - skippedFrameCount);
             if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryAll) {
                 _frameCacheSizeOptimal = self.frameCount;
-            } else if (animatedImageDataSizePerFrame * FLAnimatedImageFrameCacheSizeDefault <= FLAnimatedImageDataSizeCategoryAll) {
+            } else if (animatedImageDataSize <= FLAnimatedImageDataSizeCategoryDefault ||
+                       animatedImageDataSizePerFrame * FLAnimatedImageFrameCacheSizeDefault <= FLAnimatedImageDataSizeCategoryAll) {
                 // This value doesn't depend on device memory much because if we're not keeping all frames in memory we will always be decoding 1 frame up ahead per 1 frame that gets played and at this point we might as well just keep a small buffer just large enough to keep from running out of frames.
                 _frameCacheSizeOptimal = FLAnimatedImageFrameCacheSizeDefault;
             } else {
