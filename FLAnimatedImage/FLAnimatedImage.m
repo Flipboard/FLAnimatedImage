@@ -695,10 +695,10 @@ static NSHashTable *allAnimatedImagesWeak;
     // Create our own graphics context to draw to; `UIGraphicsGetCurrentContext`/`UIGraphicsBeginImageContextWithOptions` doesn't create a new context but returns the current one which isn't thread-safe (e.g. main thread could use it at the same time).
     // Note: It's not worth caching the bitmap context for multiple frames ("unique key" would be `width`, `height` and `hasAlpha`), it's ~50% slower. Time spent in libRIP's `CGSBlendBGRA8888toARGB8888` suddenly shoots up -- not sure why.
     CGContextRef bitmapContextRef = CGBitmapContextCreate(data, width, height, bitsPerComponent, bytesPerRow, colorSpaceDeviceRGBRef, bitmapInfo);
-    CGColorSpaceRelease(colorSpaceDeviceRGBRef);
     // Early return on failure!
     if (!bitmapContextRef) {
         FLLog(FLLogLevelError, @"Failed to `CGBitmapContextCreate` with color space %@ and parameters (width: %zu height: %zu bitsPerComponent: %zu bytesPerRow: %zu) for image %@", colorSpaceDeviceRGBRef, width, height, bitsPerComponent, bytesPerRow, imageToPredraw);
+        CGColorSpaceRelease(colorSpaceDeviceRGBRef);
         return imageToPredraw;
     }
     
@@ -706,14 +706,19 @@ static NSHashTable *allAnimatedImagesWeak;
     CGContextDrawImage(bitmapContextRef, CGRectMake(0.0, 0.0, imageToPredraw.size.width, imageToPredraw.size.height), imageToPredraw.CGImage);
     CGImageRef predrawnImageRef = CGBitmapContextCreateImage(bitmapContextRef);
     UIImage *predrawnImage = [UIImage imageWithCGImage:predrawnImageRef scale:imageToPredraw.scale orientation:imageToPredraw.imageOrientation];
-    CGImageRelease(predrawnImageRef);
-    CGContextRelease(bitmapContextRef);
     
     // Early return on failure!
     if (!predrawnImage) {
         FLLog(FLLogLevelError, @"Failed to `imageWithCGImage:scale:orientation:` with image ref %@ created with color space %@ and bitmap context %@ and properties and properties (scale: %f orientation: %ld) for image %@", predrawnImageRef, colorSpaceDeviceRGBRef, bitmapContextRef, imageToPredraw.scale, (long)imageToPredraw.imageOrientation, imageToPredraw);
+        CGColorSpaceRelease(colorSpaceDeviceRGBRef);
+        CGImageRelease(predrawnImageRef);
+        CGContextRelease(bitmapContextRef);
         return imageToPredraw;
     }
+    
+    CGColorSpaceRelease(colorSpaceDeviceRGBRef);
+    CGImageRelease(predrawnImageRef);
+    CGContextRelease(bitmapContextRef);
     
     return predrawnImage;
 }
