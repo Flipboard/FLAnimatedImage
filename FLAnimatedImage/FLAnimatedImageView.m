@@ -209,6 +209,12 @@
     return intrinsicContentSize;
 }
 
+#pragma mark Smart Invert Colors
+
+- (BOOL)accessibilityIgnoresInvertColors
+{
+    return YES;
+}
 
 #pragma mark - UIImageView Method Overrides
 #pragma mark Image Data
