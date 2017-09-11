@@ -1,3 +1,7 @@
+= 1.0.13 (2017-09-11)
+
+  * Prevent FLAnimatedImageView from inverting on iOS 11 when Smart Invert Colors is enabled (Colin Caufield @cjcaufield)
+
 = 1.0.12 (2016-02-19)
 
   * Fix crash triggered by using certain FLAnimatedImageView initializers (Tim Johnsen @timonus)
