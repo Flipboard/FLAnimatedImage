@@ -1,3 +1,7 @@
+= 1.0.14 (2017-09-22)
+
+  * Allow FLAnimatedImageView instances to set the accessibilityIgnoresInvertColors property (Colin Caufield @cjcaufield)
+
 = 1.0.13 (2017-09-11)
 
   * Prevent FLAnimatedImageView from inverting on iOS 11 when Smart Invert Colors is enabled (Colin Caufield @cjcaufield)
