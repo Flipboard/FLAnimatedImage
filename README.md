@@ -85,6 +85,7 @@ This has successfully shipped to many people as is, but please do come with your
 - [Medium](https://medium.com)
 - [Facebook](https://facebook.com)
 - [Pinterest](https://pinterest.com)
+- [Haptik](https://itunes.apple.com/in/app/haptik-personal-assistant/id640450339)
 - [LiveBooth](http://www.liveboothapp.com)
 - [Design Shots](https://itunes.apple.com/app/id792517951)
 - [lWlVl Festival](http://lwlvl.com)
