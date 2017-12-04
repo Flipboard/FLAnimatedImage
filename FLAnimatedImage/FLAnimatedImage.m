@@ -271,12 +271,12 @@ static NSHashTable *allAnimatedImagesWeak;
                         
                         // Try to use the unclamped delay time; fall back to the normal delay time.
                         NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
-                        if (!delayTime) {
+                        if (delayTime != nil) {
                             delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
                         }
                         // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
                         const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
-                        if (!delayTime) {
+                        if (delayTime != nil) {
                             if (i == 0) {
                                 FLLog(FLLogLevelInfo, @"Falling back to default delay time for first frame %@ because none found in GIF properties %@", frameImage, frameProperties);
                                 delayTime = @(kDelayTimeIntervalDefault);
