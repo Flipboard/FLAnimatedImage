@@ -229,7 +229,11 @@ static NSHashTable *allAnimatedImagesWeak;
         // }
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
         id loopCount = [[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount];
-        _loopCount = loopCount?[loopCount unsignedIntegerValue]:1;
+        if (loopCount && [loopCount unsignedIntegerValue] == 0) {
+            _loopCount = 0;
+        } else {
+            _loopCount = [loopCount unsignedIntegerValue] + 1;
+        }
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
