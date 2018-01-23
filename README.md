@@ -18,7 +18,7 @@ It's a well-tested [component that powers all GIFs in Flipboard](http://engineer
 
 ## Installation & Usage
 
-FLAnimatedImage is a well encapsulated drop-in component. Simply replace your `UIImageView` instances with instances of `FLAnimatedImageView` to get animated GIF support. There is no central cache or state to manage.
+FLAnimatedImage is a well-encapsulated drop-in component. Simply replace your `UIImageView` instances with instances of `FLAnimatedImageView` to get animated GIF support. There is no central cache or state to manage.
 
 If using CocoaPods, the quickest way to try it out is to type this on the command line:
 
@@ -32,7 +32,7 @@ To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimat
 pod 'FLAnimatedImage', '~> 1.0'
 ```
 
-If using [Carthage](https://github.com/Carthage/Carthage), add following line into your `Cartfile`
+If using [Carthage](https://github.com/Carthage/Carthage), add the following line into your `Cartfile`
 
 ```
 github "Flipboard/FLAnimatedImage"
@@ -78,7 +78,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 - Smarter buffering
 - Bring demo app to iPhone
 
-This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
+This code has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
 ## Select apps using FLAnimatedImage
 - [Dropbox](https://www.dropbox.com)
@@ -101,4 +101,4 @@ This has successfully shipped to many people as is, but please do come with your
 - [Dumpert](http://dumpert.nl)
 - [Instagram](https://www.instagram.com/)
 
-If you're using FLAnimatedImage in your app please open a PR to add it to this list!
+If you're using FLAnimatedImage in your app, please open a PR to add it to this list!
