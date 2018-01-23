@@ -6,7 +6,7 @@ FLAnimatedImage is a performant animated GIF engine for iOS:
 - Eliminates delays or blocking during the first playback loop
 - Interprets the frame delays of fast GIFs the same way modern browsers do
 
-It's a well-tested [component that powers all GIFs in Flipboard](http://engineering.flipboard.com/2014/05/animated-gif/). To understand its behavior it comes with an interactive demo:
+It's a well-tested [component that powers all GIFs in Flipboard](http://engineering.flipboard.com/2014/05/animated-gif). To understand its behavior it comes with an interactive demo:
 
 ![Flipboard playing multiple GIFs](https://github.com/Flipboard/FLAnimatedImage/raw/master/images/flanimatedimage-demo-player.gif)
 
@@ -18,7 +18,7 @@ It's a well-tested [component that powers all GIFs in Flipboard](http://engineer
 
 ## Installation & Usage
 
-FLAnimatedImage is a well encapsulated drop-in component. Simply replace your `UIImageView` instances with instances of `FLAnimatedImageView` to get animated GIF support. There is no central cache or state to manage.
+FLAnimatedImage is a well-encapsulated drop-in component. Simply replace your `UIImageView` instances with instances of `FLAnimatedImageView` to get animated GIF support. There is no central cache or state to manage.
 
 If using CocoaPods, the quickest way to try it out is to type this on the command line:
 
@@ -32,7 +32,7 @@ To add it to your app, copy the two classes `FLAnimatedImage.h/.m` and `FLAnimat
 pod 'FLAnimatedImage', '~> 1.0'
 ```
 
-If using [Carthage](https://github.com/Carthage/Carthage), add following line into your `Cartfile`
+If using [Carthage](https://github.com/Carthage/Carthage), add the following line into your `Cartfile`
 
 ```
 github "Flipboard/FLAnimatedImage"
@@ -78,26 +78,28 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 - Smarter buffering
 - Bring demo app to iPhone
 
-This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
+This code has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!
 
 ## Select apps using FLAnimatedImage
-- [Dropbox](https://www.dropbox.com)
-- [Medium](https://medium.com)
-- [Facebook](https://facebook.com)
-- [Pinterest](https://pinterest.com)
-- [LiveBooth](http://www.liveboothapp.com)
-- [Design Shots](https://itunes.apple.com/app/id792517951)
-- [lWlVl Festival](http://lwlvl.com)
+(alphabetically)
+
 - [Close-up](http://closeu.pe)
-- [Zip Code Finder](https://itunes.apple.com/app/id893031254)
-- [getGIF](https://itunes.apple.com/app/id964784701)
-- [Giffage](http://giffage.com)
+- [Design Shots](https://itunes.apple.com/app/id792517951)
+- [Dropbox](https://www.dropbox.com)
+- [Dumpert](http://dumpert.nl)
+- [Ello](https://ello.co/)
+- [Facebook](https://facebook.com)
 - [Flipboard](https://flipboard.com)
+- [getGIF](https://itunes.apple.com/app/id964784701)
 - [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
+- [HashPhotos](https://itunes.apple.com/app/id685784609)
+- [Instagram](https://www.instagram.com/)
+- [LiveBooth](http://www.liveboothapp.com)
+- [lWlVl Festival](http://lwlvl.com)
+- [Medium](https://medium.com)
+- [Pinterest](https://pinterest.com)
 - [Slack](https://slack.com/)
 - [Telegram](https://telegram.org/)
-- [HashPhotos](https://itunes.apple.com/app/id685784609)
-- [Ello](https://ello.co/)
-- [Dumpert](http://dumpert.nl)
+- [Zip Code Finder](https://itunes.apple.com/app/id893031254)
 
-If you're using FLAnimatedImage in your app please open a PR to add it to this list!
+If you're using FLAnimatedImage in your app, please open a PR to add it to this list!
