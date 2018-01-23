@@ -6,7 +6,7 @@ FLAnimatedImage is a performant animated GIF engine for iOS:
 - Eliminates delays or blocking during the first playback loop
 - Interprets the frame delays of fast GIFs the same way modern browsers do
 
-It's a well-tested [component that powers all GIFs in Flipboard](http://engineering.flipboard.com/2014/05/animated-gif/). To understand its behavior it comes with an interactive demo:
+It's a well-tested [component that powers all GIFs in Flipboard](http://engineering.flipboard.com/2014/05/animated-gif). To understand its behavior it comes with an interactive demo:
 
 ![Flipboard playing multiple GIFs](https://github.com/Flipboard/FLAnimatedImage/raw/master/images/flanimatedimage-demo-player.gif)
 
