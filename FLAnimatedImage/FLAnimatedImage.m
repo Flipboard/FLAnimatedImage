@@ -174,15 +174,20 @@ static NSHashTable *allAnimatedImagesWeak;
 
 - (instancetype)initWithAnimatedGIFData:(NSData *)data
 {
-    return [self initWithAnimatedGIFData:data optimalFrameCacheSize:0 predrawingEnabled:YES];
+    return [self initWithAnimatedImageData:data optimalFrameCacheSize:0 predrawingEnabled:YES];
 }
 
-- (instancetype)initWithAnimatedGIFData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled
+- (instancetype)initWithAnimatedPNGData:(NSData *)data
+{
+    return [self initWithAnimatedImageData:data optimalFrameCacheSize:0 predrawingEnabled:YES];
+}
+
+- (instancetype)initWithAnimatedImageData:(NSData *)data optimalFrameCacheSize:(NSUInteger)optimalFrameCacheSize predrawingEnabled:(BOOL)isPredrawingEnabled
 {
     // Early return if no data supplied!
     BOOL hasData = ([data length] > 0);
     if (!hasData) {
-        FLLog(FLLogLevelError, @"No animated GIF data supplied.");
+        FLLog(FLLogLevelError, @"No animated Image (GIF or PNG) data supplied.");
         return nil;
     }
     
@@ -205,15 +210,15 @@ static NSHashTable *allAnimatedImagesWeak;
                                                    (__bridge CFDictionaryRef)@{(NSString *)kCGImageSourceShouldCache: @NO});
         // Early return on failure!
         if (!_imageSource) {
-            FLLog(FLLogLevelError, @"Failed to `CGImageSourceCreateWithData` for animated GIF data %@", data);
+            FLLog(FLLogLevelError, @"Failed to `CGImageSourceCreateWithData` for animated GIF or APNG data %@", data);
             return nil;
         }
         
-        // Early return if not GIF!
-        CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
-        BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
-        if (!isGIFData) {
-            FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
+        // Early return if not GIF or PNG!
+        _imageSourceContainerType = CGImageSourceGetType(_imageSource);
+        BOOL isAnimatedData = [self isAnimatedData];
+        if (!isAnimatedData) {
+            FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF or APNG data %@", _imageSourceContainerType, data);
             return nil;
         }
         
@@ -228,8 +233,7 @@ static NSHashTable *allAnimatedImagesWeak;
         //     };
         // }
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
-        _loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
-        
+        _loopCount = [self loopCountFromImageSource];
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
         NSUInteger skippedFrameCount = 0;
@@ -267,14 +271,23 @@ static NSHashTable *allAnimatedImagesWeak;
                         // }
                         
                         NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
-                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
-                        
-                        // Try to use the unclamped delay time; fall back to the normal delay time.
-                        NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
-                        if (!delayTime) {
-                            delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                        NSNumber *delayTime;
+                        if(UTTypeConformsTo(_imageSourceContainerType, kUTTypeGIF)){
+                            NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
+                            // Try to use the unclamped delay time; fall back to the normal delay time.
+                            delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
+                            if (!delayTime) {
+                                delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                                // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
+                            }
+                        }else{
+                            //for the case of APNG
+                            NSDictionary *framePropertiesAPNG = [frameProperties objectForKey:(id)kCGImagePropertyPNGDictionary];
+                            delayTime = [framePropertiesAPNG objectForKey:(id)kCGImagePropertyAPNGUnclampedDelayTime];
+                            if (!delayTime) {
+                                delayTime = [framePropertiesAPNG objectForKey:(id)kCGImagePropertyAPNGDelayTime];
+                            }
                         }
-                        // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
                         const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
                         if (!delayTime) {
                             if (i == 0) {
@@ -359,6 +372,11 @@ static NSHashTable *allAnimatedImagesWeak;
     return animatedImage;
 }
 
++ (instancetype)animatedImageWithPNGData:(NSData *)data
+{
+    FLAnimatedImage *animatedImage = [[FLAnimatedImage alloc] initWithAnimatedPNGData:data];
+    return animatedImage;
+}
 
 - (void)dealloc
 {
@@ -508,8 +526,43 @@ static NSHashTable *allAnimatedImagesWeak;
 
 
 #pragma mark - Private Methods
-#pragma mark Frame Loading
+#pragma mark
+- (BOOL) isAnimatedData
+{
+    CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
+    if(UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF)){
+        return TRUE;
+    }else if(UTTypeConformsTo(imageSourceContainerType, kUTTypePNG)){
+        //PNG and APNG have same UTType, so see if it has metadata for animations
+        NSDictionary *imageProperties = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, 0, NULL);
+        NSDictionary *metaPNGData =[imageProperties objectForKey:@"{PNG}"];
+        if([metaPNGData objectForKey:@"DelayTime"] && [metaPNGData objectForKey:@"UnclampedDelayTime"]){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+    }else{
+        return FALSE;
+    }
+}
 
+-(NSUInteger) loopCountFromImageSource
+{
+    NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
+    
+    if(UTTypeConformsTo(_imageSourceContainerType, kUTTypeGIF)){
+        return [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
+    }else if(UTTypeConformsTo(_imageSourceContainerType, kUTTypePNG)){
+         return [[[imageProperties objectForKey:(id)kCGImagePropertyPNGDictionary] objectForKey:(id)kCGImagePropertyAPNGLoopCount] unsignedIntegerValue];
+    }
+    else{
+        FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF or APNG data", _imageSourceContainerType);
+    }
+    //default
+    return 0;
+}
+
+#pragma mark Frame Loading
 - (UIImage *)imageAtIndex:(NSUInteger)index
 {
     // It's very important to use the cached `_imageSource` since the random access to a frame with `CGImageSourceCreateImageAtIndex` turns from an O(1) into an O(n) operation when re-initializing the image source every time.
