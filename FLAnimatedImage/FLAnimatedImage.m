@@ -298,8 +298,9 @@ static NSHashTable *allAnimatedImagesWeak;
                     }
                     CFRelease(frameImageRef);
                 } else {
+                    __weak typeof(self) weakSelf = self;
                     skippedFrameCount++;
-                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, _imageSource);
+                    FLLog(FLLogLevelInfo, @"Dropping frame %zu because failed to `CGImageSourceCreateImageAtIndex` with image source %@", i, weakSelf.imageSource);
                 }
             }
         }
