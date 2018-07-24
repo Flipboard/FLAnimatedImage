@@ -301,7 +301,12 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
         // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
         const NSTimeInterval kDisplayRefreshRate = 60.0; // 60Hz
-        self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kDisplayRefreshRate, 1);
+         NSInteger frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kDisplayRefreshRate, 1);
+        if (@available(iOS 10.0, *)) {
+            self.displayLink.preferredFramesPerSecond = frameInterval;
+        } else {
+            self.displayLink.frameInterval = frameInterval;
+        }
 
         self.displayLink.paused = NO;
     } else {
