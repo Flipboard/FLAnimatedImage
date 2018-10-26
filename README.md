@@ -89,6 +89,7 @@ This code has successfully shipped to many people as is, but please do come with
 - [Dumpert](http://dumpert.nl)
 - [Ello](https://ello.co/)
 - [Facebook](https://facebook.com)
+- [Favorite Contacts](https://itunes.apple.com/app/favorite-contacts/id969863099?mt=8)
 - [Flipboard](https://flipboard.com)
 - [getGIF](https://itunes.apple.com/app/id964784701)
 - [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
