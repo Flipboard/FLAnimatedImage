@@ -92,6 +92,7 @@ This code has successfully shipped to many people as is, but please do come with
 - [Flipboard](https://flipboard.com)
 - [getGIF](https://itunes.apple.com/app/id964784701)
 - [Gifalicious](https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8)
+- [GV Connect](https://gvconnect.com)
 - [HashPhotos](https://itunes.apple.com/app/id685784609)
 - [Instagram](https://www.instagram.com/)
 - [LiveBooth](http://www.liveboothapp.com)
