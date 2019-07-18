@@ -210,11 +210,35 @@ static NSHashTable *allAnimatedImagesWeak;
         }
         
         // Early return if not GIF!
+        id dictionaryKey = nil;
+        id loopCountKey = nil;
+        id unclampedDelayTimeKey = nil;
+        id delayTimeKey = nil;
+        
         CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
         BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
-        if (!isGIFData) {
-            FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
-            return nil;
+        if (isGIFData) {
+            dictionaryKey = (id)kCGImagePropertyGIFDictionary;
+            loopCountKey = (id)kCGImagePropertyGIFLoopCount;
+            unclampedDelayTimeKey = (id)kCGImagePropertyGIFUnclampedDelayTime;
+            delayTimeKey = (id)kCGImagePropertyGIFDelayTime;
+        } else {
+            BOOL isPNGData = UTTypeConformsTo(imageSourceContainerType, kUTTypePNG);
+            if (isPNGData) {
+                size_t imageCount = CGImageSourceGetCount(_imageSource);
+                if (imageCount > 1) { // apng
+                    dictionaryKey = (id)kCGImagePropertyPNGDictionary;
+                    loopCountKey = (id)kCGImagePropertyAPNGLoopCount;
+                    unclampedDelayTimeKey = (id)kCGImagePropertyAPNGUnclampedDelayTime;
+                    delayTimeKey = (id)kCGImagePropertyAPNGDelayTime;
+                } else {
+                    FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be APNG data %@", imageSourceContainerType, data);
+                    return nil;
+                }
+            } else {
+                FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
+                return nil;
+            }
         }
         
         // Get `LoopCount`
