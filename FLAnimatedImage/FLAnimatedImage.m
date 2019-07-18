@@ -252,7 +252,7 @@ static NSHashTable *allAnimatedImagesWeak;
         //     };
         // }
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
-        _loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
+        _loopCount = [[[imageProperties objectForKey:dictionaryKey] objectForKey:loopCountKey] unsignedIntegerValue];
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
@@ -291,12 +291,12 @@ static NSHashTable *allAnimatedImagesWeak;
                         // }
                         
                         NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
-                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
+                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:dictionaryKey];
                         
                         // Try to use the unclamped delay time; fall back to the normal delay time.
-                        NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
+                        NSNumber *delayTime = [framePropertiesGIF objectForKey:unclampedDelayTimeKey];
                         if (!delayTime) {
-                            delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                            delayTime = [framePropertiesGIF objectForKey:delayTimeKey];
                         }
                         // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
                         const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
