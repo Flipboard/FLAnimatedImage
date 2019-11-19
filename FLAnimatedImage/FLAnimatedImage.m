@@ -194,6 +194,7 @@ static NSHashTable *allAnimatedImagesWeak;
         // However, we will use the `_imageSource` as handler to the image data throughout our life cycle.
         _data = data;
         _predrawingEnabled = isPredrawingEnabled;
+        _duration = 0.0;
         
         // Initialize internal data structures
         _cachedFramesForIndexes = [[NSMutableDictionary alloc] init];
@@ -292,6 +293,7 @@ static NSHashTable *allAnimatedImagesWeak;
                             delayTime = @(kDelayTimeIntervalDefault);
                         }
                         delayTimesForIndexesMutable[@(i)] = delayTime;
+                        _duration += delayTime.floatValue;
                     } else {
                         skippedFrameCount++;
                         FLLog(FLLogLevelInfo, @"Dropping frame %zu because valid `CGImageRef` %@ did result in `nil`-`UIImage`.", i, frameImageRef);
