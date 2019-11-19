@@ -309,7 +309,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
-- (void)setRunLoopMode:(NSString *)runLoopMode
+- (void)setRunLoopMode:(NSRunLoopMode)runLoopMode
 {
     if (![@[NSDefaultRunLoopMode, NSRunLoopCommonModes] containsObject:runLoopMode]) {
         NSAssert(NO, @"Invalid run loop mode: %@", runLoopMode);
@@ -423,7 +423,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 }
 
-+ (NSString *)defaultRunLoopMode
++ (NSRunLoopMode)defaultRunLoopMode
 {
     // Key off `activeProcessorCount` (as opposed to `processorCount`) since the system could shut down cores in certain situations.
     return [NSProcessInfo processInfo].activeProcessorCount > 1 ? NSRunLoopCommonModes : NSDefaultRunLoopMode;
