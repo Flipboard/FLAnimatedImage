@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C22DAEC1BCABF4F006E1D3B /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C22DAED1BCABF4F006E1D3B /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */; settings = {ASSET_TAGS = (); }; };
-		0C22DAEE1BCABF4F006E1D3B /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C22DAEF1BCABF4F006E1D3B /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */; settings = {ASSET_TAGS = (); }; };
+		0C22DAED1BCABF4F006E1D3B /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */; };
+		0C22DAEF1BCABF4F006E1D3B /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */; };
+		84C35646241D1B2D00052A01 /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84AB1DD9241D0A4F0039C1C7 /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84C35647241D1B2D00052A01 /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 84AB1DDA241D0A4F0039C1C7 /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
 		0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
-		0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		0C22DAEB1BCABF4F006E1D3B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84AB1DD9241D0A4F0039C1C7 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = include/FLAnimatedImage.h; sourceTree = "<group>"; };
+		84AB1DDA241D0A4F0039C1C7 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = include/FLAnimatedImageView.h; sourceTree = "<group>"; };
 		92C9BC0C1B199DC500D79B06 /* FLAnimatedImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FLAnimatedImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,9 +36,9 @@
 		0C22DAE61BCABF4F006E1D3B /* FLAnimatedImage */ = {
 			isa = PBXGroup;
 			children = (
-				0C22DAE71BCABF4F006E1D3B /* FLAnimatedImage.h */,
+				84AB1DD9241D0A4F0039C1C7 /* FLAnimatedImage.h */,
+				84AB1DDA241D0A4F0039C1C7 /* FLAnimatedImageView.h */,
 				0C22DAE81BCABF4F006E1D3B /* FLAnimatedImage.m */,
-				0C22DAE91BCABF4F006E1D3B /* FLAnimatedImageView.h */,
 				0C22DAEA1BCABF4F006E1D3B /* FLAnimatedImageView.m */,
 				0C22DAEB1BCABF4F006E1D3B /* Info.plist */,
 			);
@@ -68,8 +68,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C22DAEE1BCABF4F006E1D3B /* FLAnimatedImageView.h in Headers */,
-				0C22DAEC1BCABF4F006E1D3B /* FLAnimatedImage.h in Headers */,
+				84C35646241D1B2D00052A01 /* FLAnimatedImage.h in Headers */,
+				84C35647241D1B2D00052A01 /* FLAnimatedImageView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +113,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 92C9BC021B199DC500D79B06;
