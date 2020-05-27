@@ -101,8 +101,13 @@
 {
     if (![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
-            // Clear out the image.
-            super.image = nil;
+            if (super.image) {
+                // We need to apply an arbitrary UIImageOrientationUp image to ensure this view's internal state is correct.
+                // Otherwise some animated image will be rendered in wrong orientation, see https://github.com/Flipboard/FLAnimatedImage/issues/100
+                super.image = [UIImage imageWithCGImage:super.image.CGImage scale:1.0 orientation:UIImageOrientationUp];
+                // Clear out the image.
+                super.image = nil;
+            }
             // Ensure disabled highlighting; it's not supported (see `-setHighlighted:`).
             super.highlighted = NO;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
