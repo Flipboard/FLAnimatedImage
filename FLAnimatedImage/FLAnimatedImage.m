@@ -210,11 +210,35 @@ static NSHashTable *allAnimatedImagesWeak;
         }
         
         // Early return if not GIF!
+        id dictionaryKey = nil;
+        id loopCountKey = nil;
+        id unclampedDelayTimeKey = nil;
+        id delayTimeKey = nil;
+        
         CFStringRef imageSourceContainerType = CGImageSourceGetType(_imageSource);
         BOOL isGIFData = UTTypeConformsTo(imageSourceContainerType, kUTTypeGIF);
-        if (!isGIFData) {
-            FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
-            return nil;
+        if (isGIFData) {
+            dictionaryKey = (id)kCGImagePropertyGIFDictionary;
+            loopCountKey = (id)kCGImagePropertyGIFLoopCount;
+            unclampedDelayTimeKey = (id)kCGImagePropertyGIFUnclampedDelayTime;
+            delayTimeKey = (id)kCGImagePropertyGIFDelayTime;
+        } else {
+            BOOL isPNGData = UTTypeConformsTo(imageSourceContainerType, kUTTypePNG);
+            if (isPNGData) {
+                size_t imageCount = CGImageSourceGetCount(_imageSource);
+                if (imageCount > 1) { // apng
+                    dictionaryKey = (id)kCGImagePropertyPNGDictionary;
+                    loopCountKey = (id)kCGImagePropertyAPNGLoopCount;
+                    unclampedDelayTimeKey = (id)kCGImagePropertyAPNGUnclampedDelayTime;
+                    delayTimeKey = (id)kCGImagePropertyAPNGDelayTime;
+                } else {
+                    FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be APNG data %@", imageSourceContainerType, data);
+                    return nil;
+                }
+            } else {
+                FLLog(FLLogLevelError, @"Supplied data is of type %@ and doesn't seem to be GIF data %@", imageSourceContainerType, data);
+                return nil;
+            }
         }
         
         // Get `LoopCount`
@@ -228,7 +252,7 @@ static NSHashTable *allAnimatedImagesWeak;
         //     };
         // }
         NSDictionary *imageProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyProperties(_imageSource, NULL);
-        _loopCount = [[[imageProperties objectForKey:(id)kCGImagePropertyGIFDictionary] objectForKey:(id)kCGImagePropertyGIFLoopCount] unsignedIntegerValue];
+        _loopCount = [[[imageProperties objectForKey:dictionaryKey] objectForKey:loopCountKey] unsignedIntegerValue];
         
         // Iterate through frame images
         size_t imageCount = CGImageSourceGetCount(_imageSource);
@@ -267,12 +291,12 @@ static NSHashTable *allAnimatedImagesWeak;
                         // }
                         
                         NSDictionary *frameProperties = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(_imageSource, i, NULL);
-                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:(id)kCGImagePropertyGIFDictionary];
+                        NSDictionary *framePropertiesGIF = [frameProperties objectForKey:dictionaryKey];
                         
                         // Try to use the unclamped delay time; fall back to the normal delay time.
-                        NSNumber *delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFUnclampedDelayTime];
+                        NSNumber *delayTime = [framePropertiesGIF objectForKey:unclampedDelayTimeKey];
                         if (!delayTime) {
-                            delayTime = [framePropertiesGIF objectForKey:(id)kCGImagePropertyGIFDelayTime];
+                            delayTime = [framePropertiesGIF objectForKey:delayTimeKey];
                         }
                         // If we don't get a delay time from the properties, fall back to `kDelayTimeIntervalDefault` or carry over the preceding frame's value.
                         const NSTimeInterval kDelayTimeIntervalDefault = 0.1;
