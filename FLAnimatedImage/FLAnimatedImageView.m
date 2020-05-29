@@ -102,9 +102,12 @@
     if (![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
             if (super.image) {
-                // We need to apply an arbitrary UIImageOrientationUp image to ensure this view's internal state is correct.
-                // Otherwise some animated image will be rendered in wrong orientation, see https://github.com/Flipboard/FLAnimatedImage/issues/100
-                super.image = [UIImage imageWithCGImage:super.image.CGImage scale:1.0 orientation:UIImageOrientationUp];
+                // UIImageView's `setImage:` will internally call its layer's `setContentsTransoforms:` based on the `image.imageOrientation`.
+                // The `contentsTransoforms` will affect layer rendering rotation because the CGImage's bitmap buffer does not actually take rotation.
+                // However, when calling `setImage:nil`, this `contentsTransoforms` will not be reset to identity.
+                // Further animation frame will be rendered as rotated. So we must set it to the poster image to clear the previous state.
+                // See more here: https://github.com/Flipboard/FLAnimatedImage/issues/100
+                super.image = animatedImage.posterImage;
                 // Clear out the image.
                 super.image = nil;
             }
