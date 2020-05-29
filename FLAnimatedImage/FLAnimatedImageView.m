@@ -101,11 +101,16 @@
 {
     if (![_animatedImage isEqual:animatedImage]) {
         if (animatedImage) {
-            // UIImageView's `setImage:`, will internally call layer's `setContentsTransoforms:` based on the image.imageOrientation. The `contentsTransoforms` will effect layer rendering rotation because the CGImage's bitmap buffer does not actually take rotation.
-            // However, when call `setImage:nil`, this `contentsTransoforms` will not be reset to identity. Further animation frame will rendered as rotated. So we must firstlly call it with the poster image to clear the previous state
-            super.image = animatedImage.posterImage;
-            // Clear out the image.
-            super.image = nil;
+            if (super.image) {
+                // UIImageView's `setImage:` will internally call its layer's `setContentsTransoforms:` based on the `image.imageOrientation`.
+                // The `contentsTransoforms` will affect layer rendering rotation because the CGImage's bitmap buffer does not actually take rotation.
+                // However, when calling `setImage:nil`, this `contentsTransoforms` will not be reset to identity.
+                // Further animation frame will be rendered as rotated. So we must set it to the poster image to clear the previous state.
+                // See more here: https://github.com/Flipboard/FLAnimatedImage/issues/100
+                super.image = animatedImage.posterImage;
+                // Clear out the image.
+                super.image = nil;
+            }
             // Ensure disabled highlighting; it's not supported (see `-setHighlighted:`).
             super.highlighted = NO;
             // UIImageView seems to bypass some accessors when calculating its intrinsic content size, so this ensures its intrinsic content size comes from the animated image.
@@ -378,7 +383,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     
     NSNumber *delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
     // If we don't have a frame delay (e.g. corrupt frame), don't update the view but skip the playhead to the next frame (in else-block).
-    if (delayTimeNumber) {
+    if (delayTimeNumber != nil) {
         NSTimeInterval delayTime = [delayTimeNumber floatValue];
         // If we have a nil image (e.g. waiting for frame), don't update the view nor playhead.
         UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];

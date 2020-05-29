@@ -20,6 +20,6 @@ Pod::Spec.new do |spec|
   spec.platform         = :ios, "6.0"
   spec.source           = { :git => "https://github.com/Flipboard/FLAnimatedImage.git", :tag => "1.0.14" }
   spec.source_files     = "FLAnimatedImage/**/*.{h,m}"
-  spec.frameworks       = "QuartzCore", "ImageIO", "MobileCoreServices", "CoreGraphics"
+  spec.frameworks       = "QuartzCore", "ImageIO", "CoreGraphics"
   spec.requires_arc     = true
 end
