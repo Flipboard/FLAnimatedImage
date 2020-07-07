@@ -17,8 +17,8 @@ let package = Package(
         .target(
             name: "FLAnimatedImage",
             path: "FLAnimatedImage",
-            sources: [ "FLAnimatedImage" ],
             exclude: [ "FLAnimatedImage/Info.plist" ],
+            sources: [ "FLAnimatedImage" ],
             publicHeadersPath: "FLAnimatedImage"
         )
     ]
