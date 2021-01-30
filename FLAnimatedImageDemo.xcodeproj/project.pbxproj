@@ -14,7 +14,6 @@
 		872EBE72178B825500B7531B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE71178B825500B7531B /* Foundation.framework */; };
 		872EBE74178B825500B7531B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBE73178B825500B7531B /* CoreGraphics.framework */; };
 		872EBEB3178B89DF00B7531B /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBEB2178B89DF00B7531B /* ImageIO.framework */; };
-		872EBEBB178B8F9000B7531B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBEBA178B8F9000B7531B /* MobileCoreServices.framework */; };
 		872EBEBD178B8FA000B7531B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872EBEBC178B8FA000B7531B /* QuartzCore.framework */; };
 		8790E1171935ABDA00459BC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8790E1161935ABDA00459BC1 /* Images.xcassets */; };
 		87CB59F01935A7BB00620C16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87CB59ED1935A7BB00620C16 /* AppDelegate.m */; };
@@ -101,7 +100,6 @@
 				872EBEBD178B8FA000B7531B /* QuartzCore.framework in Frameworks */,
 				229D6DFF1C77D121000C59E6 /* FLAnimatedImage.framework in Frameworks */,
 				872EBEB3178B89DF00B7531B /* ImageIO.framework in Frameworks */,
-				872EBEBB178B8F9000B7531B /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
