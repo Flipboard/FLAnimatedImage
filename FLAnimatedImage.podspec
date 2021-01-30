@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
                         - Behaves gracefully under memory pressure
                         - Eliminates delays or blocking during the first playback loop
                         - Interprets the frame delays of fast GIFs the same way modern browsers do
-                        
+
                         It's a well-tested [component that powers all GIFs in Flipboard](http://engineering.flipboard.com/2014/05/animated-gif/).
                         DESC
 
