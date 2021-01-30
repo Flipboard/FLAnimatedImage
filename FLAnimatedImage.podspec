@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   spec.screenshots      = "https://github.com/Flipboard/FLAnimatedImage/raw/master/images/flanimatedimage-demo-player.gif"
   spec.license          = { :type => "MIT", :file => "LICENSE" }
   spec.author           = { "Raphael Schaad" => "raphael.schaad@gmail.com" }
-  spec.platform         = :ios, "6.0"
+  spec.platform         = :ios, "9.0"
   spec.source           = { :git => "https://github.com/Flipboard/FLAnimatedImage.git", :tag => "1.0.14" }
   spec.source_files     = "FLAnimatedImage/**/*.{h,m}"
   spec.frameworks       = "QuartzCore", "ImageIO", "CoreGraphics"
