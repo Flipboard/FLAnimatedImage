@@ -183,7 +183,10 @@
         _memoryWarningButton.titleLabel.font = [UIFont systemFontOfSize:17.0];
         _memoryWarningButton.tintColor = [UIColor colorWithRed:0.8 green:0.15 blue:0.15 alpha:1.0];
         [_memoryWarningButton setTitle:@"Simulate Memory Warning" forState:UIControlStateNormal];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
         [_memoryWarningButton addTarget:[UIApplication sharedApplication] action:@selector(_performMemoryWarning) forControlEvents:UIControlEventTouchUpInside];
+#pragma clang diagnostic pop
         [_memoryWarningButton sizeToFit];
     }
     [self.view addSubview:_memoryWarningButton];
