@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "FLAnimatedImage",
     platforms: [
-        .iOS(.v8)
+        .iOS(.v9)
     ],
     products: [
         .library(name: "FLAnimatedImage", targets: ["FLAnimatedImage"]),

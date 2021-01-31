@@ -48,7 +48,7 @@ imageView.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
 [self.view addSubview:imageView];
 ```
 
-It's flexible to integrate in your custom image loading stack and backwards compatible to iOS 6.
+It's flexible to integrate in your custom image loading stack and backwards compatible to iOS 9.
 
 It uses ARC and the Apple frameworks `QuartzCore`, `ImageIO`, `MobileCoreServices`, and `CoreGraphics`.
 
