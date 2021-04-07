@@ -10,6 +10,15 @@ let package = Package(
         .library(name: "FLAnimatedImage", targets: ["FLAnimatedImage"]),
     ],
     targets: [
-        .target(name: "FLAnimatedImage", path: "FLAnimatedImage")
+        .target(
+            name: "FLAnimatedImage",
+            path: "FLAnimatedImage",
+            exclude: [ "Info.plist" ],
+            sources: [ "FLAnimatedImageView.m", "FLAnimatedImage.m" ],
+            publicHeadersPath: "include",
+            cSettings: [
+                .headerSearchPath("include")
+            ]
+        )
     ]
 )

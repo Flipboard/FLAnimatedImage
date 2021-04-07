@@ -10,8 +10,7 @@
 #import <UIKit/UIKit.h>
 
 // Allow user classes conveniently just importing one header.
-#import <FLAnimatedImage/FLAnimatedImageView.h>
-
+#import "FLAnimatedImageView.h"
 
 #ifndef NS_DESIGNATED_INITIALIZER
     #if __has_attribute(objc_designated_initializer)
