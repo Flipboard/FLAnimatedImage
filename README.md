@@ -38,6 +38,17 @@ If using [Carthage](https://github.com/Carthage/Carthage), add the following lin
 github "Flipboard/FLAnimatedImage"
 ```
 
+If using [Swift Package Manager](https://github.com/apple/swift-package-manager), add the following to your `Package.swift` or add via XCode:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/Flipboard/FLAnimatedImage.git", .upToNextMajor(from: "1.0.16"))
+],
+targets: [
+    .target(name: "TestProject", dependencies: ["FLAnimatedImage""])
+]
+```
+
 In your code, `#import "FLAnimatedImage.h"`, create an image from an animated GIF, and setup the image view to display it:
 
 ```objective-c
