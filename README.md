@@ -70,7 +70,7 @@ It is capable of fine-grained logging. A block can be set on `FLAnimatedImage` t
 [FLAnimatedImage setLogBlock:^(NSString *logString, FLLogLevel logLevel) {
     // Using NSLog
     NSLog(@"%@", logString);
-    
+
     // ...or CocoaLumberjackLogger only logging warnings and errors
     if (logLevel == FLLogLevelError) {
         DDLogError(@"%@", logString);
