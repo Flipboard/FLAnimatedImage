@@ -1,3 +1,9 @@
+= 1.0.16 (2021-04-21)
+
+  * Add support for Swift Packet Manager (SPM) (Bennie Botha @bennie-atlassian)
+
+  * Fix warnings and bump min version to iOS 9 (Raphael Schaad @raphaelschaad)
+
 = 1.0.15 (2021-01-30)
 
   * Release long-overdue new version including multiple small fixes (Raphael Schaad @raphaelschaad)
