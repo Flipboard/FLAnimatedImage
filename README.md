@@ -84,7 +84,7 @@ Since FLAnimatedImage is licensed under MIT, it's compatible with the terms of u
 
 ## Release process
 1. Bump version in `FLAnimatedImage.podspec`, update CHANGES, and commit.
-2. Tag commit with `> git tag -a <VERSION> -m "<VERSION>" and `> git push --tags`.
+2. Tag commit with `> git tag -a <VERSION> -m "<VERSION>"` and `> git push --tags`.
 3. [Submit Podspec to Trunk with](https://guides.cocoapods.org/making/specs-and-specs-repo.html#how-do-i-update-an-existing-pod) `> pod trunk push FLAnimatedImage.podspec` ([ensure you're auth'ed](https://guides.cocoapods.org/making/getting-setup-with-trunk.html#getting-started)).
 ## To Do
 - Support other animated image formats such as APNG or WebP (WebP support implemented [here](https://github.com/Flipboard/FLAnimatedImage/pull/86))
