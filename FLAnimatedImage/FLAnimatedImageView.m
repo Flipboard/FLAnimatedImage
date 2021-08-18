@@ -134,10 +134,7 @@
         self.accumulator = 0.0;
         
         // Start animating after the new animated image has been set.
-        [self updateShouldAnimate];
-        if (self.shouldAnimate) {
-            [self startAnimating];
-        }
+        [self updateAniamte];
         
         [self.layer setNeedsDisplay];
     }
@@ -156,16 +153,21 @@
 #pragma mark - UIView Method Overrides
 #pragma mark Observing View-Related Changes
 
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-    
+
+- (void)updateAniamte {
     [self updateShouldAnimate];
     if (self.shouldAnimate) {
         [self startAnimating];
     } else {
         [self stopAnimating];
     }
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    
+    [self updateAniamte];
 }
 
 
@@ -173,36 +175,21 @@
 {
     [super didMoveToWindow];
     
-    [self updateShouldAnimate];
-    if (self.shouldAnimate) {
-        [self startAnimating];
-    } else {
-        [self stopAnimating];
-    }
+    [self updateAniamte];
 }
 
 - (void)setAlpha:(CGFloat)alpha
 {
     [super setAlpha:alpha];
 
-    [self updateShouldAnimate];
-    if (self.shouldAnimate) {
-        [self startAnimating];
-    } else {
-        [self stopAnimating];
-    }
+    [self updateAniamte];
 }
 
 - (void)setHidden:(BOOL)hidden
 {
     [super setHidden:hidden];
 
-    [self updateShouldAnimate];
-    if (self.shouldAnimate) {
-        [self startAnimating];
-    } else {
-        [self stopAnimating];
-    }
+    [self updateAniamte];
 }
 
 
