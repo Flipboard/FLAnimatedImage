@@ -29,6 +29,7 @@
 @property (nonatomic, assign) NSUInteger loopCountdown;
 @property (nonatomic, assign) NSTimeInterval accumulator;
 @property (nonatomic, strong) CADisplayLink *displayLink;
+@property (nonatomic, strong) UIScreen *screen;
 
 @property (nonatomic, assign) BOOL shouldAnimate; // Before checking this value, call `-updateShouldAnimate` whenever the animated image or visibility (window, superview, hidden, alpha) has changed.
 @property (nonatomic, assign) BOOL needsDisplayWhenImageBecomesAvailable;
@@ -174,6 +175,7 @@
     [super didMoveToWindow];
     
     [self updateShouldAnimate];
+    [self updateScreen];
     if (self.shouldAnimate) {
         [self startAnimating];
     } else {
@@ -311,9 +313,10 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display.
         // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
         const NSTimeInterval kStaticDisplayRefreshRate = 60.0;
+        const NSTimeInterval kVariableDisplayRefreshRate = self.screen.maximumFramesPerSecond;
 
         if (@available(iOS 10.3, *)) {
-            self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * (double) UIScreen.mainScreen.maximumFramesPerSecond, 1); // 60Hz or 120Hz, depending on device capabilities.
+            self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * (double) kVariableDisplayRefreshRate, 1); // 60Hz or 120Hz, depending on device capabilities.
         } else {
             self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kStaticDisplayRefreshRate, 1); // Before iOS 10, no iOS devices support greater refresh rates than 60Hz.
         }
@@ -376,6 +379,11 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
 {
     BOOL isVisible = self.window && self.superview && ![self isHidden] && self.alpha > 0.0;
     self.shouldAnimate = self.animatedImage && isVisible;
+}
+
+-(void)updateScreen
+{
+    self.screen = self.window.screen;
 }
 
 
