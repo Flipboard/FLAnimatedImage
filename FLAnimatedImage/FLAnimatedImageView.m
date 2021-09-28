@@ -308,10 +308,15 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
             [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:self.runLoopMode];
         }
 
-        // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display (~60Hz).
+        // Note: The display link's `.frameInterval` value of 1 (default) means getting callbacks at the refresh rate of the display.
         // Setting it to 2 divides the frame rate by 2 and hence calls back at every other display refresh.
-        const NSTimeInterval kDisplayRefreshRate = 60.0; // 60Hz
-        self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kDisplayRefreshRate, 1);
+        const NSTimeInterval kStaticDisplayRefreshRate = 60.0;
+
+        if (@available(iOS 10, *)) {
+            self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * (double) UIScreen.mainScreen.maximumFramesPerSecond, 1); // 60Hz or 120Hz, depending on device capabilities.
+        } else {
+            self.displayLink.frameInterval = MAX([self frameDelayGreatestCommonDivisor] * kStaticDisplayRefreshRate, 1); // Before iOS 10, no iOS devices support greater refresh rates than 60Hz.
+        }
 
         self.displayLink.paused = NO;
     } else {
