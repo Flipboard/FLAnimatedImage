@@ -186,7 +186,7 @@
 				870D79D41936EBFC009D1BCE /* rock.gif */,
 			);
 			name = "test-gifs";
-			path = "FLAnimatedImageDemo/test-gifs";
+			path = "AnimatedImageDemo/animated-gifs";
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
