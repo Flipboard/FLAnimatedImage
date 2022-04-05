@@ -268,7 +268,7 @@
     }
 
     // Reverse to scale to get the value back into seconds.
-    return scaledGCD / kGreatestCommonDivisorPrecision;
+    return (double)scaledGCD / kGreatestCommonDivisorPrecision;
 }
 
 
@@ -402,7 +402,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
             if (@available(iOS 10, *)) {
                 self.accumulator += displayLink.targetTimestamp - CACurrentMediaTime();
             } else {
-                self.accumulator += displayLink.duration * displayLink.frameInterval;
+                self.accumulator += displayLink.duration * (NSTimeInterval)displayLink.frameInterval;
             }
             
             // While-loop first inspired by & good Karma to: https://github.com/ondalabs/OLImageView/blob/master/OLImageView.m
@@ -430,7 +430,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
             FLLog(FLLogLevelDebug, @"Waiting for frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
 #if defined(DEBUG) && DEBUG
             if ([self.debug_delegate respondsToSelector:@selector(debug_animatedImageView:waitingForFrame:duration:)]) {
-                [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:(NSTimeInterval)displayLink.duration * displayLink.frameInterval];
+                [self.debug_delegate debug_animatedImageView:self waitingForFrame:self.currentFrameIndex duration:displayLink.duration * (NSTimeInterval)displayLink.frameInterval];
             }
 #endif
         }
