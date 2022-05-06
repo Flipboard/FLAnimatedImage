@@ -256,7 +256,7 @@
     // Presision is set to half of the `kFLAnimatedImageDelayTimeIntervalMinimum` in order to minimize frame dropping.
     const NSTimeInterval kGreatestCommonDivisorPrecision = 2.0 / kFLAnimatedImageDelayTimeIntervalMinimum;
 
-    NSArray *delays = self.animatedImage.delayTimesForIndexes.allValues;
+    NSArray *const delays = self.animatedImage.delayTimesForIndexes.allValues;
 
     // Scales the frame delays by `kGreatestCommonDivisorPrecision`
     // then converts it to an UInteger for in order to calculate the GCD.
@@ -280,7 +280,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     }
 
     while (true) {
-        NSUInteger remainder = a % b;
+        const NSUInteger remainder = a % b;
         if (remainder == 0) {
             return b;
         }
@@ -369,7 +369,7 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
 // Just update our cached value whenever the animated image or visibility (window, superview, hidden, alpha) is changed.
 - (void)updateShouldAnimate
 {
-    BOOL isVisible = self.window && self.superview && ![self isHidden] && self.alpha > 0.0;
+    const BOOL isVisible = self.window && self.superview && ![self isHidden] && self.alpha > 0.0;
     self.shouldAnimate = self.animatedImage && isVisible;
 }
 
@@ -383,12 +383,12 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
         return;
     }
     
-    NSNumber *delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
+    NSNumber *_Nullable const delayTimeNumber = [self.animatedImage.delayTimesForIndexes objectForKey:@(self.currentFrameIndex)];
     // If we don't have a frame delay (e.g. corrupt frame), don't update the view but skip the playhead to the next frame (in else-block).
     if (delayTimeNumber != nil) {
-        NSTimeInterval delayTime = [delayTimeNumber floatValue];
+        const NSTimeInterval delayTime = [delayTimeNumber floatValue];
         // If we have a nil image (e.g. waiting for frame), don't update the view nor playhead.
-        UIImage *image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
+        UIImage *_Nullable const image = [self.animatedImage imageLazilyCachedAtIndex:self.currentFrameIndex];
         if (image) {
             FLLog(FLLogLevelVerbose, @"Showing frame %lu for animated image: %@", (unsigned long)self.currentFrameIndex, self.animatedImage);
             self.currentFrame = image;
