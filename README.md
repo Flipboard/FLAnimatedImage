@@ -1,3 +1,5 @@
+# [FLAnimatedImage](https://github.com/Flipboard/FLAnimatedImage) &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Flipboard/FLAnimatedImage/blob/master/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Flipboard/FLAnimatedImage/pulls)
+
 FLAnimatedImage is a performant animated GIF engine for iOS:
 
 - Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers
