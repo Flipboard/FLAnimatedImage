@@ -439,6 +439,10 @@ static NSUInteger gcd(NSUInteger a, NSUInteger b)
     } else {
         self.currentFrameIndex++;
     }
+    
+    if (!self.layer.contents) {
+        [self.layer setNeedsDisplay];
+    }
 }
 
 + (NSRunLoopMode)defaultRunLoopMode
